@@ -7,7 +7,7 @@
 }
 body{
     margin: 0px;
-    /* background: #001e4d; */
+    background: #96befd;
 }
 .app{
     background: #fff;
@@ -24,7 +24,7 @@ main{
 }
 .navbar ul{
     list-style-type: none;
-    background-color: hsl(0, 0%,25%);
+    background-color: #001e4d;
     padding: 0%;
     margin: 0%;
     overflow: hidden;
@@ -39,5 +39,19 @@ main{
     background-color:hsl(0, 0%,10%) ;
 }
 .navbar li{
-    float:left
+    display: inline-block;
+}
+
+ul li ul.dropdown li{
+    display: block;
+}
+ 
+ul li ul.dropdown{
+    position: absolute;
+    z-index: 999;
+    display: none;
+}
+
+ul li:hover ul.dropdown{
+    display: block;
 }

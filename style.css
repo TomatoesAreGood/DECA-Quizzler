@@ -41,17 +41,14 @@ main{
 .navbar li{
     display: inline-block;
 }
-
 ul li ul.dropdown li{
     display: block;
 }
- 
 ul li ul.dropdown{
     position: absolute;
     z-index: 999;
     display: none;
 }
-
 ul li:hover ul.dropdown{
     display: block;
 }

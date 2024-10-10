@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DECA Quiz App</title>
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;400;700&family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+</head>
+
+
+<body>
+    <h1><a href= "index.html">DECA Quiz App</a></h1>
+
+    <nav class = "navbar">
+        <ul>
+            <li>
+                <a href="ENT.html">ENT ▼</a>
+                <ul class="dropdown">
+                </ul>
+            </li>
+            <li><a href= "">About</a></li>
+            <li><a href= "">Home</a></li>
+            <li><a href= "">Home</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <h3>ENT Exams</h3>
+        <p>
+            You can find all the ENT exams here
+        </p>
+        <ul class="allEntExams">
+        </ul>
+    </main>
+
+    <script>
+        const dropdown = document.querySelector(".dropdown")
+        const allEntExams = document.querySelector(".allEntExams")
+        if(sessionStorage.getItem("ENT") != null){
+            let storedExams = sessionStorage.getItem("ENT").split(',')
+            for (const item of storedExams){
+                dropdown.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
+                    </li>
+                `
+                allEntExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
+                    </li>
+                `
+            }
+            
+        }else{
+            fetch("ENT.json")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+                let entExams = []
+                for(const key of Object.keys(data)){
+                    console.log(key)
+                    dropdown.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                        </li>
+                    `
+                    allEntExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                    </li>
+                    `
+                    entExams.push(key)
+                }
+                sessionStorage.setItem("ENT", entExams)
+            })
+        }
+
+    </script>
+
+
+</body>
+
+</html>

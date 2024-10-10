@@ -1,9 +1,9 @@
-const ul = document.querySelector(".dropdown");
+const dropdown = document.querySelector(".dropdown");
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',')
     for (const item of storedExams){
-        ul.innerHTML += `
+        dropdown.innerHTML += `
             <li>
                 <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
             </li>
@@ -17,7 +17,7 @@ if(sessionStorage.getItem("ENT") != null){
         let entExams = []
         for(const key of Object.keys(data)){
             console.log(key)
-            ul.innerHTML += `
+            dropdown.innerHTML += `
                 <li>
                     <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
                 </li>

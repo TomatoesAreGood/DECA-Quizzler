@@ -1,18 +1,32 @@
-fetch("ENT.json")
-.then(response => response.json())
-.then(data => {
-    console.log(data)
-    const ul = document.querySelector(".dropdown");
-    for(const key of Object.keys(data)){
-        console.log(key)
+const ul = document.querySelector(".dropdown");
+
+if(sessionStorage.getItem("ENT") != null){
+    let storedExams = sessionStorage.getItem("ENT").split(',')
+    for (const item of storedExams){
         ul.innerHTML += `
             <li>
-                <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
             </li>
         `
     }
-})
-
+}else{
+    fetch("ENT.json")
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        let entExams = []
+        for(const key of Object.keys(data)){
+            console.log(key)
+            ul.innerHTML += `
+                <li>
+                    <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                </li>
+            `
+            entExams.push(key)
+        }
+        sessionStorage.setItem("ENT", entExams)
+    })
+}
 
 
 

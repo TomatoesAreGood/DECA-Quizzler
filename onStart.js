@@ -7,12 +7,14 @@ fetch("ENT.json")
         console.log(key)
         ul.innerHTML += `
             <li>
-                <a href = "">${key}</a>
+                <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
             </li>
         `
     }
-    
 })
+
+
+
 
 
 

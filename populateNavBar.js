@@ -1,9 +1,9 @@
-const dropdown = document.querySelector(".dropdown .grid-container");
+const entDropdown = document.querySelector(".dropdown .grid-container");
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',')
     for (const item of storedExams){
-        dropdown.innerHTML += `
+        entDropdown.innerHTML += `
             <li>
                 <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
             </li>
@@ -17,7 +17,7 @@ if(sessionStorage.getItem("ENT") != null){
         let entExams = []
         for(const key of Object.keys(data)){
             console.log(key)
-            dropdown.innerHTML += `
+            entDropdown.innerHTML += `
                 <li>
                     <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
                 </li>

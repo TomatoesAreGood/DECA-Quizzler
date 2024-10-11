@@ -1,6 +1,6 @@
 const params = new URLSearchParams(window.location.search)
-const sector = params.get('sector')
 const examName = params.get('name')
+const sector = params.get('name').substring(5,8)
 
 const quizName = document.querySelector(".quiz #quizName");
 quizName.textContent = examName
@@ -19,8 +19,6 @@ fetch(`${sector}.json`)
         const questionName = document.querySelector(".quiz #question");
         let currentQuestionIndex = 0;
         let numCorrect = 0;
-
-
 
         function showQuestion(){
             let currentQuestion = questions[currentQuestionIndex];

@@ -5,7 +5,7 @@ if(sessionStorage.getItem("ENT") != null){
     for (const item of storedExams){
         entDropdown.innerHTML += `
             <li>
-                <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
+                <a href = "quiz.html?&name=${item}">${item}</a>
             </li>
         `
     }
@@ -19,7 +19,7 @@ if(sessionStorage.getItem("ENT") != null){
             console.log(key)
             entDropdown.innerHTML += `
                 <li>
-                    <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                    <a href = "quiz.html?name=${key}">${key}</a>
                 </li>
             `
             entExams.push(key)

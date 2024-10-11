@@ -19,6 +19,7 @@
             <li>
                 <a href="ENT.html">ENT ▼</a>
                 <ul class="dropdown">
+                    <div class="grid-container"> </div>
                 </ul>
             </li>
             <li><a href= "">About</a></li>
@@ -32,20 +33,20 @@
         <p>
             You can find all the ENT exams here
         </p>
-        <ul class="allEntExams">
-        </ul>
+        <div class="allEntExams">
+        </div>
     </main>
 
     <script>
-        const dropdown = document.querySelector(".dropdown")
+        const dropdown = document.querySelector(".dropdown .grid-container")
         const allEntExams = document.querySelector(".allEntExams")
         if(sessionStorage.getItem("ENT") != null){
             let storedExams = sessionStorage.getItem("ENT").split(',')
             for (const item of storedExams){
                 dropdown.innerHTML += `
-                    <li>
+                    <div>
                         <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
-                    </li>
+                    </div>
                 `
                 allEntExams.innerHTML += `
                     <li>

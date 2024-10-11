@@ -1,4 +1,4 @@
-const dropdown = document.querySelector(".dropdown");
+const dropdown = document.querySelector(".dropdown .grid-container");
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',')

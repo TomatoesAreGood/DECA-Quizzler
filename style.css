@@ -1,3 +1,4 @@
+/* General */
 *{
     font-family: 'Poppins', sans-serif;
     text-decoration: none;
@@ -28,6 +29,7 @@ main{
     margin-left: 20px;
     margin-right: 20px;
 }
+/* Navigation Bar */
 .navbar ul{
     list-style-type: none;
     background-color: #001e4d;
@@ -58,13 +60,26 @@ ul li ul.dropdown{
 ul li:hover ul.dropdown{
     display: block;
 }
+.grid-container{
+    display: grid;
+    grid-template-rows: repeat(4, auto-fit);
+    grid-template-columns: repeat(4, minmax(100px, 1fr));
+}
+/* ENT */
+.allEntExams{
+    display: grid;
+    grid-template-rows: repeat(auto-fit, auto-fit);
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
+}
+/* Quiz */
 .quiz{
     background: #fff;
     width: 95%;
-    /* height: 95%; */
+    height: 95%;
     margin-inline: auto;
     border-radius: 10px;
     margin-top: 20px;
+    margin-bottom: 20px;
 }
 #quizName{
     width: 80%;
@@ -73,13 +88,40 @@ ul li:hover ul.dropdown{
     border-bottom: 1px solid #333;
     padding-bottom: 30px;
 }
-.grid-container{
-    display: grid;
-    grid-template-rows: repeat(4, auto-fit);
-    grid-template-columns: repeat(4, minmax(100px, 1fr));
+.btn{
+    background: #fff;
+    color: #222;
+    font-weight: 500;
+    width: 100%;
+    border: 1px solid #222;
+    padding: 10px;
+    margin: 7px 0;
+    text-align: left;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
 }
-.allEntExams{
-    display: grid;
-    grid-template-rows: repeat(auto-fit, auto-fit);
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
+.btn:hover{
+    background: #222;
+    color: #fff
+}
+#choices{
+    width: 95%;
+    margin-inline: auto;
+}
+#question{
+    padding: 25px;
+    font-weight: 400;
+}
+#next-btn{
+    background-color: #001e4d;
+    color: #fff;
+    font-weight: 500;
+    width: 20%;
+    border: none;
+    padding: 10px;
+    margin: 20px auto 0;
+    border-radius: 5px;
+    cursor: pointer;
+    display: none;
 }

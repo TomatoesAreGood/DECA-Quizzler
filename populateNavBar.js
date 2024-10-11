@@ -1,4 +1,4 @@
-const entDropdown = document.querySelector(".dropdown .grid-container");
+const entDropdown = document.querySelectorAll(".dropdown .grid-container")[0];
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',')
@@ -7,7 +7,7 @@ if(sessionStorage.getItem("ENT") != null){
             <li>
                 <a href = "quiz.html?&name=${item}">${item}</a>
             </li>
-        `
+        `     
     }
 }else{
     fetch("ENT.json")

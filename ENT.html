@@ -12,16 +12,16 @@
 
 
 <body>
-    <h1><a href= "index.html">DECA Quiz App</a></h1>
-
     <nav class = "navbar">
         <ul>
+            <div id="logo"><a href= "index.html">DECA Quizzler</a></div>
             <li>
-                <a href="ENT.html">ENT ▼</a>
-                <ul class="dropdown">
+                <div class="dropdown">
+                    <a class= "dropbtn" href="ENT.html">ENT ▼</a>
                     <div class="grid-container"> </div>
-                </ul>
+                </div>
             </li>
+            
             <li><a href= "">About</a></li>
             <li><a href= "">Home</a></li>
             <li><a href= "">Home</a></li>
@@ -29,7 +29,7 @@
     </nav>
 
     <main>
-        <h3>ENT Exams</h3>
+        <h1>ENT Exams</h1>
         <p>
             You can find all the ENT exams here
         </p>
@@ -44,13 +44,13 @@
             let storedExams = sessionStorage.getItem("ENT").split(',')
             for (const item of storedExams){
                 dropdown.innerHTML += `
-                    <div>
-                        <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
-                    </div>
+                    <li>
+                        <a href = "quiz.html?name=${item}">${item}</a>
+                    </li>
                 `
                 allEntExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?sector=ENT&name=${item}">${item}</a>
+                        <a href = "quiz.html?name=${item}">${item}</a>
                     </li>
                 `
             }
@@ -65,12 +65,12 @@
                     console.log(key)
                     dropdown.innerHTML += `
                         <li>
-                            <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                            <a href = "quiz.html?name=${key}">${key}</a>
                         </li>
                     `
                     allEntExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?sector=ENT&name=${key}">${key}</a>
+                        <a href = "quiz.html?name=${key}">${key}</a>
                     </li>
                     `
                     entExams.push(key)

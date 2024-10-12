@@ -160,9 +160,7 @@ fetch(`${sector}.json`)
         }
 
         quizName.textContent = examName;
-        questions = questions.slice(0,5);
         showQuestion();
-        
     }else{
         throw 'exam does not exist';
     }

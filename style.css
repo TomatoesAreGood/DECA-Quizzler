@@ -158,7 +158,7 @@ main{
 .btn #btn-text{
     pointer-events: none
 }
-.btn:hover{
+.btn:hover:not(:disabled){
     filter: brightness(85%)
 }
 .btn:disabled{

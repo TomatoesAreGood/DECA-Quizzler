@@ -16,13 +16,13 @@ fetch(`${sector}.json`)
 .then(data => {
     if (examName in data){
         const questions = data[examName];
-        const questionName = document.querySelector(".quiz #question");
+        const displayQuestion = document.querySelector(".quiz #question-box #question");
         let currentQuestionIndex = 0;
         let numCorrect = 0;
 
         function showQuestion(){
             let currentQuestion = questions[currentQuestionIndex];
-            questionName.textContent = `${currentQuestion['number']}. ${currentQuestion['question']}`;
+            displayQuestion.textContent = `${currentQuestion['question']}`;
             const buttons = document.querySelectorAll(".quiz #choices .btn");
             for (let i = 0; i < currentQuestion['choices'].length ;i++){
                 buttons[i].textContent = currentQuestion['choices'][i];

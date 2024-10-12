@@ -23,9 +23,9 @@ fetch(`${sector}.json`)
         function showQuestion(){
             let currentQuestion = questions[currentQuestionIndex];
             displayQuestion.textContent = `${currentQuestion['question']}`;
-            const buttons = document.querySelectorAll(".quiz #choices .btn");
+            const buttons = document.querySelectorAll(".quiz #choices .btn #btn-text");
             for (let i = 0; i < currentQuestion['choices'].length ;i++){
-                buttons[i].textContent = currentQuestion['choices'][i];
+                buttons[i].textContent = currentQuestion['choices'][i].substring(2);
             }
         }
         showQuestion();

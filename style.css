@@ -120,16 +120,24 @@ main{
     color: #fff;
     font-weight: 500;
     font-size: large;
-    text-align: center;
     /* width: 50%; */
     height: 150px;
     border: 1px solid #222;
     padding: 10px;
     margin: 7px 0;
-    text-align: left;
+    text-align: center;
     border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s;
+    position: relative;
+}
+.btn #letter{
+    font-weight: 700;
+    font-size: 150%;
+    position: absolute;
+    bottom: 66%;
+    left: 3%;
+    color: #6173B4;
 }
 .btn:hover{
     background: #222;
@@ -141,7 +149,7 @@ main{
     display: grid;
     grid-template-columns: repeat(2, minmax(100px, 1fr));
     grid-template-rows: repeat(2, 150px);
-    grid-gap: 2em;
+    grid-gap: 10% 2%;
 }
 #next-btn{
     background-color: #001e4d;

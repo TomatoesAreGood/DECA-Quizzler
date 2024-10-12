@@ -45,12 +45,12 @@
             for (const item of storedExams){
                 dropdown.innerHTML += `
                     <li>
-                        <a href = "quiz.html?name=${item}">${item}</a>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `
                 allEntExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?name=${item}">${item}</a>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `
             }
@@ -65,12 +65,12 @@
                     console.log(key)
                     dropdown.innerHTML += `
                         <li>
-                            <a href = "quiz.html?name=${key}">${key}</a>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `
                     allEntExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?name=${key}">${key}</a>
+                        <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                     `
                     entExams.push(key)

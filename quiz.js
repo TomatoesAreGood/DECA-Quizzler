@@ -112,11 +112,11 @@ fetch(`${sector}.json`)
         }
 
         function showQuestion(){
-            resetButtons();
             if(currentQuestionIndex >= questions.length){
                 showSummary();
                 return;
             }
+            resetButtons();
 
             let currentQuestion = questions[currentQuestionIndex];
             displayQuestion.textContent = `${currentQuestion['question']}`;

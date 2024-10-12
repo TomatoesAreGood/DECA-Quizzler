@@ -10,10 +10,7 @@ if(examName !== null){
 
 const shuffleButton = document.querySelector('.checkbox');
 
-const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
-const buttons = document.querySelectorAll(".quiz #choices .btn");
-const nextButton = document.querySelector(".quiz #next-btn");
-const questionNumber = document.querySelector('.quiz #number');
+
 
 document.addEventListener('DOMContentLoaded', function () {
     var checkbox = document.querySelector('input[type="checkbox"]');
@@ -37,10 +34,16 @@ fetch(`${sector}.json`)
 })
 .then(data => {
     if (examName in data){
+        const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
+        const buttons = document.querySelectorAll(".quiz #choices .btn");
+        const questionNumber = document.querySelector('.quiz #number');
         const quizName = document.querySelector(".quiz #quiz-name");
+        const displayQuestion = document.querySelector(".quiz #question-box #question");
+
+        const modal = document.getElementById("incorrectModal");
+
         quizName.textContent = examName
         const questions = data[examName];
-        const displayQuestion = document.querySelector(".quiz #question-box #question");
         let currentQuestionIndex = 0;
         let numCorrect = 0;
 
@@ -58,6 +61,7 @@ fetch(`${sector}.json`)
                 buttons[i].disabled = false;
                 buttons[i].dataset.correct = "false";
                 buttons[i].classList.remove("correct");
+                buttons[i].classList.remove("incorrect");
             }
         }
 
@@ -70,6 +74,7 @@ fetch(`${sector}.json`)
                 setTimeout(function (){resetButtons(); showQuestion(); }, 1000)
             }else{
                 selectedBtn.classList.add("incorrect");
+                modal.style.display = "block";
             }
             revealAnswer();
         }
@@ -87,10 +92,18 @@ fetch(`${sector}.json`)
                 buttons[i].addEventListener("click", selectAnswer);
             }
         }
+        window.onclick = function(event){
+            if(event.target == modal){
+                modal.style.display = "none";
+                currentQuestionIndex++;
+                resetButtons(); 
+                showQuestion(); 
+            }
+        }
+
         showQuestion();
         
     
-        console.log(questions);
     }else{
         throw 'exam does not exist';
     }

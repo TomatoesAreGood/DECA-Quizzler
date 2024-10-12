@@ -1,5 +1,6 @@
 const params = new URLSearchParams(window.location.search);
 const examName = params.get('exam');
+const startNum = params.get('number');
 let sector;
 
 if(examName !== null){
@@ -39,6 +40,7 @@ fetch(`${sector}.json`)
         const questionNumber = document.querySelector('.quiz #number');
         const quizName = document.querySelector(".quiz #quiz-name");
         const displayQuestion = document.querySelector(".quiz #question-box #question");
+        const quiz = document.querySelector(".quiz");
 
         const modal = document.getElementById("incorrectModal");
         const modalText = document.getElementById("modalText");
@@ -47,6 +49,17 @@ fetch(`${sector}.json`)
         const questions = data[examName];
         let currentQuestionIndex = 0;
         let numCorrect = 0;
+        let questionsAnswered = 0;
+        let incorrectQuestions = [];
+
+        function showSummary(){
+            quiz.innerHTML = `
+                <div class="quiz">
+                    <h1>${examName} Summary</h1>
+                    <p>You got ${numCorrect}/${questionsAnswered} correct. These are the questions you got wrong: <br>${incorrectQuestions}</p>
+                </div>
+            `;
+        }
 
         function revealAnswer(){
             for (let i = 0; i < buttons.length; i++){
@@ -66,17 +79,32 @@ fetch(`${sector}.json`)
             }
         }
 
-        function selectAnswer(e){        
+        function selectAnswer(e){
             const selectedBtn = e.target;
+
+            if(currentQuestionIndex == 99){
+                if(selectedBtn.dataset.correct === "true"){
+                    numCorrect++;
+                }else{
+                    selectedBtn.classList.add("incorrect");
+                    incorrectQuestions.push(currentQuestionIndex+1);
+                }
+                revealAnswer();
+                setTimeout(function (){ showSummary();}, 1000)
+                questionsAnswered++;
+                return;
+            }        
             if(selectedBtn.dataset.correct === "true"){
                 numCorrect++;
                 currentQuestionIndex++;
                 setTimeout(function (){resetButtons(); showQuestion(); }, 1000)
             }else{
                 selectedBtn.classList.add("incorrect");
+                incorrectQuestions.push(currentQuestionIndex+1);
                 modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
                 modal.style.display = "block";
             }
+            questionsAnswered++;
             revealAnswer();
         }
 
@@ -93,6 +121,11 @@ fetch(`${sector}.json`)
                 buttons[i].addEventListener("click", selectAnswer);
             }
         }
+
+        if(startNum !== null && startNum <= 100){
+            currentQuestionIndex = startNum - 1;
+        }
+
         window.onclick = function(event){
             if(event.target == modal){
                 modal.style.display = "none";
@@ -103,8 +136,6 @@ fetch(`${sector}.json`)
         }
 
         showQuestion();
-        
-    
     }else{
         throw 'exam does not exist';
     }

@@ -152,9 +152,16 @@ main{
     bottom: 66%;
     left: 3%;
     color: #6173B4;
+    pointer-events: none
+}
+.btn #btn-text{
+    pointer-events: none
 }
 .btn:hover{
-    background: #222;
+    filter: brightness(85%)
+}
+.btn:disabled{
+    cursor: no-drop;
 }
 #choices{
     margin-top: 25px;
@@ -237,4 +244,10 @@ input:checked + .slider:before {
   
 .slider.round:before {
     border-radius: 50%;
+}
+.correct{
+    background: green;
+}
+.incorrect{
+    background: red;
 }

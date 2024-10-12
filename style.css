@@ -90,7 +90,7 @@ main{
     align-items: end;
     margin-inline: auto;
 }
-#quizName{
+#quiz-name{
     font-weight: 25px;
     margin-top: 25px;
 }
@@ -106,6 +106,7 @@ main{
 #question-box{
     padding: 25px;
     margin-inline: auto;
+    align-items: center;
     width: 90%;
     background-color: #D9FDFF;
     border-radius: 15px;

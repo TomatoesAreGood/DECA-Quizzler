@@ -37,7 +37,7 @@ fetch(`${sector}.json`)
 })
 .then(data => {
     if (examName in data){
-        const quizName = document.querySelector(".quiz #quizName");
+        const quizName = document.querySelector(".quiz #quiz-name");
         quizName.textContent = examName
         const questions = data[examName];
         const displayQuestion = document.querySelector(".quiz #question-box #question");

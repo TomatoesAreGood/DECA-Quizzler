@@ -112,7 +112,6 @@ fetch(`${sector}.json`)
         }
 
         function showQuestion(){
-            console.log(questions);
             resetButtons();
             if(currentQuestionIndex >= questions.length){
                 showSummary();

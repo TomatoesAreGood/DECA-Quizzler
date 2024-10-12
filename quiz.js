@@ -85,12 +85,14 @@ fetch(`${sector}.json`)
             if(currentQuestionIndex == 99){
                 if(selectedBtn.dataset.correct === "true"){
                     numCorrect++;
+                    setTimeout(function (){ showSummary();}, 1000)
                 }else{
                     selectedBtn.classList.add("incorrect");
                     incorrectQuestions.push(currentQuestionIndex+1);
+                    modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
+                    modal.style.display = "block";
                 }
                 revealAnswer();
-                setTimeout(function (){ showSummary();}, 1000)
                 questionsAnswered++;
                 return;
             }        
@@ -109,6 +111,11 @@ fetch(`${sector}.json`)
         }
 
         function showQuestion(){
+            if(currentQuestionIndex >= 100){
+                showSummary();
+                return;
+            }
+
             let currentQuestion = questions[currentQuestionIndex];
             displayQuestion.textContent = `${currentQuestion['question']}`;
             questionNumber.textContent = currentQuestion['number'];

@@ -9,21 +9,33 @@ if(examName !== null){
     sector = "";
 }
 
-const shuffleButton = document.querySelector('.checkbox');
 
+function shuffle(array) {
+    let currentIndex = array.length;
+    while (currentIndex != 0) {
+      let randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  }
 
+  function sort(arr){
+    for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
 
-document.addEventListener('DOMContentLoaded', function () {
-    var checkbox = document.querySelector('input[type="checkbox"]');
-  
-    checkbox.addEventListener('change', function () {
-      if (checkbox.checked) {
-        console.log('Checked');
-      } else {
-        console.log('Not checked');
-      }
-    });
-  });
+        while (j >= 0 && arr[j]['number'] > key['number']) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+  }
+
+//   document.addEventListener('DOMContentLoaded', function () {
+   
+// });
 
 fetch(`${sector}.json`)
 .then(response => {
@@ -41,18 +53,21 @@ fetch(`${sector}.json`)
         const quizName = document.querySelector(".quiz #quiz-name");
         const displayQuestion = document.querySelector(".quiz #question-box #question");
         const quiz = document.querySelector(".quiz");
+        const shuffleButton = document.querySelector('.checkbox');
+        var checkbox = document.querySelector('input[type="checkbox"]');
+
 
         const modal = document.getElementById("incorrectModal");
         const modalText = document.getElementById("modalText");
 
-        quizName.textContent = examName
-        const questions = data[examName];
+        let questions = data[examName];
         let currentQuestionIndex = 0;
         let numCorrect = 0;
         let questionsAnswered = 0;
         let incorrectQuestions = [];
 
         function showSummary(){
+            incorrectQuestions.sort();
             quiz.innerHTML = `
                 <div class="quiz">
                     <h1>${examName} Summary</h1>
@@ -82,27 +97,13 @@ fetch(`${sector}.json`)
         function selectAnswer(e){
             const selectedBtn = e.target;
 
-            if(currentQuestionIndex == 99){
-                if(selectedBtn.dataset.correct === "true"){
-                    numCorrect++;
-                    setTimeout(function (){ showSummary();}, 1000)
-                }else{
-                    selectedBtn.classList.add("incorrect");
-                    incorrectQuestions.push(currentQuestionIndex+1);
-                    modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
-                    modal.style.display = "block";
-                }
-                revealAnswer();
-                questionsAnswered++;
-                return;
-            }        
             if(selectedBtn.dataset.correct === "true"){
                 numCorrect++;
                 currentQuestionIndex++;
-                setTimeout(function (){resetButtons(); showQuestion(); }, 1000)
+                setTimeout(function (){showQuestion(); }, 1000)
             }else{
                 selectedBtn.classList.add("incorrect");
-                incorrectQuestions.push(currentQuestionIndex+1);
+                incorrectQuestions.push(questions[currentQuestionIndex]['number']);
                 modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
                 modal.style.display = "block";
             }
@@ -111,7 +112,9 @@ fetch(`${sector}.json`)
         }
 
         function showQuestion(){
-            if(currentQuestionIndex >= 100){
+            console.log(questions);
+            resetButtons();
+            if(currentQuestionIndex >= questions.length){
                 showSummary();
                 return;
             }
@@ -129,20 +132,37 @@ fetch(`${sector}.json`)
             }
         }
 
+        
+        checkbox.addEventListener('change', function () {
+            if (checkbox.checked) {
+                questions = questions.slice(currentQuestionIndex,questions.length);
+                shuffle(questions);
+                currentQuestionIndex = 0;
+                showQuestion();
+            } else {
+                questions = questions.slice(currentQuestionIndex,questions.length);
+                sort(questions);
+                currentQuestionIndex = 0;
+                showQuestion();
+            }
+        });
+
         if(startNum !== null && startNum <= 100){
             currentQuestionIndex = startNum - 1;
         }
-
+        
         window.onclick = function(event){
             if(event.target == modal){
                 modal.style.display = "none";
                 currentQuestionIndex++;
-                resetButtons(); 
                 showQuestion(); 
             }
         }
 
+        quizName.textContent = examName;
+        questions = questions.slice(0,5);
         showQuestion();
+        
     }else{
         throw 'exam does not exist';
     }

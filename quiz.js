@@ -68,7 +68,6 @@ fetch(`${sector}.json`)
         function selectAnswer(e){        
             const selectedBtn = e.target;
             if(selectedBtn.dataset.correct === "true"){
-                // selectedBtn.classList.add("correct");
                 numCorrect++;
                 currentQuestionIndex++;
                 setTimeout(function (){resetButtons(); showQuestion(); }, 1000)

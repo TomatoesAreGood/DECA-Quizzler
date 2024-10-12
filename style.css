@@ -129,6 +129,7 @@ main{
 #question{
     display: inline-block;
     width: auto;
+    font-size: 150%;
 }
 .btn{
     background: #3C4C85;
@@ -261,12 +262,12 @@ input:checked + .slider:before {
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
     to {top:0; opacity:1}
-  }
+}
   
-  @keyframes animatetop {
+@keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-  }
+}
 
 .modal-content {
     position: relative;

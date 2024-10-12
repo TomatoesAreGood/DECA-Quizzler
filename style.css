@@ -270,12 +270,12 @@ input:checked + .slider:before {
 
 .modal-content {
     position: relative;
-    background-color: #FF2F6A;
+    background-color: #ebebeb;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     width: 80%; 
     border-radius: 15px;
-    color: #fff;
+    color: black;
     height: 50%;
     animation-name: animatetop;
     animation-duration: 1s;
@@ -283,13 +283,14 @@ input:checked + .slider:before {
     -webkit-animation-duration: 1s;
 }
 
-#modelHeader{
+#modalHeader{
     text-align: left;
     margin: none;
     padding: 0;
+    color: #FF2F6A;
     /* padding: 25px; */
 }
-#modelText{
+#modalText{
     text-align: left;
 }
 

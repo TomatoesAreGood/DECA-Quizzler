@@ -41,6 +41,7 @@ fetch(`${sector}.json`)
         const displayQuestion = document.querySelector(".quiz #question-box #question");
 
         const modal = document.getElementById("incorrectModal");
+        const modalText = document.getElementById("modalText");
 
         quizName.textContent = examName
         const questions = data[examName];
@@ -73,6 +74,7 @@ fetch(`${sector}.json`)
                 setTimeout(function (){resetButtons(); showQuestion(); }, 1000)
             }else{
                 selectedBtn.classList.add("incorrect");
+                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
                 modal.style.display = "block";
             }
             revealAnswer();

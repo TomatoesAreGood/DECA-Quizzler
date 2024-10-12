@@ -12,6 +12,8 @@ const shuffleButton = document.querySelector('.checkbox');
 
 const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
 const buttons = document.querySelectorAll(".quiz #choices .btn");
+const nextButton = document.querySelector(".quiz #next-btn");
+const questionNumber = document.querySelector('.quiz #number');
 
 document.addEventListener('DOMContentLoaded', function () {
     var checkbox = document.querySelector('input[type="checkbox"]');
@@ -42,29 +44,40 @@ fetch(`${sector}.json`)
         let currentQuestionIndex = 0;
         let numCorrect = 0;
 
-        function selectAnswer(e){
-            // console.log(e.target === child);
-        
-            const selectedBtn = e.target;
-            console.log(selectedBtn.dataset.correct === "true");
-            if(selectedBtn.dataset.correct === "true"){
-                selectedBtn.classList.add("correct");
-                numCorrect++;
-            }else{
-                selectedBtn.classList.add("incorrect");
-            }
+        function revealAnswer(){
             for (let i = 0; i < buttons.length; i++){
                 if(buttons[i].dataset.correct === "true"){
                     buttons[i].classList.add("correct");
                 }
                 buttons[i].disabled = true;
             }
+        }
 
+        function resetButtons(){
+            for (let i = 0; i < buttons.length; i++){
+                buttons[i].disabled = false;
+                buttons[i].dataset.correct = "false";
+                buttons[i].classList.remove("correct");
+            }
+        }
+
+        function selectAnswer(e){        
+            const selectedBtn = e.target;
+            if(selectedBtn.dataset.correct === "true"){
+                // selectedBtn.classList.add("correct");
+                numCorrect++;
+                currentQuestionIndex++;
+                setTimeout(function (){resetButtons(); showQuestion(); }, 1000)
+            }else{
+                selectedBtn.classList.add("incorrect");
+            }
+            revealAnswer();
         }
 
         function showQuestion(){
             let currentQuestion = questions[currentQuestionIndex];
             displayQuestion.textContent = `${currentQuestion['question']}`;
+            questionNumber.textContent = currentQuestion['number'];
 
             for (let i = 0; i < currentQuestion['choices'].length; i++){
                 buttonsText[i].textContent = currentQuestion['choices'][i].substring(2);

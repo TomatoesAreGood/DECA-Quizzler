@@ -38,9 +38,9 @@
     </nav>
 
     <main>  
-        <h1>ENT Exams</h1>
+        <h1>FIN Exams</h1>
         <p class="header-subtext">
-            You can find all the ENT exams here
+            You can find all the FIN exams here
         </p>
         <div class="allEntExams">
         </div>
@@ -49,31 +49,31 @@
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container")
-        const allEntExams = document.querySelector(".allEntExams")
-        if(sessionStorage.getItem("ENT") != null){
-            let storedExams = sessionStorage.getItem("ENT").split(',')
+        const allFinExams = document.querySelector(".allEntExams")
+        if(sessionStorage.getItem("FIN") != null){
+            let storedExams = sessionStorage.getItem("FIN").split(',')
             for (const item of storedExams){
-                allEntExams.innerHTML += `
+                allFinExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `
             }
         }else{
-            fetch("ENT.json")
+            fetch("FIN.json")
             .then(response => response.json())
             .then(data => {
                 console.log(data)
-                let entExams = []
+                let finExams = []
                 for(const key of Object.keys(data)){
-                    allEntExams.innerHTML += `
+                    allFinExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                     `
-                    entExams.push(key)
+                    finExams.push(key)
                 }
-                sessionStorage.setItem("ENT", entExams)
+                sessionStorage.setItem("ENT", finExams)
             })
         }
 

@@ -1,7 +1,7 @@
-const entDropdown = document.querySelectorAll(".dropdown .grid-container")[0];
-const finDropdown = document.querySelectorAll(".dropdown .grid-container")[1];
-const mktDropdown = document.querySelectorAll(".dropdown .grid-container")[2];
-
+const allDropdowns = document.querySelectorAll(".dropdown .grid-container");
+const entDropdown = allDropdowns[0];
+const finDropdown = allDropdowns[1];
+const mktDropdown = allDropdowns[2];
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',')
@@ -60,7 +60,7 @@ if(sessionStorage.getItem("FIN") != null){
 if(sessionStorage.getItem("MKT") != null){
     let storedExams = sessionStorage.getItem("MKT").split(',')
     for (const item of storedExams){
-        entDropdown.innerHTML += `
+        mktDropdown.innerHTML += `
             <li>
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>

@@ -16,10 +16,8 @@ if(sessionStorage.getItem("ENT") != null){
     fetch("ENT.json")
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         let entExams = []
         for(const key of Object.keys(data)){
-            console.log(key)
             entDropdown.innerHTML += `
                 <li>
                     <a href = "quiz.html?exam=${key}">${key}</a>
@@ -70,10 +68,8 @@ if(sessionStorage.getItem("MKT") != null){
     fetch("MKT.json")
     .then(response => response.json())
     .then(data => {
-        console.log(data)
         let mktExams = []
         for(const key of Object.keys(data)){
-            console.log(key)
             mktDropdown.innerHTML += `
                 <li>
                     <a href = "quiz.html?exam=${key}">${key}</a>

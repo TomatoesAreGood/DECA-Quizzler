@@ -63,7 +63,6 @@
             fetch("ENT.json")
             .then(response => response.json())
             .then(data => {
-                console.log(data)
                 let entExams = []
                 for(const key of Object.keys(data)){
                     allEntExams.innerHTML += `

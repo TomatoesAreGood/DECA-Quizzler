@@ -271,10 +271,10 @@ input:checked + .slider:before {
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
+    overflow: auto;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-    overflow-y: hidden;
+    /* overflow-y: hidden; */
 }
 @-webkit-keyframes animatetop {
     from {top:-300px; opacity:0} 
@@ -289,7 +289,9 @@ input:checked + .slider:before {
 .modal-content {
     position: relative;
     background-color: #ebebeb;
-    margin: 25% auto; 
+    /* margin: 35% auto;  */
+    margin-top: 600px;
+    margin-inline: auto;
     padding: 20px;
     width: 80%; 
     border-radius: 15px;

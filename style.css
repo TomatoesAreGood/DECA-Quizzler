@@ -256,10 +256,10 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 .correct{
-    background: green;
+    background: #45DFD3;
 }
 .incorrect{
-    background: red;
+    background: #FF2F6A;
 }
 .underline{
     text-decoration: underline;

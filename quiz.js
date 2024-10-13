@@ -33,10 +33,6 @@ function shuffle(array) {
     }
   }
 
-//   document.addEventListener('DOMContentLoaded', function () {
-   
-// });
-
 fetch(`${sector}.json`)
 .then(response => {
     if(response.ok){
@@ -55,7 +51,6 @@ fetch(`${sector}.json`)
         const quiz = document.querySelector(".quiz");
         const shuffleButton = document.querySelector('.checkbox');
         var checkbox = document.querySelector('input[type="checkbox"]');
-
 
         const modal = document.getElementById("incorrectModal");
         const modalText = document.getElementById("modalText");
@@ -121,7 +116,7 @@ fetch(`${sector}.json`)
             if(selectedBtn.dataset.correct === "true"){
                 numCorrect++;
                 currentQuestionIndex++;
-                setTimeout(function (){showQuestion(); }, 1000)
+                setTimeout(function (){showQuestion(); }, 750)
             }else{
                 selectedBtn.classList.add("incorrect");
                 incorrectQuestions.push(questions[currentQuestionIndex]['number']);

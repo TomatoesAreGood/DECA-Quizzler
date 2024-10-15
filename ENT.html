@@ -42,14 +42,14 @@
         <p class="header-subtext">
             You can find all the ENT exams here
         </p>
-        <div class="allEntExams">
+        <div class="allExams">
         </div>
     </main>
     <script src="populateNavBar.js"></script>
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const allEntExams = document.querySelector(".allEntExams");
+        const allEntExams = document.querySelector(".allExams");
         if(sessionStorage.getItem("ENT") != null){
             let storedExams = sessionStorage.getItem("ENT").split(',');
             for (const item of storedExams){

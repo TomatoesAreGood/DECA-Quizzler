@@ -42,14 +42,14 @@
         <p class="header-subtext">
             You can find all the FIN exams here
         </p>
-        <div class="allEntExams">
+        <div class="allExams">
         </div>
     </main>
     <script src="populateNavBar.js"></script>
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const allFinExams = document.querySelector(".allEntExams");
+        const allFinExams = document.querySelector(".allExams");
         if(sessionStorage.getItem("FIN") != null){
             let storedExams = sessionStorage.getItem("FIN").split(',');
             for (const item of storedExams){

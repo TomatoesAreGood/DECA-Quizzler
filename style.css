@@ -327,7 +327,7 @@ input:checked + .slider:before {
     text-align: center; 
     padding-bottom: 25px;
 }
-@media screen and (max-width: 768px){
+@media (max-width: 768px){
     #choices{
         margin-top: 25px;
         margin-bottom: 50px;

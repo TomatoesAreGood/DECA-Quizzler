@@ -48,32 +48,30 @@
     <script src="populateNavBar.js"></script>
 
     <script>
-        const dropdown = document.querySelector(".dropdown .grid-container")
-        const allFinExams = document.querySelector(".allEntExams")
+        const dropdown = document.querySelector(".dropdown .grid-container");
+        const allFinExams = document.querySelector(".allEntExams");
         if(sessionStorage.getItem("FIN") != null){
-            let storedExams = sessionStorage.getItem("FIN").split(',')
+            let storedExams = sessionStorage.getItem("FIN").split(',');
             for (const item of storedExams){
                 allFinExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
-                `
+                `;
             }
         }else{
             fetch("FIN.json")
             .then(response => response.json())
             .then(data => {
-                let finExams = []
                 for(const key of Object.keys(data)){
                     allFinExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
-                    `
-                    finExams.push(key)
+                    `;
                 }
-                sessionStorage.setItem("FIN", finExams)
-            })
+                sessionStorage.setItem("FIN", Object.keys(data));
+            });
         }
     </script>
 

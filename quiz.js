@@ -179,6 +179,9 @@ fetch(`${sector}.json`)
     }else{
         throw 'exam does not exist';
     }
-}).catch(error => {
-    console.log(error);
+}).catch(error => {     
+    const quiz = document.querySelector(".quiz");
+    quiz.innerHTML = `
+        <h1>Error 404: Exam ${examName} not found</h1>
+    `;
 })

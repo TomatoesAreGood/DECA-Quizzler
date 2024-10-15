@@ -48,8 +48,8 @@
     <script src="populateNavBar.js"></script>
 
     <script>
-        const dropdown = document.querySelector(".dropdown .grid-container")
-        const allMKTExams = document.querySelector(".allEntExams")
+        const dropdown = document.querySelector(".dropdown .grid-container");
+        const allMKTExams = document.querySelector(".allEntExams");
         if(sessionStorage.getItem("MKT") != null){
             let storedExams = sessionStorage.getItem("MKT").split(','); 
             for (const item of storedExams){
@@ -57,23 +57,21 @@
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>  
                     </li>
-                `
+                `;
             }
         }else{
             fetch("MKT.json")
             .then(response => response.json())
             .then(data => {
-                let entExams = []
                 for(const key of Object.keys(data)){
                     allMKTExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
-                    `
-                    entExams.push(key)
+                    `;
                 }
-                sessionStorage.setItem("MKT", entExams)
-            })
+                sessionStorage.setItem("MKT", Object.keys(data));
+            });
         }
 
     </script>

@@ -336,6 +336,6 @@ input:checked + .slider:before {
         display: grid;
         grid-template-columns: repeat(1, minmax(100px, 1fr));
         grid-template-rows: repeat(4, 150px);
-        grid-gap: 5%;
+        grid-gap: 2%;
     }
 }

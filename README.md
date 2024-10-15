@@ -5,7 +5,7 @@ A simple and clean DECA quizzing application which contains questions from past 
 - Simple, easy to navigate interface
 - Lighweight, responsive and fast
 - Supported interface for mobile devices
-- Database of ~20 exams, with a total of **2000** unique questions
+- Database of >20 exams, with a total of **2000+** unique questions
 - Shuffle feature to change question order
 - In-depth explanation immediately available after selecting a choice
 

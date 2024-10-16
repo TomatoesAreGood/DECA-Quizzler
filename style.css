@@ -44,13 +44,6 @@ main{
     filter: brightness(85%);
 }
 
-@media screen and (max-width: 1024px) {
-	.sectorList {
-		--num-cols: 2;
-		--row-height: 200px;
-	}
-}
-
 ul h3{
     text-decoration: none;
     list-style: none;
@@ -209,9 +202,7 @@ ul h3{
     padding-right: 2%;
     padding-left: 2%;
 }
-.btn:hover:not(:disabled){
-    filter: brightness(85%)
-}
+
 .btn:disabled{
     cursor: no-drop;
 }
@@ -362,6 +353,18 @@ input:checked + .slider:before {
 .header-subtext{
     text-align: center; 
     padding-bottom: 25px;
+}
+@media(min-width: 768px){
+    .btn:hover:not(:disabled){
+        filter: brightness(85%)
+    }
+}
+@media screen and (max-width: 1024px) {
+	.sectorList {
+		--num-cols: 2;
+		--row-height: 200px;
+	}
+    
 }
 @media (max-width: 768px){
     #choices{

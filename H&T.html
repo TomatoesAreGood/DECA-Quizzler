@@ -42,10 +42,11 @@
             </li>
         </ul>
     </nav>
+
     <main>  
-        <h1>MKT Exams</h1>
+        <h1>H&T Exams</h1>
         <p class="header-subtext">
-            You can find all the MKT exams here
+            You can find all the H&T exams here
         </p>
         <div class="allExams">
         </div>
@@ -54,31 +55,30 @@
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const allMKTExams = document.querySelector(".allExams");
-        if(sessionStorage.getItem("MKT") != null){
-            let storedExams = sessionStorage.getItem("MKT").split(','); 
+        const allFinExams = document.querySelector(".allExams");
+        if(sessionStorage.getItem("H&T") != null){
+            let storedExams = sessionStorage.getItem("H&T").split(',');
             for (const item of storedExams){
-                allMKTExams.innerHTML += `
+                allFinExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?exam=${item}">${item}</a>  
+                        <a href = "quiz.html?exam=${item}">${item.substring(0,4)}-H&T</a>
                     </li>
                 `;
             }
         }else{
-            fetch("MKT.json")
+            fetch("HnT.json")
             .then(response => response.json())
             .then(data => {
                 for(const key of Object.keys(data)){
-                    allMKTExams.innerHTML += `
+                    allFinExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?exam=${key}">${key}</a>
+                        <a href = "quiz.html?exam=${key}">${key.substring(0,4)}-H&T</a>
                     </li>
                     `;
                 }
-                sessionStorage.setItem("MKT", Object.keys(data));
+                sessionStorage.setItem("H&T", Object.keys(data));
             });
         }
-
     </script>
 
 

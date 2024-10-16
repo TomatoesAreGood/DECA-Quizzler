@@ -50,44 +50,46 @@
             </li>
         </ul>
     </nav>
-
-    <script src="populateNavBar.js"></script>
-
-    <main>
-        <h1>DECA Quizzler</h1>
+    <main>  
+        <h1>BMA Exams</h1>
         <p class="header-subtext">
-            A minimalistic DECA quizzing website
+            You can find all the BMA exams here
         </p>
-        <h2 id="sectorHeading">
-            Sectors
-        </h2>
-        <div class="sectorList">
-            <div>
-                <a href="ENT.html"><img class="sector" src="ENT.webp" alt="img"></a>
-                <a href="ENT.html"><h3>ENT Exams</h3></a>
-            </div>
-            <div>
-                <a href="FIN.html"><img class="sector" src="FIN.webp" alt="img"></a>
-                <a href="FIN.html"><h3>FIN Exams</h3></a>
-            </div>
-            
-            <div>
-                <a href="MKT.html"><img class="sector" src="MKT.webp" alt="img"></a>
-                <a href="MKT.html"><h3>MKT Exams</h3></a>
-            </div>
-            <div>
-                <a href="H&T.html"><img class="sector" src="H&T.webp" alt="img"></a>
-                <a href="H&T.html"><h3>H&T Exams</h3></a>
-            </div>
-            <div>
-                <a href="BMA.html"><img class="sector" src="BMA.webp" alt="img"></a>
-                <a href="BMA.html"><h3>BMA Exams</h3></a>
-            </div>
+        <div class="allExams">
         </div>
     </main>
+    <script src="populateNavBar.js"></script>
 
-    <!-- <div class="app">
-    </div> -->
+    <script>
+        const dropdown = document.querySelector(".dropdown .grid-container");
+        const allBMAExams = document.querySelector(".allExams");
+        if(sessionStorage.getItem("BMA") != null){
+            let storedExams = sessionStorage.getItem("BMA").split(','); 
+            for (const item of storedExams){
+                allBMAExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>  
+                    </li>
+                `;
+            }
+        }else{
+            fetch("BMA.json")
+            .then(response => response.json())
+            .then(data => {
+                for(const key of Object.keys(data)){
+                    allBMAExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${key}">${key}</a>
+                    </li>
+                    `;
+                }
+                sessionStorage.setItem("BMA", Object.keys(data));
+            });
+        }
+
+    </script>
+
+
 </body>
 
 </html>

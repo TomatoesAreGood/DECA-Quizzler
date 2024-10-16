@@ -3,6 +3,7 @@ const entDropdown = allDropdowns[0];
 const finDropdown = allDropdowns[1];
 const mktDropdown = allDropdowns[2];
 const hosptDropdown = allDropdowns[3];
+const bmaDropdown = allDropdowns[4];
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',');
@@ -101,3 +102,26 @@ if(sessionStorage.getItem("H&T") != null){
     });
 }
 
+if(sessionStorage.getItem("BMA") != null){
+    let storedExams = sessionStorage.getItem("BMA").split(',');
+    for (const item of storedExams){
+        bmaDropdown.innerHTML += `
+            <li>
+                <a href = "quiz.html?&exam=${item}">${item}</a>
+            </li>
+        `;
+    }
+}else{
+    fetch("BMA.json")
+    .then(response => response.json())
+    .then(data => {
+        for(const key of Object.keys(data)){
+            bmaDropdown.innerHTML += `
+                <li>
+                    <a href = "quiz.html?exam=${key}">${key}</a>
+                </li>
+            `;
+        }
+        sessionStorage.setItem("BMA", Object.keys(data));
+    });
+}

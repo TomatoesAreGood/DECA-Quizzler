@@ -353,6 +353,7 @@ input:checked + .slider:before {
 }
 #modalText{
     text-align: left;
+    word-wrap: break-word;
 }
 .modal.fade .modal-dialog {
     -webkit-transform: translate3d(0, -25%, 0);

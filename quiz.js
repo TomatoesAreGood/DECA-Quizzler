@@ -49,7 +49,6 @@ fetch(`${sector}.json`)
         const quizName = document.querySelector(".quiz #quiz-name");
         const displayQuestion = document.querySelector(".quiz #question-box #question");
         const quiz = document.querySelector(".quiz");
-        const shuffleButton = document.querySelector('.checkbox');
         var checkbox = document.querySelector('input[type="checkbox"]');
 
         const modal = document.getElementById("incorrectModal");
@@ -66,6 +65,7 @@ fetch(`${sector}.json`)
             incorrectQuestions.sort(function(a, b) {
                 return a - b;
             });
+            quiz.style.margin = "10px";
             quiz.innerHTML = `
                 <h1>${examName.replace(/HnT/g, "H&T")} Summary</h1>
                 <p>You got ${numCorrect}/${questionsAnswered} correct. These are the questions you got wrong: </p>

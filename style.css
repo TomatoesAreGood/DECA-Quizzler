@@ -124,7 +124,7 @@ ul h3{
 /* ENT */
 .allExams{
     display: grid;
-    font-size: large;
+    font-size: medium;
     grid-template-rows: repeat(auto-fit, auto-fit);
     grid-template-columns: repeat(2, minmax(100px, 1fr));
 }

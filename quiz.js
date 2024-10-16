@@ -1,5 +1,5 @@
 const params = new URLSearchParams(window.location.search);
-const examName = params.get('exam');
+let examName = params.get('exam');
 const startNum = params.get('number');
 let sector;
 
@@ -67,7 +67,7 @@ fetch(`${sector}.json`)
                 return a - b;
             });
             quiz.innerHTML = `
-                <h1>${examName} Summary</h1>
+                <h1>${examName.replace(/HnT/g, "H&T")} Summary</h1>
                 <p>You got ${numCorrect}/${questionsAnswered} correct. These are the questions you got wrong: </p>
             `;
             for (let i = 0; i < incorrectQuestions.length; i++){
@@ -174,7 +174,8 @@ fetch(`${sector}.json`)
             }
         }
 
-        quizName.textContent = examName;
+        quizName.textContent = examName.replace(/HnT/g, "H&T");
+        
         showQuestion();
     }else{
         throw 'exam does not exist';

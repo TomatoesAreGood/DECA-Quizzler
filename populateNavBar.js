@@ -144,9 +144,10 @@ function trimNavBar(){
 }
 trimNavBar();
 
+window.onresize = function(){ location.reload(); }
+        
 
-
-// // window.addEventListener('resize', trimNavBar);
+// window.addEventListener('resize', trimNavBar);
 // window.onresize = trimNavBar();
 
 

@@ -137,8 +137,6 @@ function trimNavBar(){
 
         if(width-remainder !== 0){
             allDropdowns[i].style.width = `${width-remainder}px`;
-        }else{
-            allDropdowns[i].style.width = `175px`;
         }
         
         allDropdowns[i].style.display = "";

@@ -133,10 +133,8 @@ function trimNavBar(){
         allDropdowns[i].style.flexWrap = "wrap";
         
         var width = allDropdowns[i].offsetWidth;
-        // var numCols = Math.floor(width / 175);
         var remainder = width % 175;
-        console.log(`${width} ${remainder}`);
-        // console.log(`${i} ${width} ${numCols}`);
+
         if(width-remainder !== 0){
             allDropdowns[i].style.width = `${width-remainder}px`;
         }else{
@@ -146,11 +144,11 @@ function trimNavBar(){
         allDropdowns[i].style.display = "";
     }
 }
+trimNavBar();
 
 
 
 // // window.addEventListener('resize', trimNavBar);
-// // window.onresize = trimNavBar;
+// window.onresize = trimNavBar();
 
-trimNavBar();
 

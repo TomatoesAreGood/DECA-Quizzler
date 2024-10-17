@@ -9,7 +9,7 @@ if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',');
     for (const item of storedExams){
         entDropdown.innerHTML += `
-            <li>
+            <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
         `;     
@@ -20,7 +20,7 @@ if(sessionStorage.getItem("ENT") != null){
     .then(data => {
         for(const key of Object.keys(data)){
             entDropdown.innerHTML += `
-                <li>
+                <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
@@ -33,7 +33,7 @@ if(sessionStorage.getItem("FIN") != null){
     let storedExams = sessionStorage.getItem("FIN").split(',');
     for (const item of storedExams){
         finDropdown.innerHTML += `
-            <li>
+            <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
         `;     
@@ -44,7 +44,7 @@ if(sessionStorage.getItem("FIN") != null){
     .then(data => {
         for(const key of Object.keys(data)){
             finDropdown.innerHTML += `
-                <li>
+                <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
@@ -57,7 +57,7 @@ if(sessionStorage.getItem("MKT") != null){
     let storedExams = sessionStorage.getItem("MKT").split(',');
     for (const item of storedExams){
         mktDropdown.innerHTML += `
-            <li>
+            <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
         `;     
@@ -68,7 +68,7 @@ if(sessionStorage.getItem("MKT") != null){
     .then(data => {
         for(const key of Object.keys(data)){
             mktDropdown.innerHTML += `
-                <li>
+                <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
@@ -82,7 +82,7 @@ if(sessionStorage.getItem("H&T") != null){
     let storedExams = sessionStorage.getItem("H&T").split(',');
     for (const item of storedExams){
         hosptDropdown.innerHTML += `
-            <li>
+            <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item.substring(0,4)}-H&T</a>
             </li>
         `;
@@ -93,7 +93,7 @@ if(sessionStorage.getItem("H&T") != null){
     .then(data => {
         for(const key of Object.keys(data)){
             hosptDropdown.innerHTML += `
-                <li>
+                <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key.substring(0,4)}-H&T</a>
                 </li>
             `;
@@ -106,7 +106,7 @@ if(sessionStorage.getItem("BMA") != null){
     let storedExams = sessionStorage.getItem("BMA").split(',');
     for (const item of storedExams){
         bmaDropdown.innerHTML += `
-            <li>
+            <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
         `;
@@ -117,7 +117,7 @@ if(sessionStorage.getItem("BMA") != null){
     .then(data => {
         for(const key of Object.keys(data)){
             bmaDropdown.innerHTML += `
-                <li>
+                <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
@@ -125,3 +125,32 @@ if(sessionStorage.getItem("BMA") != null){
         sessionStorage.setItem("BMA", Object.keys(data));
     });
 }
+
+function trimNavBar(){
+    for(let i = 0; i < allDropdowns.length; i++){
+        allDropdowns[i].style.display = "flex";
+        allDropdowns[i].style.maxWidth = "700px";
+        allDropdowns[i].style.flexWrap = "wrap";
+        
+        var width = allDropdowns[i].offsetWidth;
+        // var numCols = Math.floor(width / 175);
+        var remainder = width % 175;
+        console.log(`${width} ${remainder}`);
+        // console.log(`${i} ${width} ${numCols}`);
+        if(width-remainder !== 0){
+            allDropdowns[i].style.width = `${width-remainder}px`;
+        }else{
+            allDropdowns[i].style.width = `175px`;
+        }
+        
+        allDropdowns[i].style.display = "";
+    }
+}
+
+
+
+// // window.addEventListener('resize', trimNavBar);
+// // window.onresize = trimNavBar;
+
+trimNavBar();
+

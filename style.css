@@ -95,11 +95,23 @@ ul h3{
     border-radius: 15px;
 }
 .dropdown:hover .grid-container{
-    display: grid;
-    grid-template-rows: repeat(4, auto-fit);
-    grid-template-columns: repeat(4, minmax(100px, 1fr));
+    display: flex;
+    max-width: 700px;
+    /* width: max-content; */
+    /* grid-template-rows: repeat(4, auto-fit);
+    grid-template-columns: repeat(4, minmax(100px, 1fr)); */
+    flex-wrap: wrap;
 }
-.dropdown:hover #finGrid{
+.dropdown .dropdown-element{
+    width: 175px;
+    /* height: 100px; */
+}
+/* @media screen and (max-width: 700px) { .dropdown:hover .grid-container { width: 700px; } }
+@media screen and (min-width: 431px) and (max-width: 630px) { .dropdown:hover .grid-container { width: 400px; } }
+@media screen and (min-width: 631px) and (max-width: 830px) { .dropdown:hover .grid-container { width:600px;  } }
+@media screen and (min-width: 831px) and (max-width: 1030px) { .dropdown:hover .grid-container { width: 800px; } }
+@media screen and (min-width: 1031px) and (max-width: 1230px) { .dropdown:hover .grid-container { width: 1000px; } } */
+/* .dropdown:hover #finGrid{
     display: grid;
     grid-template-rows: repeat(4, auto-fit);
     grid-template-columns: repeat(2, minmax(100px, 1fr));
@@ -108,7 +120,7 @@ ul h3{
     display: grid;
     grid-template-rows: repeat(4, auto-fit);
     grid-template-columns: repeat(1, minmax(100px, 1fr));
-}
+} */
 /* .dropdown:hover #hosptGrid{
     display: grid;
     grid-template-rows: repeat(4, auto-fit);

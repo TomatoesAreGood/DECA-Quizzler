@@ -55,13 +55,13 @@
         <p class="header-subtext">
             You can find all the ENT exams here
         </p>
-        <h3 >Core Exams</h3>
+        <h3 class="paddedHeading" id="core-exams">Core Exams</h3>
         <div class="coreExams"></div>
-        <h3 class="paddedHeading">ICDC Exams</h3>
+        <h3 class="paddedHeading" id="icdc-exams">ICDC Exams</h3>
         <div class="icdcExams"></div>
-        <h3 class="paddedHeading">Sample Exams</h3>
+        <h3 class="paddedHeading" id="sample-exams">Sample Exams</h3>
         <div class="sampleExams"></div>
-        <h3 class="paddedHeading">Other Exams</h3>
+        <h3 class="paddedHeading" id="other-exams">Other Exams</h3>
         <div class="otherExams"></div>
     </main>
     <script src="populateNavBar.js"></script>
@@ -117,7 +117,22 @@
                 sessionStorage.setItem("ENT", Object.keys(data));
             });
         }
-
+        if (otherExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("other-exams");
+            examsHeading.style.display = "block";
+        }
+        if(coreExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("core-exams");
+            examsHeading.style.display = "block";
+        }
+        if (icdcExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("icdc-exams");
+            examsHeading.style.display = "block";
+        }
+        if (sampleExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("sample-exams");
+            examsHeading.style.display = "block";
+        }
     </script>
 
 

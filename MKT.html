@@ -55,38 +55,107 @@
         <p class="header-subtext">
             You can find all the MKT exams here
         </p>
-        <div class="allExams">
+        <h3 class="paddedHeading" id="core-exams">Core Exams</h3>
+        <div class="coreExams"></div>
+        <h3 class="paddedHeading" id="icdc-exams">ICDC Exams</h3>
+        <div class="icdcExams"></div>
+        <h3 class="paddedHeading" id="sample-exams">Sample Exams</h3>
+        <div class="sampleExams"></div>
+        <h3 class="paddedHeading" id="other-exams">Other Exams</h3>
+        <div class="otherExams"></div>
         </div>
     </main>
     <script src="populateNavBar.js"></script>
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const allMKTExams = document.querySelector(".allExams");
+        const otherExams = document.querySelector(".otherExams");
+        const coreExams = document.querySelector(".coreExams");
+        const icdcExams = document.querySelector(".icdcExams");
+        const sampleExams = document.querySelector('.sampleExams');
         if(sessionStorage.getItem("MKT") != null){
             let storedExams = sessionStorage.getItem("MKT").split(','); 
             for (const item of storedExams){
-                allMKTExams.innerHTML += `
+                const words = item.split('-');
+                const ending = words[words.length-1];
+                if(ending === "CORE"){
+                    coreExams.innerHTML += `
                     <li>
-                        <a href = "quiz.html?exam=${item}">${item}</a>  
+                        <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `;
+                }else if(ending === "ICDC"){
+                    icdcExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else if(ending === "SAMPLE"){
+                    sampleExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else{
+                    otherExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }
             }
         }else{
             fetch("MKT.json")
             .then(response => response.json())
             .then(data => {
                 for(const key of Object.keys(data)){
-                    allMKTExams.innerHTML += `
-                    <li>
-                        <a href = "quiz.html?exam=${key}">${key}</a>
-                    </li>
+                    const words = item.split('-');
+                    const ending = words[words.length-1];
+                    if(ending === "CORE"){
+                        coreExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${item}">${item}</a>
+                        </li>
                     `;
+                    }else if(ending === "ICDC"){
+                        icdcExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${item}">${item}</a>
+                        </li>
+                    `;
+                    }else if(ending === "SAMPLE"){
+                        sampleExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${item}">${item}</a>
+                        </li>
+                    `;
+                    }else{
+                        otherExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${item}">${item}</a>
+                        </li>
+                    `;
+                    }
                 }
                 sessionStorage.setItem("MKT", Object.keys(data));
             });
         }
-
+        if (otherExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("other-exams");
+            examsHeading.style.display = "block";
+        }
+        if(coreExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("core-exams");
+            examsHeading.style.display = "block";
+        }
+        if (icdcExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("icdc-exams");
+            examsHeading.style.display = "block";
+        }
+        if (sampleExams.childElementCount !== 0){
+            const examsHeading = document.getElementById("sample-exams");
+            examsHeading.style.display = "block";
+        }
     </script>
 
 

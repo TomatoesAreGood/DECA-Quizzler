@@ -55,29 +55,60 @@
         <p class="header-subtext">
             You can find all the ENT exams here
         </p>
-        <div class="allExams">
-        </div>
+        <h3 >Core Exams</h3>
+        <div class="coreExams"></div>
+        <h3 class="paddedHeading">ICDC Exams</h3>
+        <div class="icdcExams"></div>
+        <h3 class="paddedHeading">Sample Exams</h3>
+        <div class="sampleExams"></div>
+        <h3 class="paddedHeading">Other Exams</h3>
+        <div class="otherExams"></div>
     </main>
     <script src="populateNavBar.js"></script>
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const allEntExams = document.querySelector(".allExams");
+        const otherExams = document.querySelector(".otherExams");
+        const coreExams = document.querySelector(".coreExams");
+        const icdcExams = document.querySelector(".icdcExams");
+        const sampleExams = document.querySelector('.sampleExams');
         if(sessionStorage.getItem("ENT") != null){
             let storedExams = sessionStorage.getItem("ENT").split(',');
             for (const item of storedExams){
-                allEntExams.innerHTML += `
+                const words = item.split('-');
+                const ending = words[words.length-1];
+                if(ending === "CORE"){
+                    coreExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `;
+                }else if(ending === "ICDC"){
+                    icdcExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else if(ending === "SAMPLE"){
+                    sampleExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else{
+                    otherExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }
             }
         }else{
             fetch("ENT.json")
             .then(response => response.json())
             .then(data => {
                 for(const key of Object.keys(data)){
-                    allEntExams.innerHTML += `
+                    otherExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>

@@ -23,6 +23,7 @@ h1 a{
 main{
     margin-left: 20px;
     margin-right: 20px;
+    margin-bottom: 20px;
 }
 .sectorList{
     --num-cols:3;
@@ -99,18 +100,42 @@ ul h3{
     max-width: 700px;
     flex-wrap: wrap;
 }
-.dropdown .dropdown-element{
+.dropdown-element{
     width: 175px;
+    text-overflow: ellipsis ;
 }
+/* .dropdownText{
+    text-overflow: ellipsis;
+} */
 
 /* ENT */
-.allExams{
+.otherExams{
     display: grid;
     font-size: medium;
     grid-template-rows: repeat(auto-fit, auto-fit);
-    grid-template-columns: repeat(2, minmax(100px, 1fr));
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
 }
-
+.coreExams{
+    display: grid;
+    font-size: medium;
+    grid-template-rows: repeat(auto-fit, auto-fit);
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+}
+.icdcExams{
+    display: grid;
+    font-size: medium;
+    grid-template-rows: repeat(auto-fit, auto-fit);
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+}
+.sampleExams{
+    display: grid;
+    font-size: medium;
+    grid-template-rows: repeat(auto-fit, auto-fit);
+    grid-template-columns: repeat(3, minmax(100px, 1fr));
+}
+.paddedHeading{
+    margin-top: 15px;
+}
 /* Quiz */
 #quiz-title{
     display: flex;

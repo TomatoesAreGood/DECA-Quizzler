@@ -8,22 +8,39 @@ const bmaDropdown = allDropdowns[4];
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',');
     for (const item of storedExams){
-        entDropdown.innerHTML += `
+        if(item.length > 15){
+            entDropdown.innerHTML += `
+            <li class="dropdown-element">
+                <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
+            </li>
+        `; 
+        }else{
+            entDropdown.innerHTML += `
             <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
-        `;     
+        `; 
+        }
+            
     }
 }else{
     fetch("ENT.json")
     .then(response => response.json())
     .then(data => {
         for(const key of Object.keys(data)){
-            entDropdown.innerHTML += `
+            if(key.length > 15){
+                entDropdown.innerHTML += `
+                <li class="dropdown-element">
+                    <a href = "quiz.html?&exam=${key}">${key.substring(0,13)}...</a>
+                </li>
+            `; 
+            }else{
+                entDropdown.innerHTML += `
                 <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
+            }
         }
         sessionStorage.setItem("ENT", Object.keys(data));
     });

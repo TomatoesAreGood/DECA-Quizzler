@@ -55,7 +55,6 @@ fetch(`${sector}.json`)
         const modalText = document.getElementById("modalText");
 
         let questions = data[examName];
-        let allQuestions = JSON.parse(JSON.stringify(questions));
         let currentQuestionIndex = 0;
         let numCorrect = 0;
         let questionsAnswered = 0;
@@ -63,7 +62,7 @@ fetch(`${sector}.json`)
 
         function showSummary(){
             incorrectQuestions.sort(function(a, b) {
-                return a - b;
+                return a['number'] - b['number'];
             });
             quiz.style.margin = "10px";
             quiz.innerHTML = `
@@ -72,19 +71,19 @@ fetch(`${sector}.json`)
             `;
             for (let i = 0; i < incorrectQuestions.length; i++){
                 quiz.innerHTML += `
-                    <h3 class="question-summary">${incorrectQuestions[i]}. ${allQuestions[incorrectQuestions[i]-1]['question']} </h3>
+                    <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} </h3>
                 `;
-                for (let j = 0; j < allQuestions[incorrectQuestions[i]-1]['choices'].length; j++){
-                    if(allQuestions[incorrectQuestions[i]-1]['choices'][j].substring(0,1) === allQuestions[incorrectQuestions[i]-1]['answer']){
+                for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
+                    if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
                         quiz.innerHTML += ` 
                             <p class="underline">
-                                ${allQuestions[incorrectQuestions[i]-1]['choices'][j]}
+                                ${incorrectQuestions[i]['choices'][j]}
                             </p>
                         `;
                     }else{
                         quiz.innerHTML += ` 
                             <p>
-                                ${allQuestions[incorrectQuestions[i]-1]['choices'][j]}
+                                ${incorrectQuestions[i]['choices'][j]}
                             </p>
                         `;
                     }
@@ -119,7 +118,7 @@ fetch(`${sector}.json`)
                 setTimeout(function (){showQuestion(); }, 750)
             }else{
                 selectedBtn.classList.add("incorrect");
-                incorrectQuestions.push(questions[currentQuestionIndex]['number']);
+                incorrectQuestions.push(questions[currentQuestionIndex]);
                 modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
                 modal.style.display = "block";
             }

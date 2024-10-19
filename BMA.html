@@ -104,58 +104,76 @@
                 `;
                 }
             }
+            if (otherExams.childElementCount !== 0){
+                const examsHeading = document.getElementById("other-exams");
+                examsHeading.style.display = "block";
+            }
+            if(coreExams.childElementCount !== 0){
+                const examsHeading = document.getElementById("core-exams");
+                examsHeading.style.display = "block";
+            }
+            if (icdcExams.childElementCount !== 0){
+                const examsHeading = document.getElementById("icdc-exams");
+                examsHeading.style.display = "block";
+            }
+            if (sampleExams.childElementCount !== 0){
+                const examsHeading = document.getElementById("sample-exams");
+                examsHeading.style.display = "block";
+            }
         }else{
             fetch("BMA.json")
             .then(response => response.json())
             .then(data => {
                 for(const key of Object.keys(data)){
-                    const words = item.split('-');
+                    const words = key.split('-');
                     const ending = words[words.length-1];
                     if(ending === "CORE"){
                         coreExams.innerHTML += `
                         <li>
-                            <a href = "quiz.html?exam=${item}">${item}</a>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
                     }else if(ending === "ICDC"){
                         icdcExams.innerHTML += `
                         <li>
-                            <a href = "quiz.html?exam=${item}">${item}</a>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
                     }else if(ending === "SAMPLE"){
                         sampleExams.innerHTML += `
                         <li>
-                            <a href = "quiz.html?exam=${item}">${item}</a>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
                     }else{
                         otherExams.innerHTML += `
                         <li>
-                            <a href = "quiz.html?exam=${item}">${item}</a>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
                     }
                 }
+                if (otherExams.childElementCount !== 0){
+                    const examsHeading = document.getElementById("other-exams");
+                    examsHeading.style.display = "block";
+                }
+                if(coreExams.childElementCount !== 0){
+                    const examsHeading = document.getElementById("core-exams");
+                    examsHeading.style.display = "block";
+                }
+                if (icdcExams.childElementCount !== 0){
+                    const examsHeading = document.getElementById("icdc-exams");
+                    examsHeading.style.display = "block";
+                }
+                if (sampleExams.childElementCount !== 0){
+                    const examsHeading = document.getElementById("sample-exams");
+                    examsHeading.style.display = "block";
+                }
+                
                 sessionStorage.setItem("BMA", Object.keys(data));
             });
         }
-        if (otherExams.childElementCount !== 0){
-            const examsHeading = document.getElementById("other-exams");
-            examsHeading.style.display = "block";
-        }
-        if(coreExams.childElementCount !== 0){
-            const examsHeading = document.getElementById("core-exams");
-            examsHeading.style.display = "block";
-        }
-        if (icdcExams.childElementCount !== 0){
-            const examsHeading = document.getElementById("icdc-exams");
-            examsHeading.style.display = "block";
-        }
-        if (sampleExams.childElementCount !== 0){
-            const examsHeading = document.getElementById("sample-exams");
-            examsHeading.style.display = "block";
-        }
+     
     </script>
 
 

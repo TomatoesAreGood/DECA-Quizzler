@@ -5,6 +5,9 @@ let sector;
 
 if(examName !== null){
     sector = examName.substring(5,8);
+    if(sector === "COR"){
+        sector = "CORE";
+    }
 }else{
     sector = "";
 }

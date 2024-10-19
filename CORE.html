@@ -57,27 +57,24 @@
         </ul>
     </nav>
     <main>  
-        <h1>BMA Exams</h1>
+        <h1>CORE Exams</h1>
         <p class="header-subtext">
-            You can find all the BMA exams here
+            You can find all the CORE exams here
         </p>
-        <h3 class="paddedHeading" id="icdc-exams">ICDC Exams</h3>
+        <h3 class="paddedHeading" id="icdc-exams">ICDC CORE Exams</h3>
         <div class="icdcExams"></div>
-        <h3 class="paddedHeading" id="sample-exams">Sample Exams</h3>
-        <div class="sampleExams"></div>
-        <h3 class="paddedHeading" id="other-exams">Other Exams</h3>
-        <div class="otherExams"></div>
-        </div>
+        <h3 class="paddedHeading" id="core-exams">CORE Exams</h3>
+        <div class="coreExams"></div>
     </main>
     <script src="populateNavBar.js"></script>
 
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
-        const otherExams = document.querySelector(".otherExams");
         const icdcExams = document.querySelector(".icdcExams");
-        const sampleExams = document.querySelector('.sampleExams');
-        if(sessionStorage.getItem("BMA") != null){
-            let storedExams = sessionStorage.getItem("BMA").split(','); 
+        const coreExams = document.querySelector('.coreExams');
+
+        if(sessionStorage.getItem("CORE") != null){
+            let storedExams = sessionStorage.getItem("CORE").split(',');
             for (const item of storedExams){
                 const words = item.split('-');
                 const ending = words[words.length-1];
@@ -87,34 +84,24 @@
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `;
-                }else if(ending === "SAMPLE"){
-                    sampleExams.innerHTML += `
-                    <li>
-                        <a href = "quiz.html?exam=${item}">${item}</a>
-                    </li>
-                `;
                 }else{
-                    otherExams.innerHTML += `
+                    coreExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `;
                 }
             }
-            if (otherExams.childElementCount !== 0){
-                const examsHeading = document.getElementById("other-exams");
-                examsHeading.style.display = "block";
-            }
             if (icdcExams.childElementCount !== 0){
                 const examsHeading = document.getElementById("icdc-exams");
                 examsHeading.style.display = "block";
             }
-            if (sampleExams.childElementCount !== 0){
-                const examsHeading = document.getElementById("sample-exams");
+            if (coreExams.childElementCount !== 0){
+                const examsHeading = document.getElementById("core-exams");
                 examsHeading.style.display = "block";
             }
         }else{
-            fetch("BMA.json")
+            fetch("CORE.json")
             .then(response => response.json())
             .then(data => {
                 for(const key of Object.keys(data)){
@@ -126,37 +113,26 @@
                             <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
-                    }else if(ending === "SAMPLE"){
-                        sampleExams.innerHTML += `
-                        <li>
-                            <a href = "quiz.html?exam=${key}">${key}</a>
-                        </li>
-                    `;
                     }else{
-                        otherExams.innerHTML += `
+                        coreExams.innerHTML += `
                         <li>
                             <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
                     `;
                     }
                 }
-                if (otherExams.childElementCount !== 0){
-                    const examsHeading = document.getElementById("other-exams");
-                    examsHeading.style.display = "block";
-                }
                 if (icdcExams.childElementCount !== 0){
                     const examsHeading = document.getElementById("icdc-exams");
                     examsHeading.style.display = "block";
                 }
-                if (sampleExams.childElementCount !== 0){
-                    const examsHeading = document.getElementById("sample-exams");
+                if (coreExams.childElementCount !== 0){
+                    const examsHeading = document.getElementById("core-exams");
                     examsHeading.style.display = "block";
                 }
-                
-                sessionStorage.setItem("BMA", Object.keys(data));
+                sessionStorage.setItem("CORE", Object.keys(data));
             });
         }
-     
+        
     </script>
 
 

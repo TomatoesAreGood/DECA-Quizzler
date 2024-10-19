@@ -367,8 +367,8 @@ input:checked + .slider:before {
 }
 #hideModalButton{
     margin-top: 10px;
-    width: 60px;
-    height: 45px;
+    width: 75px;
+    height: 55px;
     border: none;
     background-color: #2196F3;
     border-radius: 15%;

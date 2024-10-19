@@ -52,6 +52,7 @@ fetch(`${sector}.json`)
         var checkbox = document.querySelector('input[type="checkbox"]');
 
         const modal = document.getElementById("incorrectModal");
+        const okButton = document.getElementById("hideModalButton");
         const modalText = document.getElementById("modalText");
 
         let questions = data[examName];
@@ -161,6 +162,12 @@ fetch(`${sector}.json`)
             }
         });
 
+        okButton.addEventListener('click', function(){
+            modal.style.display = "none";
+            currentQuestionIndex++;
+            showQuestion(); 
+        });
+
         if(startNum !== null && startNum <= 100){
             currentQuestionIndex = startNum - 1;
         }
@@ -172,6 +179,7 @@ fetch(`${sector}.json`)
                 showQuestion(); 
             }
         }
+        
 
         quizName.textContent = examName.replace(/HnT/g, "H&T");
         

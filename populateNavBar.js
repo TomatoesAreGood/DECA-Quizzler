@@ -4,6 +4,7 @@ const finDropdown = allDropdowns[1];
 const mktDropdown = allDropdowns[2];
 const hosptDropdown = allDropdowns[3];
 const bmaDropdown = allDropdowns[4];
+const coreDropdown = allDropdowns[5];
 
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',');
@@ -140,6 +141,46 @@ if(sessionStorage.getItem("BMA") != null){
             `;
         }
         sessionStorage.setItem("BMA", Object.keys(data));
+    });
+}
+
+if(sessionStorage.getItem("CORE") != null){
+    let storedExams = sessionStorage.getItem("CORE").split(',');
+    for (const item of storedExams){
+        if(item.length > 15){
+            coreDropdown.innerHTML += `
+            <li class="dropdown-element">
+                <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
+            </li>
+        `; 
+        }else{
+            coreDropdown.innerHTML += `
+            <li class="dropdown-element">
+                <a href = "quiz.html?&exam=${item}">${item}</a>
+            </li>
+        `; 
+        }
+    }
+}else{
+    fetch("CORE.json")
+    .then(response => response.json())
+    .then(data => {
+        for(const item of Object.keys(data)){
+            if(item.length > 15){
+                coreDropdown.innerHTML += `
+                <li class="dropdown-element">
+                    <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
+                </li>
+            `; 
+            }else{
+                coreDropdown.innerHTML += `
+                <li class="dropdown-element">
+                    <a href = "quiz.html?&exam=${item}">${item}</a>
+                </li>
+            `; 
+            }
+        }
+        sessionStorage.setItem("CORE", Object.keys(data));
     });
 }
 

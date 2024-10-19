@@ -48,6 +48,12 @@
                     <div class="grid-container" id="bmaGrid"> </div>
                 </div>
             </li>
+            <li>
+                <div class="dropdown">
+                    <a class= "dropbtn" href="CORE.html">CORE ▼</a>
+                    <div class="grid-container" id="coreGrid"> </div>
+                </div>
+            </li>
         </ul>
     </nav>
     <main>  
@@ -68,7 +74,6 @@
     <script>
         const dropdown = document.querySelector(".dropdown .grid-container");
         const otherExams = document.querySelector(".otherExams");
-        const coreExams = document.querySelector(".coreExams");
         const icdcExams = document.querySelector(".icdcExams");
         const sampleExams = document.querySelector('.sampleExams');
         if(sessionStorage.getItem("FIN") != null){

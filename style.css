@@ -365,6 +365,20 @@ input:checked + .slider:before {
     -webkit-transform: translate3d(0, -25%, 0);
     transform: translate3d(0, -25%, 0);
 }
+#hideModalButton{
+    margin-top: 10px;
+    width: 60px;
+    height: 45px;
+    border: none;
+    background-color: #2196F3;
+    border-radius: 15%;
+    font-size: large;
+    font-family: 'Kanit';
+    transition: all 0.3s;
+}
+#hideModalButton:hover{
+    filter: brightness(85%);
+}
 .header-subtext{
     text-align: center; 
 }

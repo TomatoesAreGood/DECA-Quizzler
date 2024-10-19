@@ -9,39 +9,22 @@ const coreDropdown = allDropdowns[5];
 if(sessionStorage.getItem("ENT") != null){
     let storedExams = sessionStorage.getItem("ENT").split(',');
     for (const item of storedExams){
-        if(item.length > 15){
-            entDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
-            </li>
-        `; 
-        }else{
-            entDropdown.innerHTML += `
+        entDropdown.innerHTML += `
             <li class="dropdown-element">
                 <a href = "quiz.html?&exam=${item}">${item}</a>
             </li>
-        `; 
-        }
-            
+        `;    
     }
 }else{
     fetch("ENT.json")
     .then(response => response.json())
     .then(data => {
-        for(const key of Object.keys(data)){
-            if(key.length > 15){
-                entDropdown.innerHTML += `
-                <li class="dropdown-element">
-                    <a href = "quiz.html?&exam=${key}">${key.substring(0,13)}...</a>
-                </li>
-            `; 
-            }else{
-                entDropdown.innerHTML += `
+        for(const key of Object.keys(data)){   
+            entDropdown.innerHTML += `
                 <li class="dropdown-element">
                     <a href = "quiz.html?exam=${key}">${key}</a>
                 </li>
             `;
-            }
         }
         sessionStorage.setItem("ENT", Object.keys(data));
     });
@@ -202,10 +185,47 @@ function trimNavBar(){
 }
 trimNavBar();
 
-// window.onresize = function(){ location.reload(); }
-
-
 // window.addEventListener('resize', trimNavBar);
 // window.onresize = trimNavBar();
+
+
+const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ); 
+
+function hideOnClickOutside(element) {
+    const outsideClickListener = event => {
+        if (!element.contains(event.target) && isVisible(element)) { 
+          element.style.display = 'none';
+          removeClickListener();
+        }
+    }
+
+    const removeClickListener = () => {
+        document.removeEventListener('click', outsideClickListener);
+    }
+
+    document.addEventListener('click', outsideClickListener);
+}
+
+
+const toggle = document.querySelector(".toggle");
+const closeSideBar = document.querySelector(".closeSidebar");
+const sidebar = document.querySelector(".sidebar");
+
+toggle.addEventListener("click", function(){
+    hideOnClickOutside(sidebar);
+    setTimeout(() => {
+        sidebar.style.display = "flex";
+    }, 1);
+});
+
+closeSideBar.addEventListener("click", function(){
+    sidebar.style.display = "none";
+});
+
+
+
+
+
+
 
 

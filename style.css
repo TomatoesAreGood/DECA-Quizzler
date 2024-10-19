@@ -70,6 +70,58 @@ ul h3{
     padding: 0%;
     margin: 0%;
     overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.toggle{
+    margin-left: auto;
+    padding-left: 20px;
+}
+
+.navbar .sidebar{
+    background-color: #2c9af5;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 50vh;
+    width: 200px;
+    z-index: 1;
+    box-shadow: -10px 0 10px rgba(0,0,0,0.1);
+    flex-direction: column;
+    align-items: flex-start; 
+    justify-content: flex-start;
+    display: none;
+    border-bottom-left-radius: 20px;
+}
+.sidebarItem{
+    width: 250px;
+    border-radius: 0% !important;
+}
+.toggle{
+    margin-right: 20px;
+    display: none !important;
+}
+@media(max-width: 820px){
+    .dropdown{
+        display: none;
+    }
+    .toggle{
+        display: block !important;
+    }
+}
+.sidebar .sidebarHeader{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #fff;
+}
+.sidebarHeader h3{
+    color: #fff;
+    padding-left: 13px;
+    padding-top: 9px;
+    
 }
 .navbar a{
     color: white;
@@ -77,10 +129,17 @@ ul h3{
     padding: 15px;
     display: block;
 }
-.navbar li a:hover{
+.navbar li a:hover:not(.sidebarHeader a){
     background-color:#A1D5FF ;
     border-radius: 15px;
 }
+.toggle{
+    cursor: pointer;
+}
+.closeSidebar{
+    cursor: pointer;
+}
+
 .navbar li{
     display: inline-block;
 }
@@ -102,13 +161,9 @@ ul h3{
 }
 .dropdown-element{
     width: 175px;
-    text-overflow: ellipsis ;
 }
-/* .dropdownText{
-    text-overflow: ellipsis;
-} */
 
-/* ENT */
+/* SECTOR SUBPAGES */
 .otherExams{
     display: grid;
     font-size: medium;

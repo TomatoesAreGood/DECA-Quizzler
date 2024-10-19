@@ -55,8 +55,6 @@
         <p class="header-subtext">
             You can find all the FIN exams here
         </p>
-        <h3 class="paddedHeading" id="core-exams">Core Exams</h3>
-        <div class="coreExams"></div>
         <h3 class="paddedHeading" id="icdc-exams">ICDC Exams</h3>
         <div class="icdcExams"></div>
         <h3 class="paddedHeading" id="sample-exams">Sample Exams</h3>
@@ -78,13 +76,7 @@
             for (const item of storedExams){
                 const words = item.split('-');
                 const ending = words[words.length-1];
-                if(ending === "CORE"){
-                    coreExams.innerHTML += `
-                    <li>
-                        <a href = "quiz.html?exam=${item}">${item}</a>
-                    </li>
-                `;
-                }else if(ending === "ICDC"){
+                if(ending === "ICDC"){
                     icdcExams.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
@@ -108,10 +100,6 @@
                 const examsHeading = document.getElementById("other-exams");
                 examsHeading.style.display = "block";
             }
-            if(coreExams.childElementCount !== 0){
-                const examsHeading = document.getElementById("core-exams");
-                examsHeading.style.display = "block";
-            }
             if (icdcExams.childElementCount !== 0){
                 const examsHeading = document.getElementById("icdc-exams");
                 examsHeading.style.display = "block";
@@ -127,13 +115,7 @@
                 for(const key of Object.keys(data)){
                     const words = key.split('-');
                     const ending = words[words.length-1];
-                    if(ending === "CORE"){
-                        coreExams.innerHTML += `
-                        <li>
-                            <a href = "quiz.html?exam=${key}">${key}</a>
-                        </li>
-                    `;
-                    }else if(ending === "ICDC"){
+                    if(ending === "ICDC"){
                         icdcExams.innerHTML += `
                         <li>
                             <a href = "quiz.html?exam=${key}">${key}</a>
@@ -155,10 +137,6 @@
                 }
                 if (otherExams.childElementCount !== 0){
                     const examsHeading = document.getElementById("other-exams");
-                    examsHeading.style.display = "block";
-                }
-                if(coreExams.childElementCount !== 0){
-                    const examsHeading = document.getElementById("core-exams");
                     examsHeading.style.display = "block";
                 }
                 if (icdcExams.childElementCount !== 0){

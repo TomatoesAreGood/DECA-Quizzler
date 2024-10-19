@@ -378,6 +378,30 @@ input:checked + .slider:before {
 		--num-cols: 2;
 		--row-height: 200px;
 	}
+    .otherExams{
+        display: grid;
+        font-size: medium;
+        grid-template-rows: repeat(auto-fit, auto-fit);
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+    .coreExams{
+        display: grid;
+        font-size: medium;
+        grid-template-rows: repeat(auto-fit, auto-fit);
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+    .icdcExams{
+        display: grid;
+        font-size: medium;
+        grid-template-rows: repeat(auto-fit, auto-fit);
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
+    .sampleExams{
+        display: grid;
+        font-size: medium;
+        grid-template-rows: repeat(auto-fit, auto-fit);
+        grid-template-columns: repeat(2, minmax(100px, 1fr));
+    }
 }
 @media (max-width: 768px){
     #choices{

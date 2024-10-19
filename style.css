@@ -372,7 +372,7 @@ input:checked + .slider:before {
     border: none;
     background-color: #2196F3;
     border-radius: 15%;
-    font-size: large;
+    font-size: 20px;
     font-family: 'Kanit';
     transition: all 0.3s;
 }

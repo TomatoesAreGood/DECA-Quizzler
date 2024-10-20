@@ -105,9 +105,6 @@ ul h3{
     display: none !important;
 }
 @media(max-width: 1025px){
-    .search-icon{
-        display: none;
-    }
     .search-box{
         width: 250px;
         background: #fff;
@@ -189,7 +186,8 @@ ul h3{
 }
 
 #input{
-    flex:1;
+    flex:none;
+    width: 200px;
     height: 30px;
     background: transparent;
     font-size: 15px;

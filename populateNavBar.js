@@ -5,7 +5,6 @@ const mktDropdown = allDropdowns[2];
 const hosptDropdown = allDropdowns[3];
 const bmaDropdown = allDropdowns[4];
 const coreDropdown = allDropdowns[5];
-let allExams = [];
 
 async function fetchEnt(){
     if(sessionStorage.getItem("ENT") != null){
@@ -17,6 +16,7 @@ async function fetchEnt(){
                 </li>
             `;    
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("ENT.json")
         .then(response => response.json())
@@ -28,6 +28,7 @@ async function fetchEnt(){
                     </li>
                 `;
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("ENT", Object.keys(data));
         });
     }
@@ -42,6 +43,7 @@ async function fetchFin(){
                 </li>
             `;     
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("FIN.json")
         .then(response => response.json())
@@ -53,6 +55,7 @@ async function fetchFin(){
                     </li>
                 `;
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("FIN", Object.keys(data));
         });
     }
@@ -68,6 +71,7 @@ async function fetchMkt(){
                 </li>
             `;     
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("MKT.json")
         .then(response => response.json())
@@ -79,6 +83,7 @@ async function fetchMkt(){
                     </li>
                 `;
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("MKT", Object.keys(data));
         });
     }
@@ -94,6 +99,7 @@ async function fetchHnt(){
                 </li>
             `;
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("HnT.json")
         .then(response => response.json())
@@ -105,6 +111,7 @@ async function fetchHnt(){
                     </li>
                 `;
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("H&T", Object.keys(data));
         });
     }
@@ -120,6 +127,7 @@ async function fetchBma(){
                 </li>
             `;
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("BMA.json")
         .then(response => response.json())
@@ -131,6 +139,7 @@ async function fetchBma(){
                     </li>
                 `;
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("BMA", Object.keys(data));
         });
     }
@@ -154,6 +163,7 @@ async function fetchCore(){
             `; 
             }
         }
+        allExams = allExams.concat(storedExams);
     }else{
         fetch("CORE.json")
         .then(response => response.json())
@@ -173,6 +183,7 @@ async function fetchCore(){
                 `; 
                 }
             }
+            allExams = allExams.concat(Array.from(Object.keys(data)));
             sessionStorage.setItem("CORE", Object.keys(data));
         });
     }
@@ -215,44 +226,37 @@ function hideOnClickOutside(element) {
 const toggle = document.querySelector(".toggle");
 const closeSideBar = document.querySelector(".closeSidebar");
 const sidebar = document.querySelector(".sidebar");
+const resultBox = document.querySelector(".result-box");
+const inputBox = document.getElementById("input")
 
+let allExams = [];
 const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
 
-
 function selectInput(list){
-    const inputBox = document.getElementById("input");
-    const resultBox = document.querySelector(".result-box");
     resultBox.innerHTML = '';
-    inputBox.value = list.innerHTML;
+    // inputBox.value = list.innerHTML;
     window.location.assign(`quiz.html?&exam=${list.innerHTML}`);
 }
 
+
 Promise.all(fetchExams)
 .then( function(){
-    const entExams = sessionStorage.getItem("ENT").split(',');
-    const finExams = sessionStorage.getItem("FIN").split(',');
-    const mktExams = sessionStorage.getItem("MKT").split(',');
-    const hntExams = sessionStorage.getItem("H&T").split(',');
-    const bmaExams = sessionStorage.getItem("BMA").split(',');
-    const coreExams = sessionStorage.getItem("CORE").split(',');
-
-    const allExams = entExams.concat(finExams, mktExams, hntExams, bmaExams, coreExams);
-    const resultBox = document.querySelector(".result-box");
-    const inputBox = document.getElementById("input")
-    
     inputBox.onkeyup = function(){
         let results = [];
         let input = inputBox.value;
-        console.log(typeof allExams);
+
         if(input.length){
             results = allExams.filter((keyword)=>{
                 return keyword.toLowerCase().includes(input.toLowerCase())
             });
             const content = results.map((list)=>{
+                if(list.length > 15){
+                    list = `${list.substring(0,16)}...`;
+                }
                 return `<li onclick=selectInput(this)>${list}</li>`;
             });
             resultBox.innerHTML = `<ul>${content.join('')}</ul>`;
-            
+
             if(results.length === 0){
                 resultBox.innerHTML = '';
             }

@@ -111,7 +111,7 @@ ul h3{
         /* padding: none; */
     }
     #input{
-        width: 100%;
+        width: 100% !important;
         /* flex:1; */
         height: 30px;
         background: transparent;
@@ -122,7 +122,7 @@ ul h3{
         
     }
     .search-box{
-        width: 250px;
+        width: 250px !important;
         background: #fff;
         border-radius: 10px;
         margin-right: 0px !important;

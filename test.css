@@ -107,6 +107,7 @@ ul h3{
 @media(max-width: 1025px){
     .search-icon{
         /* display: none; */
+        padding: none;
     }
     .search-box{
         width: 250px;

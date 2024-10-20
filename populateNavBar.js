@@ -5,150 +5,141 @@ const mktDropdown = allDropdowns[2];
 const hosptDropdown = allDropdowns[3];
 const bmaDropdown = allDropdowns[4];
 const coreDropdown = allDropdowns[5];
+let allExams = [];
 
-if(sessionStorage.getItem("ENT") != null){
-    let storedExams = sessionStorage.getItem("ENT").split(',');
-    for (const item of storedExams){
-        entDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item}</a>
-            </li>
-        `;    
-    }
-}else{
-    fetch("ENT.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const key of Object.keys(data)){   
+async function fetchEnt(){
+    if(sessionStorage.getItem("ENT") != null){
+        let storedExams = sessionStorage.getItem("ENT").split(',');
+        for (const item of storedExams){
             entDropdown.innerHTML += `
                 <li class="dropdown-element">
-                    <a href = "quiz.html?exam=${key}">${key}</a>
+                    <a href = "quiz.html?&exam=${item}">${item}</a>
                 </li>
-            `;
+            `;    
         }
-        sessionStorage.setItem("ENT", Object.keys(data));
-    });
-}
-
-if(sessionStorage.getItem("FIN") != null){
-    let storedExams = sessionStorage.getItem("FIN").split(',');
-    for (const item of storedExams){
-        finDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item}</a>
-            </li>
-        `;     
+    }else{
+        fetch("ENT.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const key of Object.keys(data)){   
+                entDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?exam=${key}">${key}</a>
+                    </li>
+                `;
+            }
+            sessionStorage.setItem("ENT", Object.keys(data));
+        });
     }
-}else{
-    fetch("FIN.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const key of Object.keys(data)){
+}
+async function fetchFin(){
+    if(sessionStorage.getItem("FIN") != null){
+        let storedExams = sessionStorage.getItem("FIN").split(',');
+        for (const item of storedExams){
             finDropdown.innerHTML += `
                 <li class="dropdown-element">
-                    <a href = "quiz.html?exam=${key}">${key}</a>
+                    <a href = "quiz.html?&exam=${item}">${item}</a>
                 </li>
-            `;
+            `;     
         }
-        sessionStorage.setItem("FIN", Object.keys(data));
-    });
+    }else{
+        fetch("FIN.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const key of Object.keys(data)){
+                finDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?exam=${key}">${key}</a>
+                    </li>
+                `;
+            }
+            sessionStorage.setItem("FIN", Object.keys(data));
+        });
+    }
 }
 
-if(sessionStorage.getItem("MKT") != null){
-    let storedExams = sessionStorage.getItem("MKT").split(',');
-    for (const item of storedExams){
-        mktDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item}</a>
-            </li>
-        `;     
-    }
-}else{
-    fetch("MKT.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const key of Object.keys(data)){
+async function fetchMkt(){
+    if(sessionStorage.getItem("MKT") != null){
+        let storedExams = sessionStorage.getItem("MKT").split(',');
+        for (const item of storedExams){
             mktDropdown.innerHTML += `
                 <li class="dropdown-element">
-                    <a href = "quiz.html?exam=${key}">${key}</a>
+                    <a href = "quiz.html?&exam=${item}">${item}</a>
                 </li>
-            `;
+            `;     
         }
-        sessionStorage.setItem("MKT", Object.keys(data));
-    });
+    }else{
+        fetch("MKT.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const key of Object.keys(data)){
+                mktDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?exam=${key}">${key}</a>
+                    </li>
+                `;
+            }
+            sessionStorage.setItem("MKT", Object.keys(data));
+        });
+    }
 }
 
-
-if(sessionStorage.getItem("H&T") != null){
-    let storedExams = sessionStorage.getItem("H&T").split(',');
-    for (const item of storedExams){
-        hosptDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item.substring(0,4)}-H&T</a>
-            </li>
-        `;
-    }
-}else{
-    fetch("HnT.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const key of Object.keys(data)){
+async function fetchHnt(){
+    if(sessionStorage.getItem("H&T") != null){
+        let storedExams = sessionStorage.getItem("H&T").split(',');
+        for (const item of storedExams){
             hosptDropdown.innerHTML += `
                 <li class="dropdown-element">
-                    <a href = "quiz.html?exam=${key}">${key.substring(0,4)}-H&T</a>
+                    <a href = "quiz.html?&exam=${item}">${item.substring(0,4)}-H&T</a>
                 </li>
             `;
         }
-        sessionStorage.setItem("H&T", Object.keys(data));
-    });
+    }else{
+        fetch("HnT.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const key of Object.keys(data)){
+                hosptDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?exam=${key}">${key.substring(0,4)}-H&T</a>
+                    </li>
+                `;
+            }
+            sessionStorage.setItem("H&T", Object.keys(data));
+        });
+    }
 }
 
-if(sessionStorage.getItem("BMA") != null){
-    let storedExams = sessionStorage.getItem("BMA").split(',');
-    for (const item of storedExams){
-        bmaDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item}</a>
-            </li>
-        `;
-    }
-}else{
-    fetch("BMA.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const key of Object.keys(data)){
+async function fetchBma(){
+    if(sessionStorage.getItem("BMA") != null){
+        let storedExams = sessionStorage.getItem("BMA").split(',');
+        for (const item of storedExams){
             bmaDropdown.innerHTML += `
                 <li class="dropdown-element">
-                    <a href = "quiz.html?exam=${key}">${key}</a>
+                    <a href = "quiz.html?&exam=${item}">${item}</a>
                 </li>
             `;
         }
-        sessionStorage.setItem("BMA", Object.keys(data));
-    });
+    }else{
+        fetch("BMA.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const key of Object.keys(data)){
+                bmaDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?exam=${key}">${key}</a>
+                    </li>
+                `;
+            }
+            sessionStorage.setItem("BMA", Object.keys(data));
+        });
+    }
 }
 
-if(sessionStorage.getItem("CORE") != null){
-    let storedExams = sessionStorage.getItem("CORE").split(',');
-    for (const item of storedExams){
-        if(item.length > 15){
-            coreDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
-            </li>
-        `; 
-        }else{
-            coreDropdown.innerHTML += `
-            <li class="dropdown-element">
-                <a href = "quiz.html?&exam=${item}">${item}</a>
-            </li>
-        `; 
-        }
-    }
-}else{
-    fetch("CORE.json")
-    .then(response => response.json())
-    .then(data => {
-        for(const item of Object.keys(data)){
+async function fetchCore(){
+    if(sessionStorage.getItem("CORE") != null){
+        let storedExams = sessionStorage.getItem("CORE").split(',');
+        for (const item of storedExams){
             if(item.length > 15){
                 coreDropdown.innerHTML += `
                 <li class="dropdown-element">
@@ -163,10 +154,29 @@ if(sessionStorage.getItem("CORE") != null){
             `; 
             }
         }
-        sessionStorage.setItem("CORE", Object.keys(data));
-    });
+    }else{
+        fetch("CORE.json")
+        .then(response => response.json())
+        .then(data => {
+            for(const item of Object.keys(data)){
+                if(item.length > 15){
+                    coreDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?&exam=${item}">${item.substring(0,13)}...</a>
+                    </li>
+                `; 
+                }else{
+                    coreDropdown.innerHTML += `
+                    <li class="dropdown-element">
+                        <a href = "quiz.html?&exam=${item}">${item}</a>
+                    </li>
+                `; 
+                }
+            }
+            sessionStorage.setItem("CORE", Object.keys(data));
+        });
+    }
 }
-
 function trimNavBar(){
     for(let i = 0; i < allDropdowns.length; i++){
         allDropdowns[i].style.display = "flex";
@@ -183,11 +193,6 @@ function trimNavBar(){
         allDropdowns[i].style.display = "";
     }
 }
-trimNavBar();
-
-// window.addEventListener('resize', trimNavBar);
-// window.onresize = trimNavBar();
-
 
 const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ); 
 
@@ -210,6 +215,54 @@ function hideOnClickOutside(element) {
 const toggle = document.querySelector(".toggle");
 const closeSideBar = document.querySelector(".closeSidebar");
 const sidebar = document.querySelector(".sidebar");
+
+const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
+
+
+function selectInput(list){
+    const inputBox = document.getElementById("input");
+    const resultBox = document.querySelector(".result-box");
+    resultBox.innerHTML = '';
+    inputBox.value = list.innerHTML;
+    window.location.assign(`quiz.html?&exam=${list.innerHTML}`);
+}
+
+Promise.all(fetchExams)
+.then( function(){
+    const entExams = sessionStorage.getItem("ENT").split(',');
+    const finExams = sessionStorage.getItem("FIN").split(',');
+    const mktExams = sessionStorage.getItem("MKT").split(',');
+    const hntExams = sessionStorage.getItem("H&T").split(',');
+    const bmaExams = sessionStorage.getItem("BMA").split(',');
+    const coreExams = sessionStorage.getItem("CORE").split(',');
+
+    const allExams = entExams.concat(finExams, mktExams, hntExams, bmaExams, coreExams);
+    const resultBox = document.querySelector(".result-box");
+    const inputBox = document.getElementById("input")
+    
+    inputBox.onkeyup = function(){
+        let results = [];
+        let input = inputBox.value;
+        console.log(typeof allExams);
+        if(input.length){
+            results = allExams.filter((keyword)=>{
+                return keyword.toLowerCase().includes(input.toLowerCase())
+            });
+            const content = results.map((list)=>{
+                return `<li onclick=selectInput(this)>${list}</li>`;
+            });
+            resultBox.innerHTML = `<ul>${content.join('')}</ul>`;
+            
+            if(results.length === 0){
+                resultBox.innerHTML = '';
+            }
+        }else{
+            resultBox.innerHTML = "";
+        }
+    };
+});
+
+trimNavBar();
 
 toggle.addEventListener("click", function(){
     hideOnClickOutside(sidebar);

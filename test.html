@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DECA Quizzler</title>
+    <link rel="stylesheet" href="test.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;400;700&family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5">
+
+</head>
+
+
+<body>
+    <nav class="navbar">  
+        <ul class="sidebar">
+            <li class="sidebarHeader">
+                <h3>Sectors</h3>
+                <a><svg class="closeSidebar" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"/></svg></a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="ENT.html">ENTREPRENEURSHIP</a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="FIN.html">FINANCE</a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="MKT.html">MARKETING</a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="H&T.html">HOSTPITALITY AND TOURSIM</a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="BMA.html">BUSINESS MANAGEMENT AND ADMINISTRATION</a>
+            </li>
+            <li>
+                <a class= "sidebarItem" href="CORE.html">PRINCIPLES/CORE</a>
+            </li>
+        </ul>
+
+        <ul>
+            <div> 
+                <div id="logo"><a href= "index.html">DECA Quizzler</a></div>
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="ENT.html">ENT ▼</a>
+                        <div class="grid-container"> </div>
+                    </div>
+                </li>
+                
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="FIN.html">FIN ▼</a>
+                        <div class="grid-container" id="finGrid"> </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="MKT.html">MKT ▼</a>
+                        <div class="grid-container" id="mktGrid"> </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="H&T.html">H&T ▼</a>
+                        <div class="grid-container" id="hosptGrid"> </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="BMA.html">BMA ▼</a>
+                        <div class="grid-container" id="bmaGrid"> </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="dropdown">
+                        <a class= "dropbtn" href="CORE.html">CORE ▼</a>
+                        <div class="grid-container" id="coreGrid"> </div>
+                    </div>
+                </li>
+            </div>
+            <div class="navbar-div"> 
+                <div class="search-box">
+                    <div class="row">
+                        <input type="text", id="input" placeholder="Search" autocomplete="off">
+                        <button class="search-icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#5f6368"><path d="M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z"/></svg></button> 
+                    </div>
+                    <div class="result-box">
+                        <ul></ul>
+                    </div>
+                </div>
+                <li class="toggle"><svg xmlns="http://www.w3.org/2000/svg" height="26px" viewBox="0 -960 960 960" width="26px" fill="#fff"><path d="M120-240v-80h720v80H120Zm0-200v-80h720v80H120Zm0-200v-80h720v80H120Z"/></svg></li>
+            </div>
+        </ul>
+    </nav>
+
+    <main>
+        <h1>DECA Quizzler</h1>
+        <p class="header-subtext">
+            A minimalistic DECA quizzing website
+        </p>
+        <h2 id="sectorHeading">
+            Sectors
+        </h2>
+        <div class="sectorList">
+            <div>
+                <a href="ENT.html"><img class="sector" src="ENT.webp" alt="img"></a>
+                <a href="ENT.html"><h3>ENT Exams</h3></a>
+            </div>
+            <div>
+                <a href="FIN.html"><img class="sector" src="FIN.webp" alt="img"></a>
+                <a href="FIN.html"><h3>FIN Exams</h3></a>
+            </div>
+            
+            <div>
+                <a href="MKT.html"><img class="sector" src="MKT.webp" alt="img"></a>
+                <a href="MKT.html"><h3>MKT Exams</h3></a>
+            </div>
+            <div>
+                <a href="H&T.html"><img class="sector" src="H&T.webp" alt="img"></a>
+                <a href="H&T.html"><h3>H&T Exams</h3></a>
+            </div>
+            <div>
+                <a href="BMA.html"><img class="sector" src="BMA.webp" alt="img"></a>
+                <a href="BMA.html"><h3>BMA Exams</h3></a>
+            </div>
+            <div>
+                <a href="CORE.html"><img class="sector" src="CORE.png" alt="img"></a>
+                <a href="CORE.html"><h3>CORE Exams</h3></a>
+            </div>
+        </div>
+    </main>
+
+    <script src="populateNavBar.js"></script>
+
+</body>
+
+</html>

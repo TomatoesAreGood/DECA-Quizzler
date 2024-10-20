@@ -105,6 +105,12 @@ ul h3{
     display: none !important;
 }
 @media(max-width: 1025px){
+    .search-box{
+        width: 250px;
+        background: #fff;
+        border-radius: 10px;
+        margin-right: 0px !important;
+    }
     .dropdown{
         display: none;
     }
@@ -220,18 +226,6 @@ ul h3{
 }
 .result-box ul li:hover{
     background: #e9f3ff;
-}
-
-@media(max-width: 820px){
-    .search-box{
-        width: 250px;
-        background: #fff;
-        border-radius: 10px;
-        margin-right: 0px;
-    }
-    .search-box .row .search-icon{
-        display: none;
-    }
 }
 
 /* SECTOR SUBPAGES */

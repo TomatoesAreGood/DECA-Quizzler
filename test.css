@@ -106,6 +106,7 @@ ul h3{
 }
 @media(max-width: 1025px){
     .search-icon{
+        flex: none;
         /* display: none; */
         /* padding: none; */
     }

@@ -85,8 +85,8 @@ ul h3{
     position: fixed;
     top: 0;
     right: 0;
-    height: 390px;
-    width: 200px;
+    height: 432px;
+    width: 350px;
     z-index: 1;
     box-shadow: -10px 0 10px rgba(0,0,0,0.1);
     flex-direction: column;
@@ -96,7 +96,8 @@ ul h3{
     border-bottom-left-radius: 20px;
 }
 .sidebarItem{
-    width: 250px;
+    width: 350px;
+    font-size: large;
     border-radius: 0% !important;
 }
 .toggle{

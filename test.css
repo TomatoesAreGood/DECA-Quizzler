@@ -203,7 +203,8 @@ ul h3{
 }
 
 #input{
-    flex:1;
+    flex:none;
+    width: 200px;
     height: 30px;
     background: transparent;
     font-size: 15px;

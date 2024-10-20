@@ -234,7 +234,6 @@ const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetch
 
 function selectInput(list){
     resultBox.innerHTML = '';
-    // inputBox.value = list.innerHTML;
     window.location.assign(`quiz.html?&exam=${list.innerHTML}`);
 }
 
@@ -250,8 +249,8 @@ Promise.all(fetchExams)
                 return keyword.toLowerCase().includes(input.toLowerCase())
             });
             const content = results.map((list)=>{
-                if(list.length > 15){
-                    list = `${list.substring(0,16)}...`;
+                if(list.length > 18){
+                    list = `${list.substring(0,19)}...`;
                 }
                 return `<li onclick=selectInput(this)>${list}</li>`;
             });

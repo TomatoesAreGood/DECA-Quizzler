@@ -109,7 +109,7 @@ ul h3{
         width: 250px;
         background: #fff;
         border-radius: 10px;
-        margin-right: 0px !important;
+        margin-right: 5px !important;
     }
     .dropdown{
         display: none;

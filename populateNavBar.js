@@ -263,9 +263,11 @@ Promise.all(fetchExams)
             resultBox.innerHTML = "";
         }
     };
+    setTimeout(() => {
+        trimNavBar();
+    }, 100);
 });
 
-trimNavBar();
 
 toggle.addEventListener("click", function(){
     hideOnClickOutside(sidebar);
@@ -277,10 +279,6 @@ toggle.addEventListener("click", function(){
 closeSideBar.addEventListener("click", function(){
     sidebar.style.display = "none";
 });
-
-
-
-
 
 
 

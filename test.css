@@ -110,8 +110,11 @@ ul h3{
         /* display: none; */
         /* padding: none; */
     }
-    .search-box{
+    #input{
         width: 100%;
+    }
+    .search-box{
+        width: 250px;
         background: #fff;
         border-radius: 10px;
         margin-right: 0px !important;

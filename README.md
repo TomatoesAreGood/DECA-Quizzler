@@ -17,7 +17,7 @@ A simple and clean DECA quizzing application which contains questions from past 
 ![image](https://github.com/user-attachments/assets/b25e71f6-5b30-4ffe-8780-907c77928cc6)
 
 ## Mobile
-![image](https://github.com/user-attachments/assets/cd82f8c0-d5eb-446c-bf02-21078253bd6a)
-![image](https://github.com/user-attachments/assets/669f4420-b5b6-4e6c-98f7-f40ca8f0a4a6)
-![image](https://github.com/user-attachments/assets/ea08cbec-ce82-4f14-b09d-9f290f7c9364)
+![image](https://github.com/user-attachments/assets/8ed4cc8c-ddc7-44fc-a463-8defa3344861)
+![image](https://github.com/user-attachments/assets/3acb1181-412e-46e8-a45a-13dc02cea2cf)
+![image](https://github.com/user-attachments/assets/4af2d3b1-d553-4d9b-839f-5bc9bbdc8b3c)
 

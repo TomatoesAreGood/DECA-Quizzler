@@ -1,5 +1,5 @@
 # DECA Quizzler
-A simple and clean DECA quizzing application which contains questions from past ENT, FIN, MKT and H&T exams. 
+A minimalistic DECA quizzing application which contains questions from past ENT, FIN, MKT and H&T exams. 
 
 ## Features
 - Simple, easy to navigate interface

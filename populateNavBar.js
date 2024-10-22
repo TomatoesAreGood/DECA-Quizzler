@@ -232,9 +232,9 @@ const inputBox = document.getElementById("input")
 let allExams = [];
 const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
 
-function selectInput(list){
+function selectInput(path){
     resultBox.innerHTML = '';
-    window.location.assign(`quiz.html?&exam=${list.innerHTML}`);
+    window.location.assign(`quiz.html?&exam=${path}`);
 }
 
 
@@ -250,9 +250,9 @@ Promise.all(fetchExams)
             });
             const content = results.map((list)=>{
                 if(list.length > 18){
-                    list = `${list.substring(0,19)}...`;
+                    return `<li onclick=selectInput("${list}")>${list.substring(0,19)}...</li>`;
                 }
-                return `<li onclick=selectInput(this)>${list}</li>`;
+                return `<li onclick=selectInput("${list}")>${list}</li>`;
             });
             resultBox.innerHTML = `<ul>${content.join('')}</ul>`;
 

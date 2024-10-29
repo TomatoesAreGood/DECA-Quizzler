@@ -104,20 +104,6 @@ ul h3{
     margin-top: 5px;
     display: none !important;
 }
-@media(max-width: 1025px){
-    .search-box{
-        width: 250px;
-        background: #fff;
-        border-radius: 10px;
-        margin-right: 5px !important;
-    }
-    .dropdown{
-        display: none;
-    }
-    .toggle{
-        display: block !important;
-    }
-}
 .sidebar .sidebarHeader{
     width: 100%;
     display: flex;
@@ -507,7 +493,34 @@ input:checked + .slider:before {
     .btn:hover:not(:disabled){
         filter: brightness(85%)
     }
+    #hideModalButton{
+        display: none;
+    }
 }
+@media (max-width: 768px){
+    #choices{
+        margin-top: 25px;
+        margin-bottom: 50px;
+        width: 90%;
+        margin-inline: auto;
+        display: grid;
+        grid-template-columns: repeat(1, minmax(100px, 1fr));
+        grid-template-rows: repeat(4, 150px);
+        grid-gap: 2%;
+    }
+    #hideModalButton{
+        margin-top: 10px;
+        width: 75px;
+        height: 55px;
+        border: none;
+        background-color: #2196F3;
+        border-radius: 15%;
+        font-size: 22px;
+        font-family: 'Kanit';
+        transition: all 0.3s;
+    }
+}
+
 @media screen and (max-width: 1024px) {
 	.sectorList {
 		--num-cols: 2;
@@ -538,26 +551,17 @@ input:checked + .slider:before {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
 }
-@media (max-width: 768px){
-    #choices{
-        margin-top: 25px;
-        margin-bottom: 50px;
-        width: 90%;
-        margin-inline: auto;
-        display: grid;
-        grid-template-columns: repeat(1, minmax(100px, 1fr));
-        grid-template-rows: repeat(4, 150px);
-        grid-gap: 2%;
+@media(max-width: 1025px){
+    .search-box{
+        width: 250px;
+        background: #fff;
+        border-radius: 10px;
+        margin-right: 5px !important;
     }
-    #hideModalButton{
-        margin-top: 10px;
-        width: 75px;
-        height: 55px;
-        border: none;
-        background-color: #2196F3;
-        border-radius: 15%;
-        font-size: 22px;
-        font-family: 'Kanit';
-        transition: all 0.3s;
+    .dropdown{
+        display: none;
+    }
+    .toggle{
+        display: block !important;
     }
 }

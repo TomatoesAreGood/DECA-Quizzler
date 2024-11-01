@@ -35,6 +35,11 @@ main{
 	grid-template-columns: repeat(var(--num-cols), 1fr);
     grid-gap: 10% 1%;
 }   
+
+.sectorList h3{
+    padding-bottom: 20px;
+}
+
 .sector{
     height: 100%;
     width: 100%;

@@ -474,12 +474,13 @@ input:checked + .slider:before {
 }
 #hideModalButton{
     margin-top: 10px;
-    width: 60px;
+    width: 70px;
     height: 45px;
     border: none;
     background-color: #2196F3;
     border-radius: 15%;
     font-family: 'Kanit';
+    font-weight: 500;
     transition: all 0.3s;
     color: #fff;
     font-size: 18px;

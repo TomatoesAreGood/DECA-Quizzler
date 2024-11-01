@@ -511,7 +511,7 @@ input:checked + .slider:before {
     }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1035px) {
 	.sectorList {
 		--num-cols: 2;
 		--row-height: 200px;
@@ -541,7 +541,7 @@ input:checked + .slider:before {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
 }
-@media(max-width: 1025px){
+@media(max-width: 1035px){
     .search-box{
         width: 250px;
         background: #fff;

@@ -23,7 +23,7 @@ function shuffle(array) {
     }
   }
 
-  function sort(arr){
+function sort(arr){
     for (let i = 1; i < arr.length; i++) {
         let key = arr[i];
         let j = i - 1;
@@ -34,7 +34,14 @@ function shuffle(array) {
         }
         arr[j + 1] = key;
     }
-  }
+}
+
+function linkify(text) {
+    var urlRegex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+    return text.replace(urlRegex, function(url) {
+        return `<a href="${url}" class="underline" target="_blank"> ${url} </a>`;
+    });
+}
 
 fetch(`${sector}.json`)
 .then(response => {
@@ -52,7 +59,7 @@ fetch(`${sector}.json`)
         const quizName = document.querySelector(".quiz #quiz-name");
         const displayQuestion = document.querySelector(".quiz #question-box #question");
         const quiz = document.querySelector(".quiz");
-        var checkbox = document.querySelector('input[type="checkbox"]');
+        const checkbox = document.querySelector('input[type="checkbox"]');
 
         const modal = document.getElementById("incorrectModal");
         const okButton = document.getElementById("hideModalButton");
@@ -123,7 +130,8 @@ fetch(`${sector}.json`)
             }else{
                 selectedBtn.classList.add("incorrect");
                 incorrectQuestions.push(questions[currentQuestionIndex]);
-                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${questions[currentQuestionIndex]['reasoning']}`;
+
+                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${linkify(questions[currentQuestionIndex]['reasoning'])}`;
                 modal.style.display = "block";
             }
             questionsAnswered++;

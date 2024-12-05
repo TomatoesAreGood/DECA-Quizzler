@@ -68,6 +68,9 @@ ul h3{
 .dropbtn{
     font-weight: 700;
     font-size: 18px;
+    padding: 21.6px 15px !important;
+    width: 101px;
+    text-align: center;
 }
 .navbar ul{
     list-style-type: none;
@@ -517,7 +520,7 @@ input:checked + .slider:before {
     }
 }
 
-@media screen and (max-width: 1035px) {
+@media screen and (max-width: 1090px) {
 	.sectorList {
 		--num-cols: 2;
 		--row-height: 200px;
@@ -547,7 +550,7 @@ input:checked + .slider:before {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
 }
-@media(max-width: 1035px){
+@media(max-width: 1090px){
     .search-box{
         width: 250px;
         background: #fff;

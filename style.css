@@ -44,10 +44,10 @@ main{
     height: 100%;
     width: 100%;
     object-fit: cover;
-    transition: all 500ms;
 }
-.sector:hover{
-    filter: brightness(85%);
+
+.clickableButton{
+    transition: all 500ms;
 }
 
 ul h3{
@@ -270,6 +270,10 @@ ul h3{
     margin-bottom: 3px;
 }
 #switch-text{
+    margin-left: 10px;
+}
+
+#switch-text{
     font-weight: 500;
     font-size: large;
 }
@@ -299,7 +303,7 @@ ul h3{
 #question{
     display: inline-block;
     width: auto;
-    font-size: 150%;
+    font-size: 145%;
 }
 .btn{
     background: #3C4C85;
@@ -314,7 +318,6 @@ ul h3{
     text-align: center;
     border-radius: 10px;
     cursor: pointer;
-    transition: all 0.3s;
     position: relative;
 }
 .btn #letter{
@@ -346,18 +349,26 @@ ul h3{
     grid-template-rows: repeat(2, 150px);
     grid-gap: 10% 2%;
 }
-#summaryBtn{
-    background-color: #001e4d;
+#quiz-buttons{
+    margin-top: 65px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#summary-btn{
+    background-color: #0051d3;
     color: #fff;
     font-weight: 500;
-    width: 20%;
+    width: 10%;
     border: none;
     padding: 10px;
-    margin-left: 5%;
+    margin-left: 1.5%;
     /* margin-inline: left; */
     border-radius: 5px;
     cursor: pointer;
-    display: none;
+    display: inline-block;
+    /* margin-inline: auto; */
 }
 
 /* Slider */
@@ -489,20 +500,16 @@ input:checked + .slider:before {
     border-radius: 15%;
     font-family: 'Kanit';
     font-weight: 500;
-    transition: all 0.3s;
     color: #fff;
     font-size: 18px;
-}
-#hideModalButton:hover{
-    filter: brightness(85%);
 }
 .header-subtext{
     text-align: center; 
 }
+.clickableButton:hover:not(:disabled){
+    filter: brightness(85%)
+}
 @media(min-width: 768px){
-    .btn:hover:not(:disabled){
-        filter: brightness(85%)
-    }
     #hideModalButton{
         display: none;
     }

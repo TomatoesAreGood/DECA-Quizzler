@@ -59,7 +59,9 @@ fetch(`${sector}.json`)
         const quizName = document.querySelector(".quiz #quiz-name");
         const displayQuestion = document.querySelector(".quiz #question-box #question");
         const quiz = document.querySelector(".quiz");
-        const checkbox = document.querySelector('input[type="checkbox"]');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const shuffleToggle = checkboxes[1];
+        const slowModeToggle = checkboxes[0];
 
         const modal = document.getElementById("incorrectModal");
         const okButton = document.getElementById("hideModalButton");
@@ -70,6 +72,7 @@ fetch(`${sector}.json`)
         let numCorrect = 0;
         let questionsAnswered = 0;
         let incorrectQuestions = [];
+        let isSlowMode = false;
 
         function showSummary(){
             incorrectQuestions.sort(function(a, b) {
@@ -130,8 +133,9 @@ fetch(`${sector}.json`)
             }else{
                 selectedBtn.classList.add("incorrect");
                 incorrectQuestions.push(questions[currentQuestionIndex]);
+                var reasoning = questions[currentQuestionIndex]['reasoning'];
 
-                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> ${linkify(questions[currentQuestionIndex]['reasoning'])}`;
+                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> <b>${reasoning.substring(0, reasoning.indexOf('.'))}</b>${linkify(reasoning.substring(reasoning.indexOf('.')))}`;
                 modal.style.display = "block";
             }
             questionsAnswered++;
@@ -158,19 +162,26 @@ fetch(`${sector}.json`)
             }
         }
 
+        slowModeToggle.addEventListener('change', function(){
+            if(slowModeToggle.checked){
+                isSlowMode = true;
+            }else{
+                isSlowMode = false;
+            }
+        });
+
         
-        checkbox.addEventListener('change', function () {
-            if (checkbox.checked) {
+        shuffleToggle.addEventListener('change', function () {
+            if (shuffleToggle.checked) {
                 questions = questions.slice(currentQuestionIndex,questions.length);
                 shuffle(questions);
                 currentQuestionIndex = 0;
-                showQuestion();
-            } else {
+            }else{
                 questions = questions.slice(currentQuestionIndex,questions.length);
                 sort(questions);
                 currentQuestionIndex = 0;
-                showQuestion();
             }
+            showQuestion();
         });
 
         okButton.addEventListener('click', function(){

@@ -96,6 +96,13 @@
         <div id="quiz-title">
             <h2 id="quiz-name"></h2>
             <ul>
+                   
+                <li> <p id="switch-text">Slow Mode</p></li>
+                <li><label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label></li>
+           
                 <li> <p id="switch-text">Shuffle</p></li>
                 <li><label class="switch">
                     <input type="checkbox">
@@ -109,12 +116,16 @@
             <h3 id="question"></h3>
         </div>
         <div id="choices">
-            <button class="btn"><div id="letter">A</div> <p id="btn-text"></p></button>
-            <button class="btn"><div id="letter">B</div> <p id="btn-text"></p></button>
-            <button class="btn"><div id="letter">C</div> <p id="btn-text"></p></button>
-            <button class="btn"><div id="letter">D</div> <p id="btn-text"></p></button>
+            <button class="btn clickableButton"><div id="letter">A</div> <p id="btn-text"></p></button>
+            <button class="btn clickableButton"><div id="letter">B</div> <p id="btn-text"></p></button>
+            <button class="btn clickableButton"><div id="letter">C</div> <p id="btn-text"></p></button>
+            <button class="btn clickableButton"><div id="letter">D</div> <p id="btn-text"></p></button>
         </div>
-        <button id="summaryBtn">Next</button>
+        <div id="quiz-buttons">
+            <button id="summary-btn" class="clickableButton">Exit</button>
+            <!-- <button id="summary-btn">Exit</button>
+            <button id="summary-btn">Exit</button> -->
+        </div>
     </div>
 
 
@@ -122,7 +133,7 @@
         <div class="modal-content">
             <h1 id="modalHeader">WRONG</h1>
             <p id="modalText"> Some text in the Modal..</p>
-            <button id="hideModalButton"> <p>OK</p> </button>
+            <button id="hideModalButton" class="clickableButton"> <p>OK</p> </button>
         </div>
     </div>
    

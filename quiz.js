@@ -63,6 +63,9 @@ fetch(`${sector}.json`)
         const shuffleToggle = checkboxes[1];
         const slowModeToggle = checkboxes[0];
 
+        const nextQuestionButton = document.getElementById("next-question");
+        const showExplanationButton = document.getElementById("show-explanation");
+
         const exitButton = document.getElementById("summary-btn");
         const confirmExitButton = document.getElementById('confirmExitModalButton');
         
@@ -128,12 +131,21 @@ fetch(`${sector}.json`)
         }
 
         function selectAnswer(e){
+            if(isSlowMode){
+                nextQuestionButton.style.display = "block";
+                showExplanationButton.style.display = "block";
+                var reasoning = questions[currentQuestionIndex]['reasoning'];
+                modalText.innerHTML = `The correct answer was: ${questions[currentQuestionIndex]['answer']}<br> <b>${reasoning.substring(0, reasoning.indexOf('.'))}</b>${linkify(reasoning.substring(reasoning.indexOf('.')))}`;
+            }
+
             const selectedBtn = e.target;
 
             if(selectedBtn.dataset.correct === "true"){
                 numCorrect++;
-                currentQuestionIndex++;
-                setTimeout(function (){showQuestion(); }, 750)
+                if(!isSlowMode){
+                    currentQuestionIndex++;
+                    setTimeout(function (){showQuestion(); }, 750);
+                }
             }else{
                 selectedBtn.classList.add("incorrect");
                 incorrectQuestions.push(questions[currentQuestionIndex]);
@@ -164,13 +176,17 @@ fetch(`${sector}.json`)
                 }
                 buttons[i].addEventListener("click", selectAnswer);
             }
+            nextQuestionButton.style.display = 'none';
+            showExplanationButton.style.display = 'none';
         }
 
         slowModeToggle.addEventListener('change', function(){
             if(slowModeToggle.checked){
                 isSlowMode = true;
+                okButton.style.display = 'block';
             }else{
                 isSlowMode = false;
+                okButton.style.display = 'none';
             }
         });
 
@@ -187,6 +203,15 @@ fetch(`${sector}.json`)
             showQuestion();
         });
 
+        nextQuestionButton.addEventListener('click',function(){
+            currentQuestionIndex++;
+            showQuestion();
+        });
+
+        showExplanationButton.addEventListener('click', function(){
+            modal.style.display = 'block';
+        });
+
         exitButton.addEventListener('click', function(){
             confirmExitModal.style.display = 'block';
         });
@@ -198,15 +223,16 @@ fetch(`${sector}.json`)
 
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
-            currentQuestionIndex++;
-            showQuestion(); 
         });
 
+    
         window.onclick = function(event){
             if(event.target === modal){
                 modal.style.display = "none";
-                currentQuestionIndex++;
-                showQuestion(); 
+                if(!isSlowMode){
+                    currentQuestionIndex++;
+                    showQuestion();
+                }
             }
             if(event.target === confirmExitModal){
                 confirmExitModal.style.display = "none";

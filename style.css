@@ -459,7 +459,7 @@ input:checked + .slider:before {
 @keyframes animatetop {
     from {top:-300px; opacity:0}
     to {top:0; opacity:1}
-}
+}    
 
 .modal-content {
     position: relative;
@@ -477,6 +477,25 @@ input:checked + .slider:before {
     -webkit-animation-name: animatetop;
     -webkit-animation-duration: 1s;
 }
+
+.modal-content-confirm-exit{
+    position: relative;
+    background-color: #ebebeb;
+    /* margin: 35% auto;  */
+    margin-top: 20%;
+    margin-inline: auto;
+    padding: 20px;
+    width: 715px;
+    max-width: 80%;     
+    border-radius: 15px;
+    color: black;
+    height: auto;
+    animation-name: animatetop;
+    animation-duration: 1s;
+    -webkit-animation-name: animatetop;
+    -webkit-animation-duration: 1s;
+}
+
 #modalHeader{
     text-align: left;
     margin: none;
@@ -503,13 +522,27 @@ input:checked + .slider:before {
     color: #fff;
     font-size: 18px;
 }
+#confirmExitModalButton{
+    margin-top: 10px;
+    width: 70px;
+    height: 45px;
+    border: none;
+    background-color: #2196F3;
+    border-radius: 15%;
+    font-family: 'Kanit';
+    font-weight: 500;
+    color: #fff;
+    font-size: 18px;
+}
+
 .header-subtext{
     text-align: center; 
 }
-.clickableButton:hover:not(:disabled){
-    filter: brightness(85%)
-}
+
 @media(min-width: 768px){
+    .clickableButton:hover:not(:disabled){
+        filter: brightness(85%)
+    }
     #hideModalButton{
         display: none;
     }

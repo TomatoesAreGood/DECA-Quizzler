@@ -63,6 +63,10 @@ fetch(`${sector}.json`)
         const shuffleToggle = checkboxes[1];
         const slowModeToggle = checkboxes[0];
 
+        const exitButton = document.getElementById("summary-btn");
+        const confirmExitButton = document.getElementById('confirmExitModalButton');
+        
+        const confirmExitModal = document.getElementById("confirmExitModal");
         const modal = document.getElementById("incorrectModal");
         const okButton = document.getElementById("hideModalButton");
         const modalText = document.getElementById("modalText");
@@ -184,6 +188,16 @@ fetch(`${sector}.json`)
             showQuestion();
         });
 
+        exitButton.addEventListener('click', function(){
+            confirmExitModal.style.display = 'block';
+        });
+
+        confirmExitButton.addEventListener('click', function(){
+            confirmExitModal.style.display = 'none';
+            showSummary();
+        });
+
+        
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
             currentQuestionIndex++;
@@ -195,13 +209,15 @@ fetch(`${sector}.json`)
         }
         
         window.onclick = function(event){
-            if(event.target == modal){
+            if(event.target === modal){
                 modal.style.display = "none";
                 currentQuestionIndex++;
                 showQuestion(); 
             }
+            if(event.target === confirmExitModal){
+                confirmExitModal.style.display = "none";
+            }
         }
-        
 
         quizName.textContent = examName.replace(/HnT/g, "H&T");
         

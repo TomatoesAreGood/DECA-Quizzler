@@ -174,7 +174,6 @@ fetch(`${sector}.json`)
             }
         });
 
-        
         shuffleToggle.addEventListener('change', function () {
             if (shuffleToggle.checked) {
                 questions = questions.slice(currentQuestionIndex,questions.length);
@@ -197,17 +196,12 @@ fetch(`${sector}.json`)
             showSummary();
         });
 
-        
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
             currentQuestionIndex++;
             showQuestion(); 
         });
 
-        if(startNum !== null && startNum <= 100){
-            currentQuestionIndex = startNum - 1;
-        }
-        
         window.onclick = function(event){
             if(event.target === modal){
                 modal.style.display = "none";
@@ -217,6 +211,10 @@ fetch(`${sector}.json`)
             if(event.target === confirmExitModal){
                 confirmExitModal.style.display = "none";
             }
+        }
+
+        if(startNum !== null && startNum <= 100){
+            currentQuestionIndex = startNum - 1;
         }
 
         quizName.textContent = examName.replace(/HnT/g, "H&T");

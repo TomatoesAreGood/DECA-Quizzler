@@ -360,15 +360,14 @@ ul h3{
     background-color: #0051d3;
     color: #fff;
     font-weight: 500;
-    width: 10%;
+    width: 200px;
+    max-width: 20%;
     border: none;
     padding: 10px;
     margin-left: 1.5%;
-    /* margin-inline: left; */
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
-    /* margin-inline: auto; */
 }
 
 /* Slider */
@@ -437,7 +436,7 @@ input:checked + .slider:before {
     font-size: medium;
 }
 
-/* Modal */
+/* Modals */
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */

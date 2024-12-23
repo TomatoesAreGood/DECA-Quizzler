@@ -351,12 +351,20 @@ ul h3{
 }
 #quiz-buttons{
     margin-top: 65px;
+    margin-bottom: 25px;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-#summary-btn{
+#next-question{
+    display: none;
+}
+#show-explanation{
+    display: none;
+}
+
+.quizButton{
     background-color: #0051d3;
     color: #fff;
     font-weight: 500;
@@ -364,7 +372,8 @@ ul h3{
     max-width: 20%;
     border: none;
     padding: 10px;
-    margin-left: 1.5%;
+    margin-left: .5%;
+    margin-right: .5%;
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
@@ -464,7 +473,7 @@ input:checked + .slider:before {
     position: relative;
     background-color: #ebebeb;
     /* margin: 35% auto;  */
-    margin-top: 25%;
+    margin-top: 20%;
     margin-inline: auto;
     padding: 20px;
     width: 80%; 
@@ -510,6 +519,7 @@ input:checked + .slider:before {
     transform: translate3d(0, -25%, 0);
 }
 #hideModalButton{
+    display: none;
     margin-top: 10px;
     width: 70px;
     height: 45px;
@@ -541,9 +551,6 @@ input:checked + .slider:before {
 @media(min-width: 768px){
     .clickableButton:hover:not(:disabled){
         filter: brightness(85%)
-    }
-    #hideModalButton{
-        display: none;
     }
 }
 @media (max-width: 768px){

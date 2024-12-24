@@ -22,6 +22,7 @@ async function fetchEnt(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-ENT-UNIT");
 
             for(const key of exams){   
                 entDropdown.innerHTML += `
@@ -30,7 +31,6 @@ async function fetchEnt(){
                     </li>
                 `;
             }
-            exams.push("9999-ENT-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("ENT", exams);
         });
@@ -53,6 +53,7 @@ async function fetchFin(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-FIN-UNIT");
 
             for(const key of exams){
                 finDropdown.innerHTML += `
@@ -61,7 +62,6 @@ async function fetchFin(){
                     </li>
                 `;
             }
-            exams.push("9999-FIN-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("FIN", exams);
         });
@@ -84,6 +84,8 @@ async function fetchMkt(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-MKT-UNIT");
+
             for(const key of exams){
                 mktDropdown.innerHTML += `
                     <li class="dropdown-element">
@@ -91,7 +93,6 @@ async function fetchMkt(){
                     </li>
                 `;
             }
-            exams.push("9999-MKT-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("MKT", exams);
         });
@@ -114,6 +115,8 @@ async function fetchHnt(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-HnT-UNIT");
+
             for(const key of exams){
                 hosptDropdown.innerHTML += `
                     <li class="dropdown-element">
@@ -121,7 +124,6 @@ async function fetchHnt(){
                     </li>
                 `;
             }
-            exams.push("9999-HnT-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("H&T", exams);
         });
@@ -144,6 +146,8 @@ async function fetchBma(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-BMA-UNIT");
+
             for(const key of exams){
                 bmaDropdown.innerHTML += `
                     <li class="dropdown-element">
@@ -151,7 +155,6 @@ async function fetchBma(){
                     </li>
                 `;
             }
-            exams.push("9999-BMA-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("BMA", exams);
         });
@@ -182,6 +185,8 @@ async function fetchCore(){
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
+            exams.push("9999-CORE-UNIT");
+
             for(const item of exams){
                 if(item.length > 15){
                     coreDropdown.innerHTML += `
@@ -197,7 +202,6 @@ async function fetchCore(){
                 `; 
                 }
             }
-            exams.push("9999-CORE-UNIT");
             allExams = allExams.concat(Array.from(exams));
             sessionStorage.setItem("CORE", exams);
         });
@@ -248,7 +252,7 @@ const sidebar = document.querySelector(".sidebar");
 const resultBox = document.querySelector(".result-box");
 const inputBox = document.getElementById("input")
 
-let allExams = ["9999-ENT-UNIT","9999-FIN-UNIT","9999-MKT-UNIT","9999-CORE-UNIT","9999-HnT-UNIT","9999-BMA-UNIT" ];
+let allExams = [];
 const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
 
 

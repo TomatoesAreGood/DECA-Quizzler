@@ -102,6 +102,8 @@
         <div class="icdcExams"></div>
         <h3 class="paddedHeading" id="core-exams">CORE Exams</h3>
         <div class="coreExams"></div>
+        <h3 class="paddedHeading" id="unit-exam">Unit Exam</h3>
+        <div class="unitExam"></div>
     </main>
     <script src="populateNavBar.js"></script>
 
@@ -109,6 +111,7 @@
         const dropdown = document.querySelector(".dropdown .grid-container");
         const icdcExams = document.querySelector(".icdcExams");
         const coreExams = document.querySelector('.coreExams');
+        const unitExam = document.querySelector('.unitExam');
 
         if(sessionStorage.getItem("CORE") != null){
             let storedExams = sessionStorage.getItem("CORE").split(',');
@@ -169,6 +172,13 @@
                 sessionStorage.setItem("CORE", Object.keys(data));
             });
         }
+        const unitExamHeading = document.getElementById("unit-exam");
+        unitExamHeading.style.display = "block";
+        unitExam.innerHTML += `
+            <li>
+                <a href = "quiz.html?exam=9999-CORE-UNIT">9999-CORE-UNIT</a>
+            </li>
+        `;
         
     </script>
 

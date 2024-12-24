@@ -105,6 +105,8 @@
         <div class="sampleExams"></div>
         <h3 class="paddedHeading" id="other-exams">Other Exams</h3>
         <div class="otherExams"></div>
+        <h3 class="paddedHeading" id="unit-exam">Unit Exam</h3>
+        <div class="unitExam"></div>
         </div>
     </main>
     <script src="populateNavBar.js"></script>
@@ -114,6 +116,8 @@
         const otherExams = document.querySelector(".otherExams");
         const icdcExams = document.querySelector(".icdcExams");
         const sampleExams = document.querySelector('.sampleExams');
+        const unitExam = document.querySelector('.unitExam');
+
         if(sessionStorage.getItem("H&T") != null){
             let storedExams = sessionStorage.getItem("H&T").split(',');
             for (const item of storedExams){
@@ -193,6 +197,13 @@
                 sessionStorage.setItem("H&T", Object.keys(data));
             });
         }
+        const unitExamHeading = document.getElementById("unit-exam");
+        unitExamHeading.style.display = "block";
+        unitExam.innerHTML += `
+            <li>
+                <a href = "quiz.html?exam=9999-HnT-UNIT">9999-Hnt-UNIT</a>
+            </li>
+        `;
         
     </script>
 

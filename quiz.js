@@ -43,6 +43,33 @@ function linkify(text) {
     });
 }
 
+const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
+const buttons = document.querySelectorAll(".quiz #choices .btn");
+const questionNumber = document.querySelector('.quiz #number');
+const quizName = document.querySelector(".quiz #quiz-name");
+const displayQuestion = document.querySelector(".quiz #question-box #question");
+const quiz = document.querySelector(".quiz");
+const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+const shuffleToggle = checkboxes[1];
+const slowModeToggle = checkboxes[0];
+
+const nextQuestionButton = document.getElementById("next-question");
+const showExplanationButton = document.getElementById("show-explanation");
+
+const exitButton = document.getElementById("summary-btn");
+const confirmExitButton = document.getElementById('confirmExitModalButton');
+
+const confirmExitModal = document.getElementById("confirmExitModal");
+const modal = document.getElementById("incorrectModal");
+const okButton = document.getElementById("hideModalButton");
+const modalText = document.getElementById("modalText");
+let isUnitTest = false;
+
+if(examName.substring(examName.length-4, examName.length) === "UNIT"){
+    sector = examName.substring(5, examName.length);
+    isUnitTest = true;
+}
+
 fetch(`${sector}.json`)
 .then(response => {
     if(response.ok){
@@ -53,27 +80,6 @@ fetch(`${sector}.json`)
 })
 .then(data => {
     if (examName in data){
-        const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
-        const buttons = document.querySelectorAll(".quiz #choices .btn");
-        const questionNumber = document.querySelector('.quiz #number');
-        const quizName = document.querySelector(".quiz #quiz-name");
-        const displayQuestion = document.querySelector(".quiz #question-box #question");
-        const quiz = document.querySelector(".quiz");
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        const shuffleToggle = checkboxes[1];
-        const slowModeToggle = checkboxes[0];
-
-        const nextQuestionButton = document.getElementById("next-question");
-        const showExplanationButton = document.getElementById("show-explanation");
-
-        const exitButton = document.getElementById("summary-btn");
-        const confirmExitButton = document.getElementById('confirmExitModalButton');
-        
-        const confirmExitModal = document.getElementById("confirmExitModal");
-        const modal = document.getElementById("incorrectModal");
-        const okButton = document.getElementById("hideModalButton");
-        const modalText = document.getElementById("modalText");
-
         let questions = data[examName];
         let currentQuestionIndex = 0;
         let numCorrect = 0;
@@ -90,23 +96,46 @@ fetch(`${sector}.json`)
                 <h1>${examName.replace(/HnT/g, "H&T")} Summary</h1>
                 <p>You got ${numCorrect}/${questionsAnswered} correct. These are the questions you got wrong: </p>
             `;
-            for (let i = 0; i < incorrectQuestions.length; i++){
-                quiz.innerHTML += `
-                    <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} </h3>
-                `;
-                for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
-                    if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
-                        quiz.innerHTML += ` 
-                            <p class="underline">
-                                ${incorrectQuestions[i]['choices'][j]}
-                            </p>
-                        `;
-                    }else{
-                        quiz.innerHTML += ` 
-                            <p>
-                                ${incorrectQuestions[i]['choices'][j]}
-                            </p>
-                        `;
+            if(isUnitTest){
+                for (let i = 0; i < incorrectQuestions.length; i++){
+                    quiz.innerHTML += `
+                        <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} (${incorrectQuestions[i]['exam']})</h3>
+                    `;
+                    for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
+                        if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
+                            quiz.innerHTML += ` 
+                                <p class="underline">
+                                    ${incorrectQuestions[i]['choices'][j]}
+                                </p>
+                            `;
+                        }else{
+                            quiz.innerHTML += ` 
+                                <p>
+                                    ${incorrectQuestions[i]['choices'][j]}
+                                </p>
+                            `;
+                        }
+                    }
+                }
+            }else{
+                for (let i = 0; i < incorrectQuestions.length; i++){
+                    quiz.innerHTML += `
+                        <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} </h3>
+                    `;
+                    for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
+                        if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
+                            quiz.innerHTML += ` 
+                                <p class="underline">
+                                    ${incorrectQuestions[i]['choices'][j]}
+                                </p>
+                            `;
+                        }else{
+                            quiz.innerHTML += ` 
+                                <p>
+                                    ${incorrectQuestions[i]['choices'][j]}
+                                </p>
+                            `;
+                        }
                     }
                 }
             }
@@ -166,7 +195,11 @@ fetch(`${sector}.json`)
             resetButtons();
 
             let currentQuestion = questions[currentQuestionIndex];
-            displayQuestion.textContent = `${currentQuestion['question']}`;
+            if(isUnitTest){
+                displayQuestion.textContent = `(${currentQuestion['exam']}) ${currentQuestion['question']}`;
+            }else{
+                displayQuestion.textContent = `${currentQuestion['question']}`;
+            }
             questionNumber.textContent = currentQuestion['number'];
 
             for (let i = 0; i < currentQuestion['choices'].length; i++){
@@ -244,7 +277,7 @@ fetch(`${sector}.json`)
         }
 
         quizName.textContent = examName.replace(/HnT/g, "H&T");
-        
+        sort(questions);
         showQuestion();
     }else{
         throw 'exam does not exist';
@@ -255,3 +288,4 @@ fetch(`${sector}.json`)
         <h1>Error 404: Exam ${examName} not found</h1>
     `;
 })
+

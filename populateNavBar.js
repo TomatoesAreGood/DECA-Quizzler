@@ -21,18 +21,22 @@ async function fetchEnt(){
         fetch("ENT.json")
         .then(response => response.json())
         .then(data => {
-            for(const key of Object.keys(data)){   
+            let exams = Object.keys(data);
+
+            for(const key of exams){   
                 entDropdown.innerHTML += `
                     <li class="dropdown-element">
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                 `;
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("ENT", Object.keys(data));
+            exams.push("9999-ENT-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("ENT", exams);
         });
     }
 }
+
 async function fetchFin(){
     if(sessionStorage.getItem("FIN") != null){
         let storedExams = sessionStorage.getItem("FIN").split(',');
@@ -48,15 +52,18 @@ async function fetchFin(){
         fetch("FIN.json")
         .then(response => response.json())
         .then(data => {
-            for(const key of Object.keys(data)){
+            let exams = Object.keys(data);
+
+            for(const key of exams){
                 finDropdown.innerHTML += `
                     <li class="dropdown-element">
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                 `;
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("FIN", Object.keys(data));
+            exams.push("9999-FIN-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("FIN", exams);
         });
     }
 }
@@ -76,15 +83,17 @@ async function fetchMkt(){
         fetch("MKT.json")
         .then(response => response.json())
         .then(data => {
-            for(const key of Object.keys(data)){
+            let exams = Object.keys(data);
+            for(const key of exams){
                 mktDropdown.innerHTML += `
                     <li class="dropdown-element">
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                 `;
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("MKT", Object.keys(data));
+            exams.push("9999-MKT-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("MKT", exams);
         });
     }
 }
@@ -104,15 +113,17 @@ async function fetchHnt(){
         fetch("HnT.json")
         .then(response => response.json())
         .then(data => {
-            for(const key of Object.keys(data)){
+            let exams = Object.keys(data);
+            for(const key of exams){
                 hosptDropdown.innerHTML += `
                     <li class="dropdown-element">
                         <a href = "quiz.html?exam=${key}">${key.substring(0,4)}-H&T</a>
                     </li>
                 `;
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("H&T", Object.keys(data));
+            exams.push("9999-HnT-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("H&T", exams);
         });
     }
 }
@@ -132,15 +143,17 @@ async function fetchBma(){
         fetch("BMA.json")
         .then(response => response.json())
         .then(data => {
-            for(const key of Object.keys(data)){
+            let exams = Object.keys(data);
+            for(const key of exams){
                 bmaDropdown.innerHTML += `
                     <li class="dropdown-element">
                         <a href = "quiz.html?exam=${key}">${key}</a>
                     </li>
                 `;
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("BMA", Object.keys(data));
+            exams.push("9999-BMA-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("BMA", exams);
         });
     }
 }
@@ -168,7 +181,8 @@ async function fetchCore(){
         fetch("CORE.json")
         .then(response => response.json())
         .then(data => {
-            for(const item of Object.keys(data)){
+            let exams = Object.keys(data);
+            for(const item of exams){
                 if(item.length > 15){
                     coreDropdown.innerHTML += `
                     <li class="dropdown-element">
@@ -183,11 +197,13 @@ async function fetchCore(){
                 `; 
                 }
             }
-            allExams = allExams.concat(Array.from(Object.keys(data)));
-            sessionStorage.setItem("CORE", Object.keys(data));
+            exams.push("9999-CORE-UNIT");
+            allExams = allExams.concat(Array.from(exams));
+            sessionStorage.setItem("CORE", exams);
         });
     }
 }
+
 function trimNavBar(){
     for(let i = 0; i < allDropdowns.length; i++){
         allDropdowns[i].style.display = "flex";
@@ -200,12 +216,9 @@ function trimNavBar(){
         if(width-remainder !== 0){
             allDropdowns[i].style.width = `${width-remainder}px`;
         }
-        
         allDropdowns[i].style.display = "";
     }
 }
-
-const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length ); 
 
 function hideOnClickOutside(element) {
     const outsideClickListener = event => {
@@ -222,6 +235,12 @@ function hideOnClickOutside(element) {
     document.addEventListener('click', outsideClickListener);
 }
 
+function selectInput(path){
+    resultBox.innerHTML = '';
+    window.location.assign(`quiz.html?&exam=${path}`);
+}
+
+const isVisible = elem => !!elem && !!( elem.offsetWidth || elem.offsetHeight || elem.getClientRects().length); 
 
 const toggle = document.querySelector(".toggle");
 const closeSideBar = document.querySelector(".closeSidebar");
@@ -229,13 +248,8 @@ const sidebar = document.querySelector(".sidebar");
 const resultBox = document.querySelector(".result-box");
 const inputBox = document.getElementById("input")
 
-let allExams = [];
+let allExams = ["9999-ENT-UNIT","9999-FIN-UNIT","9999-MKT-UNIT","9999-CORE-UNIT","9999-HnT-UNIT","9999-BMA-UNIT" ];
 const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
-
-function selectInput(path){
-    resultBox.innerHTML = '';
-    window.location.assign(`quiz.html?&exam=${path}`);
-}
 
 
 Promise.all(fetchExams)

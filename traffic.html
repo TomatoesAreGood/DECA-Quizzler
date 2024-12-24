@@ -94,44 +94,55 @@
     </nav>
 
     <main>
-        <h1>DECA Quizzler</h1>
+        <h1>Website Traffic</h1>
         <p class="header-subtext">
-            A minimalistic DECA quizzing website
+            Definitely not using cookies
         </p>
-        <h2 id="sectorHeading">
-            Sectors
+        <h2 id="unique-visits" class="sectorHeading">
+            Unique Visits:
         </h2>
-        <div class="sectorList">
-            <div>
-                <a href="ENT.html"><img class="sector clickableButton" src="assets/images/ENT.webp" alt="img"></a>
-                <a href="ENT.html"><h3>ENT Exams</h3></a>
-            </div>
-            <div>
-                <a href="FIN.html"><img class="sector clickableButton" src="assets/images/FIN.webp" alt="img"></a>
-                <a href="FIN.html"><h3>FIN Exams</h3></a>
-            </div>
-            
-            <div>
-                <a href="MKT.html"><img class="sector clickableButton" src="assets/images/MKT.webp" alt="img"></a>
-                <a href="MKT.html"><h3>MKT Exams</h3></a>
-            </div>
-            <div>
-                <a href="H&T.html"><img class="sector clickableButton" src="assets/images/H&T.webp" alt="img"></a>
-                <a href="H&T.html"><h3>H&T Exams</h3></a>
-            </div>
-            <div>
-                <a href="BMA.html"><img class="sector clickableButton" src="assets/images/BMA.webp" alt="img"></a>
-                <a href="BMA.html"><h3>BMA Exams</h3></a>
-            </div>
-            <div>
-                <a href="CORE.html"><img class="sector clickableButton" src="assets/images/CORE.png" alt="img"></a>
-                <a href="CORE.html"><h3>CORE Exams</h3></a>
-            </div>
-        </div>
+        
+        <h2 id="visits" class="sectorHeading">
+            Visits: 
+        </h2>
+       
     </main>
 
+    <script>
+        const vistsKey = "decaquizzler123";
+        const uniqueVistsKey = "decaquizzlerunique123";
+
+        const uniqueVists = document.getElementById("unique-visits");
+        const vists = document.getElementById("visits");
+
+        fetch(`https://abacus.jasoncameron.dev/get/${vistsKey}/`)
+            .then( response => {
+                if(!response.ok){
+                    throw new Error("API error");
+                }
+                return response.json();
+            }
+        ).then(data => {
+            vists.textContent = `Visits: ${data['value']}`;
+        }).catch(error => {
+            console.error(error);
+        });
+
+        fetch(`https://abacus.jasoncameron.dev/get/${uniqueVistsKey}/`)
+            .then( response => {
+                if(!response.ok){
+                    throw new Error("API error");
+                }
+                return response.json();
+            }
+        ).then(data => {
+            uniqueVists.textContent = `Unique Visits: ${data['value']}`;
+        }).catch(error => {
+            console.error(error);
+        });
+    </script>
+
     <script src="populateNavBar.js"></script>
-    <script src="countVists.js"></script>
 
 </body>
 

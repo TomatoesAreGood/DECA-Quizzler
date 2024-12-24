@@ -239,6 +239,21 @@ function hideOnClickOutside(element) {
     document.addEventListener('click', outsideClickListener);
 }
 
+function hideOnClickOutsideSearchBar(element1, element2) {
+    const outsideClickListener = event => {
+        if (!element2.contains(event.target) && isVisible(element1)) { 
+            element1.style.display = 'none';
+            removeClickListener();
+        }
+    }
+
+    const removeClickListener = () => {
+        document.removeEventListener('click', outsideClickListener);
+    }
+
+    document.addEventListener('click', outsideClickListener);
+}
+
 function selectInput(path){
     resultBox.innerHTML = '';
     window.location.assign(`quiz.html?&exam=${path}`);
@@ -256,30 +271,37 @@ let allExams = [];
 const fetchExams = [fetchEnt(),fetchFin(),fetchMkt(),fetchHnt(),fetchBma(),fetchCore()];
 
 
+function searchResult(){
+    let results = [];
+    let input = inputBox.value;
+
+    if(input.length){
+        results = allExams.filter((keyword)=>{
+            return keyword.toLowerCase().includes(input.toLowerCase())
+        });
+        const content = results.map((list)=>{
+            if(list.length > 18){
+                return `<li onclick=selectInput("${list}")>${list.substring(0,19)}...</li>`;
+            }
+            return `<li onclick=selectInput("${list}")>${list}</li>`;
+        });
+        resultBox.innerHTML = `<ul>${content.join('')}</ul>`;
+        resultBox.style.display = 'block';
+
+        if(results.length === 0){
+            resultBox.innerHTML = '';
+        }
+    }else{
+        resultBox.innerHTML = "";
+    }
+}
+
 Promise.all(fetchExams)
 .then( function(){
-    inputBox.onkeyup = function(){
-        let results = [];
-        let input = inputBox.value;
-
-        if(input.length){
-            results = allExams.filter((keyword)=>{
-                return keyword.toLowerCase().includes(input.toLowerCase())
-            });
-            const content = results.map((list)=>{
-                if(list.length > 18){
-                    return `<li onclick=selectInput("${list}")>${list.substring(0,19)}...</li>`;
-                }
-                return `<li onclick=selectInput("${list}")>${list}</li>`;
-            });
-            resultBox.innerHTML = `<ul>${content.join('')}</ul>`;
-
-            if(results.length === 0){
-                resultBox.innerHTML = '';
-            }
-        }else{
-            resultBox.innerHTML = "";
-        }
+    inputBox.onkeyup = searchResult;
+    inputBox.onclick = function(){
+        hideOnClickOutsideSearchBar(resultBox, inputBox);
+        searchResult();
     };
     setTimeout(() => {
         trimNavBar();

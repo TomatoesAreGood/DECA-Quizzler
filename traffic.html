@@ -112,15 +112,6 @@
     </main>
 
     <script>
-        const nameSpace = "decaquizzler333";
-        const date = new Date();
-
-        const visitsKey = `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
-        const uniqueVisitsKey = `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
-
-        const uniqueVisits = document.getElementById("unique-visits");
-        const visits = document.getElementById("visits");
-
         async function fetchVisits(key){
             return await fetch(`https://abacus.jasoncameron.dev/get/${nameSpace}/${key}`)
             .then(response => {
@@ -146,14 +137,18 @@
         function getKey(date){
             return `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
+        
         function getUniqueKey(date){
             return `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
 
+        const nameSpace = "decaquizzler333";
         const dayOfWeekDict = ["Sun","Mon","Tues","Wed", "Thurs", "Fri", "Sat"];
 
-        let week = getWeek();
+        const uniqueVisits = document.getElementById("unique-visits");
+        const visits = document.getElementById("visits");
 
+        const week = getWeek();
         const weeklyVisits = [fetchVisits(getKey(week[0])),fetchVisits(getKey(week[1])),fetchVisits(getKey(week[2])),fetchVisits(getKey(week[3])),fetchVisits(getKey(week[4])),fetchVisits(getKey(week[5])),fetchVisits(getKey(week[6]))];
         const weeklyUniqueVisits = [fetchVisits(getUniqueKey(week[0])),fetchVisits(getUniqueKey(week[1])),fetchVisits(getUniqueKey(week[2])),fetchVisits(getUniqueKey(week[3])),fetchVisits(getUniqueKey(week[4])),fetchVisits(getUniqueKey(week[5])),fetchVisits(getUniqueKey(week[6]))];
 
@@ -213,9 +208,6 @@
                 });
             }
         );
-      
-
-        
     </script>
 
     <script src="populateNavBar.js"></script>

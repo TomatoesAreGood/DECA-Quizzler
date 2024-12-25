@@ -106,7 +106,7 @@
         <canvas id="uniqueVisitsChart" style="width:100%;max-width:600px"></canvas>
         
         <h2 id="visits" class="sectorHeading">
-            Visits
+            Activity
         </h2>
         <canvas id="visitsChart" style="width:100%;max-width:600px"></canvas>
     </main>
@@ -137,16 +137,13 @@
         function getKey(date){
             return `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
-        
+
         function getUniqueKey(date){
             return `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
 
         const nameSpace = "decaquizzler333";
         const dayOfWeekDict = ["Sun","Mon","Tues","Wed", "Thurs", "Fri", "Sat"];
-
-        const uniqueVisits = document.getElementById("unique-visits");
-        const visits = document.getElementById("visits");
 
         const week = getWeek();
         const weeklyVisits = [fetchVisits(getKey(week[0])),fetchVisits(getKey(week[1])),fetchVisits(getKey(week[2])),fetchVisits(getKey(week[3])),fetchVisits(getKey(week[4])),fetchVisits(getKey(week[5])),fetchVisits(getKey(week[6]))];

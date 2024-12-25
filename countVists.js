@@ -27,18 +27,18 @@ if(localStorage.getItem("uniqueVisit") === null){
         console.error(error);
     });
 }
-fetch(`https://abacus.jasoncameron.dev/set/${visitsKey}?value=15`, {
-    method: "POST",
-    body: JSON.stringify({
-    //   "value": 10,
-        "Authorization": `Bearer ${visitsAdminKey}`
-    }), 
-    // headers: {
-    //   "Authorization": `Bearer ${visitsAdminKey}`
-    // }
-  }).then( response => {
-    console.log(response.status);
-});   
+// fetch(`https://abacus.jasoncameron.dev/set/${visitsKey}?value=15`, {
+//     method: "POST",
+//     body: JSON.stringify({
+//     //   "value": 10,
+//         "Authorization": `Bearer ${visitsAdminKey}`
+//     }), 
+//     // headers: {
+//     //   "Authorization": `Bearer ${visitsAdminKey}`
+//     // }
+//   }).then( response => {
+//     console.log(response.status);
+// });   
 
 
 // fetch("visits.json")

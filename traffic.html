@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;400;700&family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width,initial-scale=0.5">
+    <meta http-equiv="refresh" content="60">
 </head>
 
 
@@ -109,13 +110,13 @@
     </main>
 
     <script>
-        const vistsKey = "decaquizzler123";
-        const uniqueVistsKey = "decaquizzlerunique123";
+        const visitsKey = "decaquizzler1234";
+        const uniqueVisitsKey = "decaquizzlerunique1234";
 
-        const uniqueVists = document.getElementById("unique-visits");
-        const vists = document.getElementById("visits");
+        const uniqueVisits = document.getElementById("unique-visits");
+        const visits = document.getElementById("visits");
 
-        fetch(`https://abacus.jasoncameron.dev/get/${vistsKey}/`)
+        fetch(`https://abacus.jasoncameron.dev/get/${visitsKey}/`)
             .then( response => {
                 if(!response.ok){
                     throw new Error("API error");
@@ -123,12 +124,12 @@
                 return response.json();
             }
         ).then(data => {
-            vists.textContent = `Visits: ${data['value']}`;
+            visits.textContent = `Visits: ${data['value']}`;
         }).catch(error => {
             console.error(error);
         });
 
-        fetch(`https://abacus.jasoncameron.dev/get/${uniqueVistsKey}/`)
+        fetch(`https://abacus.jasoncameron.dev/get/${uniqueVisitsKey}/`)
             .then( response => {
                 if(!response.ok){
                     throw new Error("API error");
@@ -136,7 +137,7 @@
                 return response.json();
             }
         ).then(data => {
-            uniqueVists.textContent = `Unique Visits: ${data['value']}`;
+            uniqueVisits.textContent = `Unique Visits: ${data['value']}`;
         }).catch(error => {
             console.error(error);
         });

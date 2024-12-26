@@ -106,9 +106,13 @@
         <canvas id="uniqueVisitsChart" style="width:100%;max-width:600px"></canvas>
         
         <h2 id="visits" class="sectorHeading">
-            Activity
+            Visits
         </h2>
         <canvas id="visitsChart" style="width:100%;max-width:600px"></canvas>
+        <h2 id="activity" class="sectorHeading">
+            Activity
+        </h2>
+        <canvas id="activityChart" style="width:100%;max-width:600px"></canvas>
     </main>
 
     <script>
@@ -134,20 +138,54 @@
             return week;
         }
 
-        function getKey(date){
+        function getActivityKey(date){
             return `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
 
-        function getUniqueKey(date){
+        function getUniqueVisitsKey(date){
             return `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
+        }
+
+        function getVisitsKey(date){
+            return `v${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
 
         const nameSpace = "decaquizzler333";
         const dayOfWeekDict = ["Sun","Mon","Tues","Wed", "Thurs", "Fri", "Sat"];
 
         const week = getWeek();
-        const weeklyVisits = [fetchVisits(getKey(week[0])),fetchVisits(getKey(week[1])),fetchVisits(getKey(week[2])),fetchVisits(getKey(week[3])),fetchVisits(getKey(week[4])),fetchVisits(getKey(week[5])),fetchVisits(getKey(week[6]))];
-        const weeklyUniqueVisits = [fetchVisits(getUniqueKey(week[0])),fetchVisits(getUniqueKey(week[1])),fetchVisits(getUniqueKey(week[2])),fetchVisits(getUniqueKey(week[3])),fetchVisits(getUniqueKey(week[4])),fetchVisits(getUniqueKey(week[5])),fetchVisits(getUniqueKey(week[6]))];
+        const weeklyActivity = [fetchVisits(getActivityKey(week[0])),fetchVisits(getActivityKey(week[1])),fetchVisits(getActivityKey(week[2])),fetchVisits(getActivityKey(week[3])),fetchVisits(getActivityKey(week[4])),fetchVisits(getActivityKey(week[5])),fetchVisits(getActivityKey(week[6]))];
+        const weeklyUniqueVisits = [fetchVisits(getUniqueVisitsKey(week[0])),fetchVisits(getUniqueVisitsKey(week[1])),fetchVisits(getUniqueVisitsKey(week[2])),fetchVisits(getUniqueVisitsKey(week[3])),fetchVisits(getUniqueVisitsKey(week[4])),fetchVisits(getUniqueVisitsKey(week[5])),fetchVisits(getUniqueVisitsKey(week[6]))];
+        const weeklyVisits = [fetchVisits(getVisitsKey(week[0])),fetchVisits(getVisitsKey(week[1])),fetchVisits(getVisitsKey(week[2])),fetchVisits(getVisitsKey(week[3])),fetchVisits(getVisitsKey(week[4])),fetchVisits(getVisitsKey(week[5])),fetchVisits(getVisitsKey(week[6]))];
+
+        Promise.all(weeklyActivity)
+        .then( 
+            data =>{
+                const xValues = [dayOfWeekDict[week[0].getDay()], dayOfWeekDict[week[1].getDay()],dayOfWeekDict[week[2].getDay()],dayOfWeekDict[week[3].getDay()],dayOfWeekDict[week[4].getDay()],dayOfWeekDict[week[5].getDay()],dayOfWeekDict[week[6].getDay()]];
+                const yValues = data;
+
+                new Chart("activityChart", {
+                    type: "line",
+                    data: {
+                        labels: xValues,
+                        datasets: [{
+                        fill: false,
+                        lineTension: 0,
+                        backgroundColor: "rgba(0,0,255,1.0)",
+                        borderColor: "rgba(0,0,255,0.1)",
+                        data: yValues
+                        }]
+                    },
+                    options: {
+                        legend: {display: false},
+                        scales: {
+                        yAxes: [{ticks: {min: 0, max: Math.max(...data) }}],
+                        }
+                    }
+                });
+                
+            }
+        );
 
         Promise.all(weeklyVisits)
         .then( 
@@ -174,7 +212,6 @@
                         }
                     }
                 });
-                
             }
         );
 

@@ -117,9 +117,8 @@
         const icdcExams = document.querySelector(".icdcExams");
         const sampleExams = document.querySelector('.sampleExams');
         const unitExam = document.querySelector('.unitExam');
-
         if(sessionStorage.getItem("BMA") != null){
-            let storedExams = sessionStorage.getItem("BMA").split(','); 
+            let storedExams = sessionStorage.getItem("BMA").split(',');
             for (const item of storedExams){
                 const words = item.split('-');
                 const ending = words[words.length-1];
@@ -131,6 +130,12 @@
                 `;
                 }else if(ending === "SAMPLE"){
                     sampleExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else if(ending === "UNIT"){
+                    unitExam.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
@@ -155,11 +160,18 @@
                 const examsHeading = document.getElementById("sample-exams");
                 examsHeading.style.display = "block";
             }
+            if (unitExam.childElementCount !== 0){
+                const unitExamHeading = document.getElementById("unit-exam");
+                unitExamHeading.style.display = "block";
+            }
         }else{
-            fetch("BMA.json")
+            fetch("data/BMA.json")
             .then(response => response.json())
             .then(data => {
-                for(const key of Object.keys(data)){
+                let exams = Object.keys(data);
+                exams.push("9999-BMA-UNIT");
+
+                for(const key of exams){
                     const words = key.split('-');
                     const ending = words[words.length-1];
                     if(ending === "ICDC"){
@@ -170,6 +182,12 @@
                     `;
                     }else if(ending === "SAMPLE"){
                         sampleExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
+                        </li>
+                    `;
+                    }else if(ending === "UNIT"){
+                        unitExam.innerHTML += `
                         <li>
                             <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
@@ -194,17 +212,15 @@
                     const examsHeading = document.getElementById("sample-exams");
                     examsHeading.style.display = "block";
                 }
+                if (unitExam.childElementCount !== 0){
+                    const unitExamHeading = document.getElementById("unit-exam");
+                    unitExamHeading.style.display = "block";
+                }
                 
-                sessionStorage.setItem("BMA", Object.keys(data));
+                sessionStorage.setItem("BMA", exams);
             });
         }
-        const unitExamHeading = document.getElementById("unit-exam");
-        unitExamHeading.style.display = "block";
-        unitExam.innerHTML += `
-            <li>
-                <a href = "quiz.html?exam=9999-BMA-UNIT">9999-BMA-UNIT</a>
-            </li>
-        `;
+       
      
     </script>
 

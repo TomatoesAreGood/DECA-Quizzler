@@ -119,7 +119,7 @@
         const unitExam = document.querySelector('.unitExam');
 
         if(sessionStorage.getItem("MKT") != null){
-            let storedExams = sessionStorage.getItem("MKT").split(','); 
+            let storedExams = sessionStorage.getItem("MKT").split(',');
             for (const item of storedExams){
                 const words = item.split('-');
                 const ending = words[words.length-1];
@@ -131,6 +131,12 @@
                 `;
                 }else if(ending === "SAMPLE"){
                     sampleExams.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
+                }else if(ending === "UNIT"){
+                    unitExam.innerHTML += `
                     <li>
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
@@ -155,11 +161,18 @@
                 const examsHeading = document.getElementById("sample-exams");
                 examsHeading.style.display = "block";
             }
+            if (unitExam.childElementCount !== 0){
+                const unitExamHeading = document.getElementById("unit-exam");
+                unitExamHeading.style.display = "block";
+            }
         }else{
-            fetch("MKT.json")
+            fetch("data/MKT.json")
             .then(response => response.json())
             .then(data => {
-                for(const key of Object.keys(data)){
+                let exams = Object.keys(data);
+                exams.push("9999-MKT-UNIT");
+
+                for(const key of exams){
                     const words = key.split('-');
                     const ending = words[words.length-1];
                     if(ending === "ICDC"){
@@ -170,6 +183,12 @@
                     `;
                     }else if(ending === "SAMPLE"){
                         sampleExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
+                        </li>
+                    `;
+                    }else if(ending === "UNIT"){
+                        unitExam.innerHTML += `
                         <li>
                             <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
@@ -194,16 +213,14 @@
                     const examsHeading = document.getElementById("sample-exams");
                     examsHeading.style.display = "block";
                 }
-                sessionStorage.setItem("MKT", Object.keys(data));
+                if (unitExam.childElementCount !== 0){
+                    const unitExamHeading = document.getElementById("unit-exam");
+                    unitExamHeading.style.display = "block";
+                }
+                
+                sessionStorage.setItem("MKT", exams);
             });
         }
-        const unitExamHeading = document.getElementById("unit-exam");
-        unitExamHeading.style.display = "block";
-        unitExam.innerHTML += `
-            <li>
-                <a href = "quiz.html?exam=9999-MKT-UNIT">9999-MKT-UNIT</a>
-            </li>
-        `;
         
     </script>
 

@@ -70,7 +70,7 @@ if(examName.substring(examName.length-4, examName.length) === "UNIT"){
     isUnitTest = true;
 }
 
-fetch(`${sector}.json`)
+fetch(`data/${sector}.json`)
 .then(response => {
     if(response.ok){
         return response.json();

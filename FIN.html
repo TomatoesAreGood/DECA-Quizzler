@@ -135,6 +135,12 @@
                         <a href = "quiz.html?exam=${item}">${item}</a>
                     </li>
                 `;
+                }else if(ending === "UNIT"){
+                    unitExam.innerHTML += `
+                    <li>
+                        <a href = "quiz.html?exam=${item}">${item}</a>
+                    </li>
+                `;
                 }else{
                     otherExams.innerHTML += `
                     <li>
@@ -155,11 +161,18 @@
                 const examsHeading = document.getElementById("sample-exams");
                 examsHeading.style.display = "block";
             }
+            if (unitExam.childElementCount !== 0){
+                const unitExamHeading = document.getElementById("unit-exam");
+                unitExamHeading.style.display = "block";
+            }
         }else{
-            fetch("FIN.json")
+            fetch("data/FIN.json")
             .then(response => response.json())
             .then(data => {
-                for(const key of Object.keys(data)){
+                let exams = Object.keys(data);
+                exams.push("9999-FIN-UNIT");
+
+                for(const key of exams){
                     const words = key.split('-');
                     const ending = words[words.length-1];
                     if(ending === "ICDC"){
@@ -170,6 +183,12 @@
                     `;
                     }else if(ending === "SAMPLE"){
                         sampleExams.innerHTML += `
+                        <li>
+                            <a href = "quiz.html?exam=${key}">${key}</a>
+                        </li>
+                    `;
+                    }else if(ending === "UNIT"){
+                        unitExam.innerHTML += `
                         <li>
                             <a href = "quiz.html?exam=${key}">${key}</a>
                         </li>
@@ -194,16 +213,15 @@
                     const examsHeading = document.getElementById("sample-exams");
                     examsHeading.style.display = "block";
                 }
-                sessionStorage.setItem("FIN", Object.keys(data));
+                if (unitExam.childElementCount !== 0){
+                    const unitExamHeading = document.getElementById("unit-exam");
+                    unitExamHeading.style.display = "block";
+                }
+                
+                sessionStorage.setItem("FIN", exams);
             });
         }
-        const unitExamHeading = document.getElementById("unit-exam");
-        unitExamHeading.style.display = "block";
-        unitExam.innerHTML += `
-            <li>
-                <a href = "quiz.html?exam=9999-FIN-UNIT">9999-FIN-UNIT</a>
-            </li>
-        `;
+       
         
     </script>
 

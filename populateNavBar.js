@@ -18,7 +18,7 @@ async function fetchEnt(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("ENT.json")
+        fetch("data/ENT.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
@@ -49,7 +49,7 @@ async function fetchFin(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("FIN.json")
+        fetch("data/FIN.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
@@ -80,7 +80,7 @@ async function fetchMkt(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("MKT.json")
+        fetch("data/MKT.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
@@ -111,7 +111,7 @@ async function fetchHnt(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("HnT.json")
+        fetch("data/HnT.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
@@ -142,7 +142,7 @@ async function fetchBma(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("BMA.json")
+        fetch("data/BMA.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);
@@ -181,7 +181,7 @@ async function fetchCore(){
         }
         allExams = allExams.concat(storedExams);
     }else{
-        fetch("CORE.json")
+        fetch("data/CORE.json")
         .then(response => response.json())
         .then(data => {
             let exams = Object.keys(data);

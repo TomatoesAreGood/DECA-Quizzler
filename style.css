@@ -610,3 +610,11 @@ input:checked + .slider:before {
         display: block !important;
     }
 }
+
+/* TRAFFIC */
+.row{
+    display: flex;
+}
+.col{
+    flex: 33.33%;
+}

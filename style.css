@@ -173,7 +173,7 @@ ul h3{
     border-radius: 5px;
     margin-right: 20px;
 }
-.row{
+.search-box-row{
     display: flex;
     align-items: center;
     padding: 5px 15px;
@@ -612,9 +612,25 @@ input:checked + .slider:before {
 }
 
 /* TRAFFIC */
-.row{
+.traffic-row {
     display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
 }
-.col{
-    flex: 33.33%;
+
+.col {
+    flex: 1;
+    min-width: 300px;
+}
+
+/* Full-width charts on mobile */
+@media (max-width: 768px) {
+    .col {
+        flex: 0 0 100%; /* Make the columns take up the entire width */
+    }
+}
+
+canvas {
+    width: 100%;
+    max-width: 100%; /* Ensure canvas spans full width */
 }

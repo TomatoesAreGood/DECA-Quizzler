@@ -1,5 +1,5 @@
 # DECA Quizzler
-A minimalistic DECA quizzing application which contains questions from past ENT, FIN, MKT, H&T and CORE exams. Access the website [here](https://tomatoesaregood.github.io/DECA-Quizzler/).
+A minimalistic DECA quizzing application which contains questions from past ENT, FIN, MKT, H&T and CORE exams. Access the website here: [https://decaquizzler.com](https://decaquizzler.com).
 
 ## Features
 - Simple, easy to navigate interface

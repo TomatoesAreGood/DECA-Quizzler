@@ -14,10 +14,15 @@ Access the website here: [https://decaquizzler.com](https://decaquizzler.com).
 - Convenient search bar to find specific exams
 
 ## Desktop
-![image](https://github.com/user-attachments/assets/474563fb-571f-4ecc-b7fe-4003f0ae3529)
-![image](https://github.com/user-attachments/assets/9cb20880-ef14-42ab-b11b-689fad931c8b)
-![image](https://github.com/user-attachments/assets/93144972-9781-45a6-8551-69eb44ccc5e7)
-![image](https://github.com/user-attachments/assets/b25e71f6-5b30-4ffe-8780-907c77928cc6)
+
+<p align="middle">
+  <img src="https://github.com/user-attachments/assets/474563fb-571f-4ecc-b7fe-4003f0ae3529" width="45%"/>
+  <img src="https://github.com/user-attachments/assets/9cb20880-ef14-42ab-b11b-689fad931c8b" width="45%"/> 
+</p>
+<p align="middle">
+  <img src="https://github.com/user-attachments/assets/93144972-9781-45a6-8551-69eb44ccc5e7" width="45%"/>
+  <img src="https://github.com/user-attachments/assets/b25e71f6-5b30-4ffe-8780-907c77928cc6" width="45%"/> 
+</p>
 
 ## Mobile
 <p align="middle">

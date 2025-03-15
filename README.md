@@ -1,5 +1,5 @@
 # DECA Quizzler
-A minimalistic DECA quizzing application which contains questions from past ENT (Entrepreneurship), BMA (Business Management and Administration), FIN (Finance), MKT (Marketing), H&T (Hospitality and Tourism) and CORE (General Knowledge) exams. 
+A minimalistic DECA quizzing application which contains questions from past ENT (Entrepreneurship), BMA (Business Management and Administration), FIN (Finance), MKT (Marketing), H&T (Hospitality and Tourism) and CORE (General Knowledge) exams.
 <br /> 
 <br />
 Access the website here: [https://decaquizzler.com](https://decaquizzler.com).

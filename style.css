@@ -92,7 +92,7 @@ ul h3{
     position: fixed;
     top: 0;
     right: 0;
-    height: 432px;
+    height: 487px;
     width: 350px;
     z-index: 999;
     box-shadow: -10px 0 10px rgba(0,0,0,0.1);
@@ -278,6 +278,7 @@ ul h3{
     font-size: large;
 }
 #question-box{
+    position: relative;
     padding: 25px;
     margin-inline: auto;
     align-items: center;
@@ -377,6 +378,38 @@ ul h3{
     border-radius: 5px;
     cursor: pointer;
     display: inline-block;
+}
+
+#fav-btn{
+    position: absolute;
+    background: transparent;
+    border: none;
+    top: 6px;
+    right: 24px;
+    outline: none;
+    font-size: 20px;
+}
+
+#fav-btn :hover{
+    cursor: pointer;
+}
+.icon-stack {
+    position: relative;
+    display: inline-block;
+}
+.icon-stack .bottom,
+.icon-stack .top {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.icon-stack .top {
+    pointer-events: none;
+}
+.icon-stack .bottom {
+    color: transparent;
 }
 
 /* Slider */
@@ -566,7 +599,7 @@ input:checked + .slider:before {
     }
 }
 
-@media screen and (max-width: 1090px) {
+@media screen and (max-width: 1210px) {
 	.sectorList {
 		--num-cols: 2;
 		--row-height: 200px;
@@ -596,7 +629,7 @@ input:checked + .slider:before {
         grid-template-columns: repeat(2, minmax(100px, 1fr));
     }
 }
-@media(max-width: 1090px){
+@media(max-width: 1210px){
     .search-box{
         width: 250px;
         background: #fff;

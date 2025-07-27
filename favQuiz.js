@@ -1,17 +1,3 @@
-const params = new URLSearchParams(window.location.search);
-let examName = params.get('exam');
-const startNum = params.get('number');
-let sector;
-
-if(examName !== null){
-    sector = examName.substring(5,8);
-    if(sector === "COR"){
-        sector = "CORE";
-    }
-}else{
-    sector = "";
-}
-
 function shuffle(array) {
     let currentIndex = array.length;
     while (currentIndex != 0) {
@@ -50,6 +36,30 @@ function toggleFavBtn(){
     }
 }
 
+async function getQuestions(sector, questionData){
+    console.log(sector);
+    console.log(questionData);
+
+    if(questionData.length == 0){
+        return [];
+    }
+    const response = await fetch(`data/${sector}.json`);
+    const data = await response.json();
+    let favQuestions = [];
+
+    for (let i = 0; i < Object.entries(questionData).length; i++){
+        if(Object.entries(questionData)[i][1].length > 0){
+            let examName = questionData[i][0];
+            let questionNumbers = questionData[i][1];
+            for (var j = 0; j < questionNumbers.length; j++){
+                question = data[examName][questionNumbers[j]-1];
+                question['exam'] = examName;
+                favQuestions = favQuestions.concat(question);
+            }
+        }
+    }
+    return favQuestions;
+}
 
 const buttonsText = document.querySelectorAll(".quiz #choices .btn #btn-text");
 const buttons = document.querySelectorAll(".quiz #choices .btn");
@@ -71,32 +81,48 @@ const confirmExitModal = document.getElementById("confirmExitModal");
 const modal = document.getElementById("incorrectModal");
 const okButton = document.getElementById("hideModalButton");
 const modalText = document.getElementById("modalText");
-let isUnitTest = false;
 
 const favButton = document.getElementById('fav-btn');
 const favButtonIcon = favButton.querySelector('i');
 
-if(examName.substring(examName.length-4, examName.length) === "UNIT"){
-    sector = examName.substring(5, examName.length);
-    isUnitTest = true;
-}
+let favExams = JSON.parse(localStorage.getItem('favExams'));
 
-fetch(`data/${sector}.json`)
-.then(response => {
-    if(response.ok){
-        return response.json();
-    }else{
-        throw 'file does not exist';
+if(favExams === null || Object.entries(favExams).length === 0){
+    const quiz = document.querySelector(".quiz");
+    quiz.innerHTML = `
+        <h1>Favorited questions will show up here</h1>
+    `;
+}else{
+    let foundSectors = {"ENT": [], "FIN": [], "MKT": [], "HnT": [], "CORE": [], "BMA": []};
+    for(let i = 0; i < Object.keys(favExams).length; i++){
+        let sector = Object.keys(favExams)[i].substring(5,8);
+        if(sector === "COR"){
+            foundSectors["CORE"].push(Object.entries(favExams)[i]);
+        }
+        if(sector in foundSectors){
+            foundSectors[sector].push(Object.entries(favExams)[i]);
+        }   
     }
-})
-.then(data => {
-    if (examName in data){
-        let questions = data[examName];
+
+    const promiseQuesitons = [
+        getQuestions("ENT",foundSectors['ENT']),
+        getQuestions("FIN",foundSectors['FIN']),
+        getQuestions("MKT",foundSectors['MKT']),
+        getQuestions("HnT",foundSectors['HnT']),
+        getQuestions("BMA",foundSectors['BMA']),
+        getQuestions("CORE",foundSectors['CORE'])
+    ];
+    
+    Promise.all(promiseQuesitons).then(function(results){
+        let questions = results.flat();
         let currentQuestionIndex = 0;
         let numCorrect = 0;
         let questionsAnswered = 0;
         let incorrectQuestions = [];
         let isSlowMode = false;
+        let examName = "FAV-EXAM";
+
+        console.log(questions);
 
         function showSummary(){
             incorrectQuestions.sort(function(a, b) {
@@ -107,46 +133,23 @@ fetch(`data/${sector}.json`)
                 <h1>${examName.replace(/HnT/g, "H&T")} Summary</h1>
                 <p>You got ${numCorrect}/${questionsAnswered} correct. These are the questions you got wrong: </p>
             `;
-            if(isUnitTest){
-                for (let i = 0; i < incorrectQuestions.length; i++){
-                    quiz.innerHTML += `
-                        <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} (${incorrectQuestions[i]['exam']})</h3>
-                    `;
-                    for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
-                        if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
-                            quiz.innerHTML += ` 
-                                <p class="underline">
-                                    ${incorrectQuestions[i]['choices'][j]}
-                                </p>
-                            `;
-                        }else{
-                            quiz.innerHTML += ` 
-                                <p>
-                                    ${incorrectQuestions[i]['choices'][j]}
-                                </p>
-                            `;
-                        }
-                    }
-                }
-            }else{
-                for (let i = 0; i < incorrectQuestions.length; i++){
-                    quiz.innerHTML += `
-                        <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} </h3>
-                    `;
-                    for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
-                        if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
-                            quiz.innerHTML += ` 
-                                <p class="underline">
-                                    ${incorrectQuestions[i]['choices'][j]}
-                                </p>
-                            `;
-                        }else{
-                            quiz.innerHTML += ` 
-                                <p>
-                                    ${incorrectQuestions[i]['choices'][j]}
-                                </p>
-                            `;
-                        }
+            for (let i = 0; i < incorrectQuestions.length; i++){
+                quiz.innerHTML += `
+                    <h3 class="question-summary">${incorrectQuestions[i]['number']}. ${incorrectQuestions[i]['question']} (${incorrectQuestions[i]['exam']})</h3>
+                `;
+                for (let j = 0; j < incorrectQuestions[i]['choices'].length; j++){
+                    if(incorrectQuestions[i]['choices'][j].substring(0,1) === incorrectQuestions[i]['answer']){
+                        quiz.innerHTML += ` 
+                            <p class="underline">
+                                ${incorrectQuestions[i]['choices'][j]}
+                            </p>
+                        `;
+                    }else{
+                        quiz.innerHTML += ` 
+                            <p>
+                                ${incorrectQuestions[i]['choices'][j]}
+                            </p>
+                        `;
                     }
                 }
             }
@@ -177,8 +180,10 @@ fetch(`data/${sector}.json`)
                 return;
             }
             let favExams = JSON.parse(localStorage.getItem('favExams'));
-            if(examName in favExams){
-                if(favExams[examName].includes(questions[currentQuestionIndex]['number'])){
+                        console.log(favExams);
+
+            if(questions[currentQuestionIndex]['exam'] in favExams){
+                if(favExams[questions[currentQuestionIndex]['exam']].includes(questions[currentQuestionIndex]['number'])){
                     favButtonIcon.style.color = 'yellow';
                 }
             }
@@ -222,11 +227,8 @@ fetch(`data/${sector}.json`)
             updateFavButton();
 
             let currentQuestion = questions[currentQuestionIndex];
-            if(isUnitTest){
-                displayQuestion.textContent = `(${currentQuestion['exam']}) ${currentQuestion['question']}`;
-            }else{
-                displayQuestion.textContent = `${currentQuestion['question']}`;
-            }
+            displayQuestion.textContent = `(${currentQuestion['exam']}) ${currentQuestion['question']}`;
+            
             questionNumber.textContent = currentQuestion['number'];
 
             for (let i = 0; i < currentQuestion['choices'].length; i++){
@@ -288,30 +290,24 @@ fetch(`data/${sector}.json`)
         favButton.addEventListener('click', function(){
             toggleFavBtn();
             let favExams = JSON.parse(localStorage.getItem('favExams'));
-            let realExamName;
-
-            if(isUnitTest){
-                realExamName = questions[currentQuestionIndex]['exam'];
-            } else{
-                realExamName = examName;  
-            }
+            const questionExamName = questions[currentQuestionIndex]['exam'];
 
             if(favButtonIcon.style.color === "yellow"){
                 if(favExams === null){
-                    localStorage.setItem('favExams', JSON.stringify({[realExamName]:[questions[currentQuestionIndex]['number']]}));
+                    localStorage.setItem('favExams', JSON.stringify({[questionExamName]:[questions[currentQuestionIndex]['number']]}));
                 }else{
-                    if(realExamName in favExams){
-                        favExams[realExamName].push(questions[currentQuestionIndex]['number']);
+                    if(questionExamName in favExams){
+                        favExams[questionExamName].push(questions[currentQuestionIndex]['number']);
                     }else{
-                        favExams[realExamName] = [questions[currentQuestionIndex]['number']];
+                        favExams[questionExamName] = [questions[currentQuestionIndex]['number']];
                     }
                     localStorage.setItem('favExams', JSON.stringify(favExams));
                 }
             }else{
-                let index = favExams[realExamName].indexOf(questions[currentQuestionIndex]['number']);
-                favExams[realExamName].splice(index,1);
-                if(favExams[realExamName].length === 0){
-                    delete favExams[realExamName];
+                const index = favExams[questionExamName].indexOf(questions[currentQuestionIndex]['number']);
+                favExams[questionExamName].splice(index,1);
+                if(favExams[questionExamName].length === 0){
+                    delete favExams[questionExamName];
                 }
                 localStorage.setItem('favExams', JSON.stringify(favExams));
             }
@@ -332,20 +328,9 @@ fetch(`data/${sector}.json`)
             }
         }
 
-        if(startNum !== null && startNum <= 100){
-            currentQuestionIndex = startNum - 1;
-        }
-
         quizName.textContent = examName.replace(/HnT/g, "H&T");
         sort(questions);
         showQuestion();
-    }else{
-        throw 'exam does not exist';
-    }
-}).catch(error => {     
-    const quiz = document.querySelector(".quiz");
-    quiz.innerHTML = `
-        <h1>Error 404: Exam ${examName} not found</h1>
-    `;
-})
+    });
+}
 

@@ -9,7 +9,7 @@ function deleteExtraLocalStorage(){
     i = keys.length;
 
     while (i--){
-        if(keys[i] !== "uniqueVisit" && keys[i] !== activityKey){
+        if(keys[i] !== "uniqueVisit" && keys[i] !== activityKey && keys[i] != "favExams"){
             localStorage.removeItem(keys[i]);
         }
     }

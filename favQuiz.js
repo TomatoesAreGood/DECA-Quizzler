@@ -81,6 +81,7 @@ const confirmExitModal = document.getElementById("confirmExitModal");
 const modal = document.getElementById("incorrectModal");
 const okButton = document.getElementById("hideModalButton");
 const modalText = document.getElementById("modalText");
+const modalHeader = document.getElementById('modalHeader');
 
 const favButton = document.getElementById('fav-btn');
 const favButtonIcon = favButton.querySelector('i');
@@ -271,6 +272,8 @@ if(favExams === null || Object.entries(favExams).length === 0){
         });
 
         showExplanationButton.addEventListener('click', function(){
+            modalHeader.innerText = 'EXPLANATION';
+            modalHeader.style.color = "#079e28";
             modal.style.display = 'block';
         });
 
@@ -285,6 +288,8 @@ if(favExams === null || Object.entries(favExams).length === 0){
 
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
+            modalHeader.innerText = 'WRONG';
+            modalHeader.style.color = '#FF2F6A';
         });
 
         favButton.addEventListener('click', function(){
@@ -322,6 +327,8 @@ if(favExams === null || Object.entries(favExams).length === 0){
                     currentQuestionIndex++;
                     showQuestion();
                 }
+                modalHeader.innerText = 'WRONG';
+                modalHeader.style.color = '#FF2F6A';
             }
             if(event.target === confirmExitModal){
                 confirmExitModal.style.display = "none";

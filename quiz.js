@@ -71,6 +71,7 @@ const confirmExitModal = document.getElementById("confirmExitModal");
 const modal = document.getElementById("incorrectModal");
 const okButton = document.getElementById("hideModalButton");
 const modalText = document.getElementById("modalText");
+const modalHeader = document.getElementById('modalHeader');
 let isUnitTest = false;
 
 const favButton = document.getElementById('fav-btn');
@@ -182,7 +183,6 @@ fetch(`data/${sector}.json`)
                     favButtonIcon.style.color = 'yellow';
                 }
             }
-            console.log(localStorage.getItem('favExams'));
         }
 
         function selectAnswer(e){
@@ -269,6 +269,8 @@ fetch(`data/${sector}.json`)
         });
 
         showExplanationButton.addEventListener('click', function(){
+            modalHeader.innerText = 'EXPLANATION';
+            modalHeader.style.color = "#079e28";
             modal.style.display = 'block';
         });
 
@@ -283,6 +285,8 @@ fetch(`data/${sector}.json`)
 
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
+            modalHeader.innerText = 'WRONG';
+            modalHeader.style.color = '#FF2F6A';
         });
 
         favButton.addEventListener('click', function(){
@@ -326,6 +330,8 @@ fetch(`data/${sector}.json`)
                     currentQuestionIndex++;
                     showQuestion();
                 }
+                modalHeader.innerText = 'WRONG';
+                modalHeader.style.color = '#FF2F6A';
             }
             if(event.target === confirmExitModal){
                 confirmExitModal.style.display = "none";

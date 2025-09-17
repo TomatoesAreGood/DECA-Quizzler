@@ -108,6 +108,10 @@
         <p class="header-subtext">
             Definitely not using cookies
         </p>
+        <select id="date-range-btn" name="select"> 
+            <option value="">  </option> 
+        </select>
+
         <div class="traffic-row">
             <div class="col">
                 <h2 id="unique-visits" class="sectorHeading">
@@ -133,132 +137,137 @@
     </main>
 
     <script>
-        async function fetchVisits(key){
-            return await fetch(`https://abacus.jasoncameron.dev/get/${nameSpace}/${key}`)
-            .then(response => {
-                if(!response.ok){
-                    throw new Error();
-                }
-                return response.json();
-            }).then(data => {
-                return data['value'];
-            }).catch(error =>{ return 0;});
-        }
+        const nameSpace = "decaquizzler333";
+        const dayOfWeekDict = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"];
+        const dateRangeButton = document.getElementById('date-range-btn');
+        const currentDate = new Date();
+        const oneWeekOffsetDate = new Date(currentDate.getTime() - (6 * 24 * 60 * 60 * 1000));
 
-        function getWeek(){
-            const currentDate = new Date();
-            let week = Array.apply(null, Array(7));
-            for (var i = 0;i < 7;i++){
-                let index = 6-i;
-                week[index] = new Date(currentDate.getTime() - i * 24 * 60 * 60 * 1000);
+        dateRangeButton.children[0].innerText = `${oneWeekOffsetDate.getFullYear()}/${oneWeekOffsetDate.getMonth()}/${oneWeekOffsetDate.getDate()} - ${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()}`;
+        dateRangeButton.children[0].value = "0";
+
+        let weekOffset = 0;
+        let currentLoadToken = 0;
+
+        let charts = {
+            activity: null,
+            visits: null,
+            unique: null
+        };
+
+        function getDateOffsetWeek(offset = 0){
+            const msInDay = 24 * 60 * 60 * 1000;
+            return new Date(currentDate.getTime() - offset * 6 * msInDay);
+        }   
+        
+        function getWeek(offset = 0) {
+            let week = Array(7);
+            for (let i = 0; i < 7; i++) {
+                let index = 6 - i;
+                const dayOffset = (i + offset * 7) * 24 * 60 * 60 * 1000;
+                week[index] = new Date(currentDate.getTime() - dayOffset);
+                console.log(week[index].getDate())
             }
             return week;
         }
 
-        function getActivityKey(date){
+        function getActivityKey(date) {
             return `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
-
-        function getUniqueVisitsKey(date){
+        function getUniqueVisitsKey(date) {
             return `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
-
-        function getVisitsKey(date){
+        function getVisitsKey(date) {
             return `v${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
         }
 
-        const nameSpace = "decaquizzler333";
-        const dayOfWeekDict = ["Sun","Mon","Tues","Wed", "Thurs", "Fri", "Sat"];
+        async function fetchVisits(key) {
+            return await fetch(`https://abacus.jasoncameron.dev/get/${nameSpace}/${key}`)
+                .then(response => {
+                    if (!response.ok) throw new Error();
+                    return response.json();
+                })
+                .then(data => data['value'])
+                .catch(error => 0);
+        }
 
-        const week = getWeek();
-        const weeklyActivity = [fetchVisits(getActivityKey(week[0])),fetchVisits(getActivityKey(week[1])),fetchVisits(getActivityKey(week[2])),fetchVisits(getActivityKey(week[3])),fetchVisits(getActivityKey(week[4])),fetchVisits(getActivityKey(week[5])),fetchVisits(getActivityKey(week[6]))];
-        const weeklyUniqueVisits = [fetchVisits(getUniqueVisitsKey(week[0])),fetchVisits(getUniqueVisitsKey(week[1])),fetchVisits(getUniqueVisitsKey(week[2])),fetchVisits(getUniqueVisitsKey(week[3])),fetchVisits(getUniqueVisitsKey(week[4])),fetchVisits(getUniqueVisitsKey(week[5])),fetchVisits(getUniqueVisitsKey(week[6]))];
-        const weeklyVisits = [fetchVisits(getVisitsKey(week[0])),fetchVisits(getVisitsKey(week[1])),fetchVisits(getVisitsKey(week[2])),fetchVisits(getVisitsKey(week[3])),fetchVisits(getVisitsKey(week[4])),fetchVisits(getVisitsKey(week[5])),fetchVisits(getVisitsKey(week[6]))];
+        function drawChart(canvasId, labelArray, dataArray, chartKey) {
 
-        Promise.all(weeklyActivity)
-        .then( 
-            data =>{
-                const xValues = [dayOfWeekDict[week[0].getDay()], dayOfWeekDict[week[1].getDay()],dayOfWeekDict[week[2].getDay()],dayOfWeekDict[week[3].getDay()],dayOfWeekDict[week[4].getDay()],dayOfWeekDict[week[5].getDay()],dayOfWeekDict[week[6].getDay()]];
-                const yValues = data;
+            if (charts[chartKey]) {
+                charts[chartKey].destroy();
+            }
 
-                new Chart("activityChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
+            charts[chartKey] = new Chart(canvasId, {
+                type: "line",
+                data: {
+                    labels: labelArray,
+                    datasets: [{
                         fill: false,
                         lineTension: 0,
                         backgroundColor: "rgba(0,0,255,1.0)",
                         borderColor: "rgba(0,0,255,0.1)",
-                        data: yValues
+                        data: dataArray
+                    }]
+                },
+                options: {
+                    legend: { display: false },
+                    scales: {
+                        yAxes: [{
+                            ticks: {
+                                min: 0,
+                                max: Math.max(...dataArray) + 1
+                            }
                         }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        scales: {
-                        yAxes: [{ticks: {min: 0, max: Math.max(...data) }}],
-                        }
                     }
-                });
-                
-            }
-        );
+                }
+            });
+        }
 
-        Promise.all(weeklyVisits)
-        .then( 
-            data =>{
-                const xValues = [dayOfWeekDict[week[0].getDay()], dayOfWeekDict[week[1].getDay()],dayOfWeekDict[week[2].getDay()],dayOfWeekDict[week[3].getDay()],dayOfWeekDict[week[4].getDay()],dayOfWeekDict[week[5].getDay()],dayOfWeekDict[week[6].getDay()]];
-                const yValues = data;
+        async function loadTrafficData(offset = 0) {
+            const thisLoadToken = ++currentLoadToken;
 
-                new Chart("visitsChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                        fill: false,
-                        lineTension: 0,
-                        backgroundColor: "rgba(0,0,255,1.0)",
-                        borderColor: "rgba(0,0,255,0.1)",
-                        data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        scales: {
-                        yAxes: [{ticks: {min: 0, max: Math.max(...data) }}],
-                        }
-                    }
-                });
-            }
-        );
+            const week = getWeek(offset);
+            const xValues = week.map(d => dayOfWeekDict[d.getDay()]);
+            const activityPromises = week.map(d => fetchVisits(getActivityKey(d)));
+            const visitsPromises = week.map(d => fetchVisits(getVisitsKey(d)));
+            const uniquePromises = week.map(d => fetchVisits(getUniqueVisitsKey(d)));
 
-        Promise.all(weeklyUniqueVisits)
-        .then( 
-            data =>{
-                const xValues = [dayOfWeekDict[week[0].getDay()], dayOfWeekDict[week[1].getDay()],dayOfWeekDict[week[2].getDay()],dayOfWeekDict[week[3].getDay()],dayOfWeekDict[week[4].getDay()],dayOfWeekDict[week[5].getDay()],dayOfWeekDict[week[6].getDay()]];
-                const yValues = data;
+            const [activityData, visitsData, uniqueData] = await Promise.all([
+                Promise.all(activityPromises),
+                Promise.all(visitsPromises),
+                Promise.all(uniquePromises)
+            ]);
 
-                new Chart("uniqueVisitsChart", {
-                    type: "line",
-                    data: {
-                        labels: xValues,
-                        datasets: [{
-                        fill: false,
-                        lineTension: 0,
-                        backgroundColor: "rgba(0,0,255,1.0)",
-                        borderColor: "rgba(0,0,255,0.1)",
-                        data: yValues
-                        }]
-                    },
-                    options: {
-                        legend: {display: false},
-                        scales: {
-                        yAxes: [{ticks: {min: 0, max: Math.max(...data) }}],
-                        }
-                    }
-                });
-            }
-        );
+            if (thisLoadToken !== currentLoadToken) return;
+
+            drawChart("activityChart", xValues, activityData, "activity");
+            drawChart("visitsChart", xValues, visitsData, "visits");
+            drawChart("uniqueVisitsChart", xValues, uniqueData, "unique");
+        }
+
+        let maxWeekCap = 24;
+
+        for (let i = 1; i < maxWeekCap; i++){
+            let dateStart = getDateOffsetWeek(i+1);
+            let dateEnd = getDateOffsetWeek(i);
+
+            dateRangeButton.innerHTML += `
+                <option value="${i}"> ${dateStart.getFullYear()}/${dateStart.getMonth()}/${dateStart.getDate()} - ${dateEnd.getFullYear()}/${dateEnd.getMonth()}/${dateEnd.getDate()} </option> 
+            `;
+            dateRangeButton.addEventListener("change", (e) => {
+                weekOffset = parseInt(e.target.value) || 0; 
+                loadTrafficData(weekOffset);
+            });
+        }
+
+        // Initial load
+        loadTrafficData(weekOffset);
+
+        // // Previous week button
+        // document.getElementById("date-range-btn").addEventListener("click", () => {
+        //     weekOffset++;
+        //     loadTrafficData(weekOffset);
+        // });
     </script>
 
     <script src="populateNavBar.js"></script>

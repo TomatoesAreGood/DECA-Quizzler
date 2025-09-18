@@ -143,7 +143,7 @@
         const currentDate = new Date();
         const oneWeekOffsetDate = new Date(currentDate.getTime() - (6 * 24 * 60 * 60 * 1000));
 
-        dateRangeButton.children[0].innerText = `${oneWeekOffsetDate.getFullYear()}/${oneWeekOffsetDate.getMonth()}/${oneWeekOffsetDate.getDate()} - ${currentDate.getFullYear()}/${currentDate.getMonth()}/${currentDate.getDate()}`;
+        dateRangeButton.children[0].innerText = `${oneWeekOffsetDate.getFullYear()}/${oneWeekOffsetDate.getMonth()+1}/${oneWeekOffsetDate.getDate()} - ${currentDate.getFullYear()}/${currentDate.getMonth()+1}/${currentDate.getDate()}`;
         dateRangeButton.children[0].value = "0";
 
         let weekOffset = 0;
@@ -157,7 +157,11 @@
 
         function getDateOffsetWeek(offset = 0){
             const msInDay = 24 * 60 * 60 * 1000;
-            return new Date(currentDate.getTime() - offset * 6 * msInDay);
+            return new Date(currentDate.getTime() - (offset * 7 * msInDay));
+        }   
+        function getDateOffsetWeekStart(offset = 0){
+            const msInDay = 24 * 60 * 60 * 1000;
+            return new Date(currentDate.getTime() - (offset * 7 - 1) * msInDay);
         }   
         
         function getWeek(offset = 0) {
@@ -166,8 +170,8 @@
                 let index = 6 - i;
                 const dayOffset = (i + offset * 7) * 24 * 60 * 60 * 1000;
                 week[index] = new Date(currentDate.getTime() - dayOffset);
-                console.log(week[index].getDate())
             }
+            console.log(week);
             return week;
         }
 
@@ -248,11 +252,11 @@
         let maxWeekCap = 24;
 
         for (let i = 1; i < maxWeekCap; i++){
-            let dateStart = getDateOffsetWeek(i+1);
+            let dateStart = getDateOffsetWeekStart(i+1);
             let dateEnd = getDateOffsetWeek(i);
 
             dateRangeButton.innerHTML += `
-                <option value="${i}"> ${dateStart.getFullYear()}/${dateStart.getMonth()}/${dateStart.getDate()} - ${dateEnd.getFullYear()}/${dateEnd.getMonth()}/${dateEnd.getDate()} </option> 
+                <option value="${i}"> ${dateStart.getFullYear()}/${dateStart.getMonth()+1}/${dateStart.getDate()} - ${dateEnd.getFullYear()}/${dateEnd.getMonth()+1}/${dateEnd.getDate()} </option> 
             `;
             dateRangeButton.addEventListener("change", (e) => {
                 weekOffset = parseInt(e.target.value) || 0; 
@@ -263,11 +267,6 @@
         // Initial load
         loadTrafficData(weekOffset);
 
-        // // Previous week button
-        // document.getElementById("date-range-btn").addEventListener("click", () => {
-        //     weekOffset++;
-        //     loadTrafficData(weekOffset);
-        // });
     </script>
 
     <script src="populateNavBar.js"></script>

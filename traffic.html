@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;400;700&family=Poppins:wght@100;400;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width,initial-scale=0.5">
-    <meta http-equiv="refresh" content="120">
 </head>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
@@ -148,6 +147,7 @@
 
         let weekOffset = 0;
         let currentLoadToken = 0;
+        let maxWeekCap = 32;
 
         let charts = {
             activity: null,
@@ -248,8 +248,6 @@
             drawChart("visitsChart", xValues, visitsData, "visits");
             drawChart("uniqueVisitsChart", xValues, uniqueData, "unique");
         }
-
-        let maxWeekCap = 24;
 
         for (let i = 1; i < maxWeekCap; i++){
             let dateStart = getDateOffsetWeekStart(i+1);

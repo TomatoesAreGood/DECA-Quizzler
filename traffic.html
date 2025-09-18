@@ -110,6 +110,12 @@
         <select id="date-range-btn" name="select"> 
             <option value="">  </option> 
         </select>
+        <button onclick="prevWeek()">
+            Prev
+        </button>
+        <button onclick="nextWeek()">
+            Next
+        </button>
 
         <div class="traffic-row">
             <div class="col">
@@ -154,6 +160,24 @@
             visits: null,
             unique: null
         };
+
+        function nextWeek(){
+            if(dateRangeButton.value == maxWeekCap-1){
+                return;
+            }
+            dateRangeButton.value++;
+            weekOffset = dateRangeButton.value;
+            loadTrafficData(weekOffset);
+        }
+
+        function prevWeek(){
+            if(dateRangeButton.value == 0){
+                return;
+            }
+            dateRangeButton.value--;
+            weekOffset = dateRangeButton.value;
+            loadTrafficData(weekOffset);
+        }
 
         function getDateOffsetWeek(offset = 0){
             const msInDay = 24 * 60 * 60 * 1000;

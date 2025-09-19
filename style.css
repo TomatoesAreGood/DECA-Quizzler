@@ -464,10 +464,10 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 .correct{
-    background: #45DFD3;
+    background: #41d3c7;
 }
 .incorrect{
-    background: #FF2F6A;
+    background: #cf2656;
 }
 .underline{
     text-decoration: underline;
@@ -541,7 +541,7 @@ input:checked + .slider:before {
     text-align: left;
     margin: none;
     padding: 0;
-    color: #FF2F6A;
+    color: #cf2656;
 }
 #modalText{
     text-align: left;

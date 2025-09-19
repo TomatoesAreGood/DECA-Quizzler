@@ -270,7 +270,7 @@ fetch(`data/${sector}.json`)
 
         showExplanationButton.addEventListener('click', function(){
             modalHeader.innerText = 'EXPLANATION';
-            modalHeader.style.color = "#079e28";
+            modalHeader.style.color = "#000000ff";
             modal.style.display = 'block';
         });
 
@@ -286,7 +286,7 @@ fetch(`data/${sector}.json`)
         okButton.addEventListener('click', function(){
             modal.style.display = "none";
             modalHeader.innerText = 'WRONG';
-            modalHeader.style.color = '#FF2F6A';
+            modalHeader.style.color = '#cf2656';
         });
 
         favButton.addEventListener('click', function(){
@@ -331,7 +331,7 @@ fetch(`data/${sector}.json`)
                     showQuestion();
                 }
                 modalHeader.innerText = 'WRONG';
-                modalHeader.style.color = '#FF2F6A';
+                modalHeader.style.color = '#cf2656';
             }
             if(event.target === confirmExitModal){
                 confirmExitModal.style.display = "none";

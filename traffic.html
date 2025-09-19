@@ -161,7 +161,7 @@
             unique: null
         };
 
-        function nextWeek(){
+        function prevWeek(){
             if(dateRangeButton.value == maxWeekCap-1){
                 return;
             }
@@ -170,7 +170,7 @@
             loadTrafficData(weekOffset);
         }
 
-        function prevWeek(){
+        function nextWeek(){
             if(dateRangeButton.value == 0){
                 return;
             }

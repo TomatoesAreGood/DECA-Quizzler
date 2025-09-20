@@ -251,15 +251,18 @@ fetch(`data/${sector}.json`)
         });
 
         shuffleToggle.addEventListener('change', function () {
+            if(isSlowMode && nextQuestionButton.style.display === "block"){
+                questions = questions.slice(1,questions.length);
+            }
             if (shuffleToggle.checked) {
                 questions = questions.slice(currentQuestionIndex,questions.length);
                 shuffle(questions);
-                currentQuestionIndex = 0;
             }else{
                 questions = questions.slice(currentQuestionIndex,questions.length);
                 sort(questions);
-                currentQuestionIndex = 0;
             }
+           
+            currentQuestionIndex = 0;
             showQuestion();
         });
 

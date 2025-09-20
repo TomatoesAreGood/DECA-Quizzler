@@ -37,12 +37,10 @@ function toggleFavBtn(){
 }
 
 async function getQuestions(sector, questionData){
-    console.log(sector);
-    console.log(questionData);
-
     if(questionData.length == 0){
         return [];
     }
+
     const response = await fetch(`data/${sector}.json`);
     const data = await response.json();
     let favQuestions = [];
@@ -123,8 +121,6 @@ if(favExams === null || Object.entries(favExams).length === 0){
         let isSlowMode = false;
         let examName = "FAV-EXAM";
 
-        console.log(questions);
-
         function showSummary(){
             incorrectQuestions.sort(function(a, b) {
                 return a['number'] - b['number'];
@@ -181,14 +177,12 @@ if(favExams === null || Object.entries(favExams).length === 0){
                 return;
             }
             let favExams = JSON.parse(localStorage.getItem('favExams'));
-                        console.log(favExams);
 
             if(questions[currentQuestionIndex]['exam'] in favExams){
                 if(favExams[questions[currentQuestionIndex]['exam']].includes(questions[currentQuestionIndex]['number'])){
                     favButtonIcon.style.color = 'yellow';
                 }
             }
-            console.log(localStorage.getItem('favExams'));
         }
 
         function selectAnswer(e){
@@ -316,7 +310,6 @@ if(favExams === null || Object.entries(favExams).length === 0){
                 }
                 localStorage.setItem('favExams', JSON.stringify(favExams));
             }
-            console.log(localStorage.getItem('favExams'));
         });
 
     

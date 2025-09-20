@@ -322,7 +322,6 @@ fetch(`data/${sector}.json`)
                 }
                 localStorage.setItem('favExams', JSON.stringify(favExams));
             }
-            console.log(localStorage.getItem('favExams'));
         });
 
     

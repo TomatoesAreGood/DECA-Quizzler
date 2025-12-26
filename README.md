@@ -17,13 +17,13 @@ Access the website here: [https://decaquizzler.com](https://decaquizzler.com).
 Unique Visits: counts new visitors &nbsp;|&nbsp; Visits: visitor count that resets daily &nbsp;|&nbsp; Activity: every time a webpage/quiz is opened 
 
 ### 2025-2026 Regular Season
-<img width="1897" height="377" alt="image" src="https://github.com/user-attachments/assets/5254dd54-8279-4b0d-a0ec-1aeb170960bb" />
+<img src="https://github.com/user-attachments/assets/5254dd54-8279-4b0d-a0ec-1aeb170960bb" />
 
 ### 2024-2025 ICDC
-<img width="1894" height="376" alt="image" src="https://github.com/user-attachments/assets/22face59-c081-44af-a820-59fabf8a4941" />
+<img src="https://github.com/user-attachments/assets/22face59-c081-44af-a820-59fabf8a4941" />
 
 ### 2025-2026 Regionals
-<img width="1895" height="385" alt="image" src="https://github.com/user-attachments/assets/c50af31d-7b0a-41f0-9ee1-f10fe9f6c97d" />
+<img src="https://github.com/user-attachments/assets/c50af31d-7b0a-41f0-9ee1-f10fe9f6c97d" />
 
 ## Desktop
 <p align="middle">

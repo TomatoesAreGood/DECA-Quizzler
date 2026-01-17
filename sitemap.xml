@@ -6,47 +6,47 @@
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
 
 <url>
-  <loc>https://decaquizzler.com/</loc>
+  <loc>https://decaquizzer.com/</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/quiz</loc>
+  <loc>https://decaquizzer.com/quiz</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.90</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/favorites</loc>
+  <loc>https://decaquizzer.com/favorites</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.70</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/ent</loc>
+  <loc>https://decaquizzer.com/ent</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/fin</loc>
+  <loc>https://decaquizzer.com/fin</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/mkt</loc>
+  <loc>https://decaquizzer.com/mkt</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/ht</loc>
+  <loc>https://decaquizzer.com/ht</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/bma</loc>
+  <loc>https://decaquizzer.com/bma</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/core</loc>
+  <loc>https://decaquizzer.com/core</loc>
   <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>

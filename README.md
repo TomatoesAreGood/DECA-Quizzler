@@ -2,7 +2,7 @@
 A minimalistic DECA quizzing application which contains questions from past ENT (Entrepreneurship), BMA (Business Management and Administration), FIN (Finance), MKT (Marketing), H&T (Hospitality and Tourism) and CORE (General Knowledge) exams.
 <br />
 <br />
-Access the website here: [https://decaquizzler.com](https://decaquizzler.com).
+Access the website here: [https://decaquizzer.com](https://decaquizzer.com).
 
 ## Built With
 - **React** - Modern JavaScript library for building user interfaces

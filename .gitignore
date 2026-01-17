@@ -1,0 +1,12 @@
+node_modules/
+dist/
+build/
+.env
+.DS_Store
+*.log
+.claude/
+
+REACT_CONVERSION_PLAN.md
+REACT_CHANGES_EXPLAINED.md
+INSTALLATION_GUIDE.md
+CONVERSION_SUMMARY.md

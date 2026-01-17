@@ -1,12 +1,17 @@
 # DECA Quizzler
 A minimalistic DECA quizzing application which contains questions from past ENT (Entrepreneurship), BMA (Business Management and Administration), FIN (Finance), MKT (Marketing), H&T (Hospitality and Tourism) and CORE (General Knowledge) exams.
-<br /> 
+<br />
 <br />
 Access the website here: [https://decaquizzler.com](https://decaquizzler.com).
 
+## Built With
+- **React** - Modern JavaScript library for building user interfaces
+- **Vite** - Fast build tool and development server
+- **React Router** - Client-side routing for single-page application
+
 ## Features
 - Simple, easy to navigate interface
-- Lighweight, responsive and fast
+- Lightweight, responsive and fast
 - Supported interface for mobile devices
 - Contains >100 exams, with a total of **10,000+** unique questions
 - Shuffle feature to change question order

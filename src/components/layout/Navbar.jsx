@@ -44,7 +44,7 @@ export function Navbar() {
           <Link to="/" id="logo">
             <span className="logo-deca">DECA</span>
             <span className="logo-divider"></span>
-            <span className="logo-quizzler">Quizzler</span>
+            <span className="logo-quizzler">Quizzer</span>
           </Link>
           <li>
             <Dropdown sector="ENT" exams={sectorExams['ENT'] || []} route="/ent" />

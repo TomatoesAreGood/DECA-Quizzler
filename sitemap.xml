@@ -4,54 +4,51 @@
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
             http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
-<!-- created with Free Online Sitemap Generator www.xml-sitemaps.com -->
-
 
 <url>
   <loc>https://decaquizzler.com/</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>1.00</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/ENT.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/quiz</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
+  <priority>0.90</priority>
+</url>
+<url>
+  <loc>https://decaquizzler.com/favorites</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
+  <priority>0.70</priority>
+</url>
+<url>
+  <loc>https://decaquizzler.com/ent</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/FIN.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/fin</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/MKT.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/mkt</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/H&amp;T.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/ht</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/BMA.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/bma</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
 <url>
-  <loc>https://decaquizzler.com/CORE.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
+  <loc>https://decaquizzler.com/core</loc>
+  <lastmod>2026-01-16T00:00:00+00:00</lastmod>
   <priority>0.80</priority>
 </url>
-<url>
-  <loc>https://decaquizzler.com/FAV.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-<url>
-  <loc>https://decaquizzler.com/index.html</loc>
-  <lastmod>2025-09-20T15:15:25+00:00</lastmod>
-  <priority>0.80</priority>
-</url>
-
 
 </urlset>

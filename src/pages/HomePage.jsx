@@ -4,7 +4,7 @@ export function HomePage() {
   return (
     <main>
       <div className="page-header">
-        <h1>DECA Quizzler</h1>
+        <h1>DECA Quizzer</h1>
         <p className="header-subtext-xl">A minimalistic DECA quizzing website</p>
       </div>
       <SectorGrid />

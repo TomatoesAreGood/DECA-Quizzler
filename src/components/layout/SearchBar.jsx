@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Popover from '@radix-ui/react-popover';
 import { SVGIcon } from '../shared/SVGIcon';
@@ -8,6 +8,7 @@ export function SearchBar({ allExams }) {
   const [results, setResults] = useState([]);
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const inputRef = useRef(null);
 
   const handleSearch = (e) => {
     const value = e.target.value;
@@ -33,18 +34,26 @@ export function SearchBar({ allExams }) {
   };
 
   return (
-    <Popover.Root open={open && results.length > 0} onOpenChange={setOpen}>
+    <Popover.Root open={open && input.length > 0}>
       <Popover.Trigger asChild>
         <div className="search-box">
-          <div className="search-box-row">
+          <div className="search-box-row" onClick={() => inputRef.current?.focus()}>
             <input
+              ref={inputRef}
               type="text"
               id="input"
               placeholder="Search"
               autoComplete="off"
               value={input}
               onChange={handleSearch}
-              onFocus={() => input.length && results.length && setOpen(true)}
+              onFocus={() => {
+                if (input.length) {
+                  setOpen(true);
+                }
+              }}
+              onBlur={() => {
+                setTimeout(() => setOpen(false), 50);
+              }}
             />
             <button className="search-icon" type="button">
               <SVGIcon type="search" />
@@ -60,11 +69,15 @@ export function SearchBar({ allExams }) {
           onOpenAutoFocus={(e) => e.preventDefault()}
         >
           <ul>
-            {results.map((exam) => (
-              <li key={exam} onClick={() => selectExam(exam)}>
-                {exam.length > 18 ? `${exam.substring(0, 19)}...` : exam}
-              </li>
-            ))}
+            {results.length > 0 ? (
+              results.map((exam) => (
+                <li key={exam} onClick={() => selectExam(exam)}>
+                  {exam.length > 18 ? `${exam.substring(0, 19)}...` : exam}
+                </li>
+              ))
+            ) : (
+              <li className="no-results">No results</li>
+            )}
           </ul>
         </Popover.Content>
       </Popover.Portal>

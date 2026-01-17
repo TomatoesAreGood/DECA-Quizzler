@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 
 export function SectorCard({ sector, image, route }) {
   return (
-    <div className="sector-card">
+    <div className="sector-card" data-sector={sector}>
       <Link to={route}>
         <img className="sector clickableButton" src={image} alt={sector} />
       </Link>

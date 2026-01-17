@@ -123,10 +123,35 @@ main{
 .sector{
     height: 100%;
     width: 100%;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-md);
     transition: all var(--transition-base);
+}
+
+/* Sector-specific backgrounds to match image colors */
+.sector-card[data-sector="ENT"] .sector {
+    background: #7c868a;
+}
+
+.sector-card[data-sector="FIN"] .sector {
+    background: #009b47;
+}
+
+.sector-card[data-sector="MKT"] .sector {
+    background: #cc1d36;
+}
+
+.sector-card[data-sector="H&T"] .sector {
+    background: #0a75be;
+}
+
+.sector-card[data-sector="BMA"] .sector {
+    background: #f6bc00;
+}
+
+.sector-card[data-sector="CORE"] .sector {
+    background: #0d3b77;
 }
 
 .clickableButton{
@@ -1244,9 +1269,9 @@ ul h3{
     color: var(--color-text-primary);
     height: auto;
     animation-name: animatetop;
-    animation-duration: 0.4s;
+    animation-duration: 1s;
     -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 1s;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--color-border);
 }
@@ -1264,17 +1289,17 @@ ul h3{
 .modal-drag-indicator {
     width: 40px;
     height: 4px;
-    background: var(--color-border);
+    background: var(--color-text-secondary);
     border-radius: 2px;
     transition: background var(--transition-fast);
 }
 
 .modal-drag-handle:hover .modal-drag-indicator {
-    background: var(--color-text-secondary);
+    background: var(--color-text-primary);
 }
 
 .modal-drag-handle.dragging .modal-drag-indicator {
-    background: var(--color-primary);
+    background: var(--color-text-primary);
 }
 
 .modal-content-confirm-exit{
@@ -1290,9 +1315,9 @@ ul h3{
     color: var(--color-text-primary);
     height: auto;
     animation-name: animatetop;
-    animation-duration: 0.4s;
+    animation-duration: 1s;
     -webkit-animation-name: animatetop;
-    -webkit-animation-duration: 0.4s;
+    -webkit-animation-duration: 1s;
     box-shadow: var(--shadow-lg);
     border: 1px solid var(--color-border);
 }
@@ -1371,11 +1396,11 @@ ul h3{
     font-weight: 400;
 }
 
-.header-subtext-md{
+.header-subtext-xl{
     text-align: center;
     color: var(--color-text-secondary);
     font-size: 1.1rem;
-    margin-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
     font-weight: 400;
 }
 

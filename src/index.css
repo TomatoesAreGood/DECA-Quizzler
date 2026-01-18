@@ -1424,7 +1424,7 @@ ul h3{
 @media(min-width: 768px){
     /* Hover effects handled by individual component classes */
 }
-@media (max-width: 768px){
+@media (max-width: 900px){
     #choices{
         margin-top: 25px;
         margin-bottom: 50px;

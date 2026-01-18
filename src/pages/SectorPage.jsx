@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ExamList } from '../components/sector/ExamList';
 import { fetchSectorExams } from '../utils/fetchExams';
-import { useSessionStorage } from '../hooks/useLocalStorage';
 
 const SECTOR_INFO = {
   ent: { name: 'ENT', title: 'ENT Exams', file: 'ENT' },
@@ -16,21 +15,26 @@ const SECTOR_INFO = {
 export function SectorPage() {
   const { sector: sectorParam } = useParams();
   const sectorInfo = SECTOR_INFO[sectorParam];
-  const [cachedExams, setCachedExams] = useSessionStorage(sectorInfo.file, null);
   const [exams, setExams] = useState({ icdc: [], sample: [], other: [], unit: [] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadExams = async () => {
       try {
+        setLoading(true);
         let examList;
+
+        // Read directly from sessionStorage to get the current sector's cache
+        const cachedValue = window.sessionStorage.getItem(JSON.stringify(sectorInfo.file));
+        const cachedExams = cachedValue ? JSON.parse(cachedValue) : null;
 
         if (cachedExams) {
           examList = cachedExams.split(',');
         } else {
           const data = await fetchSectorExams(sectorInfo.file);
           examList = [...Object.keys(data), `9999-${sectorInfo.file}-UNIT`];
-          setCachedExams(examList.join(','));
+          // Cache the exams for this sector
+          window.sessionStorage.setItem(JSON.stringify(sectorInfo.file), JSON.stringify(examList.join(',')));
         }
 
         const categorized = { icdc: [], sample: [], other: [], unit: [] };

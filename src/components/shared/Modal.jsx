@@ -3,16 +3,17 @@ import * as Dialog from '@radix-ui/react-dialog';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 
 export function Modal({ isOpen, onClose, children, variant = 'default' }) {
-  const [positionPx, setPositionPx] = useState(null);
+  const [positionPx, setPositionPx] = useState(() => {
+    try {
+      const saved = localStorage.getItem('modalPosition');
+      return saved ? parseFloat(saved) : null;
+    } catch {
+      return null;
+    }
+  });
   const [isDragging, setIsDragging] = useState(false);
   const dragStartY = useRef(0);
   const startTopPx = useRef(0);
-
-  useEffect(() => {
-    if (!isOpen) {
-      setPositionPx(null);
-    }
-  }, [isOpen]);
 
   const handleMouseDown = (e) => {
     setIsDragging(true);
@@ -45,10 +46,19 @@ export function Modal({ isOpen, onClose, children, variant = 'default' }) {
       const deltaY = e.clientY - dragStartY.current;
       const newTopPx = startTopPx.current + deltaY;
 
-      // Constrain between 0px and 80% of viewport height
+      // Get navbar height to prevent dragging past it
+      const navbar = document.querySelector('.navbar');
+      const minTop = navbar ? navbar.getBoundingClientRect().bottom : 0;
       const maxTop = window.innerHeight * 0.8;
-      const constrainedTopPx = Math.max(0, Math.min(maxTop, newTopPx));
+      const constrainedTopPx = Math.max(minTop, Math.min(maxTop, newTopPx));
       setPositionPx(constrainedTopPx);
+
+      // Save to localStorage
+      try {
+        localStorage.setItem('modalPosition', constrainedTopPx.toString());
+      } catch {
+        // Ignore localStorage errors
+      }
     };
 
     const handleTouchMove = (e) => {
@@ -57,10 +67,19 @@ export function Modal({ isOpen, onClose, children, variant = 'default' }) {
       const deltaY = e.touches[0].clientY - dragStartY.current;
       const newTopPx = startTopPx.current + deltaY;
 
-      // Constrain between 0px and 80% of viewport height
+      // Get navbar height to prevent dragging past it
+      const navbar = document.querySelector('.navbar');
+      const minTop = navbar ? navbar.getBoundingClientRect().bottom : 0;
       const maxTop = window.innerHeight * 0.8;
-      const constrainedTopPx = Math.max(0, Math.min(maxTop, newTopPx));
+      const constrainedTopPx = Math.max(minTop, Math.min(maxTop, newTopPx));
       setPositionPx(constrainedTopPx);
+
+      // Save to localStorage
+      try {
+        localStorage.setItem('modalPosition', constrainedTopPx.toString());
+      } catch {
+        // Ignore localStorage errors
+      }
     };
 
     const handleMouseUp = () => {

@@ -78,7 +78,7 @@ export function FavoritesPage() {
         <SEO
           title="Favorites"
           description="Review your favorited DECA exam questions. Practice and master the questions you've saved across all sectors."
-          keywords="DECA favorites, saved questions, DECA practice, review questions"
+          keywords="DECA, DECA exams, DECA practice, ICDC, DECA quizzer, DECA study, DECA test prep, DECA favorites, saved questions, review questions, bookmarked questions"
           canonical="/favorites"
         />
         <div className="quiz"><h1>Loading...</h1></div>
@@ -92,7 +92,7 @@ export function FavoritesPage() {
         <SEO
           title="Favorites"
           description="Review your favorited DECA exam questions. Practice and master the questions you've saved across all sectors."
-          keywords="DECA favorites, saved questions, DECA practice, review questions"
+          keywords="DECA, DECA exams, DECA practice, ICDC, DECA quizzer, DECA study, DECA test prep, DECA favorites, saved questions, review questions, bookmarked questions"
           canonical="/favorites"
         />
         <div className="quiz"><h1>Favorited questions will show up here</h1></div>

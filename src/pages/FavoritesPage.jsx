@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { QuizContainer } from '../components/quiz/QuizContainer';
 import { useFavorites } from '../hooks/useFavorites';
 import { sort } from '../utils/quizHelpers';
+import { SEO } from '../components/shared/SEO';
 
 async function getQuestions(sector, questionData) {
   if (questionData.length === 0) {
@@ -72,12 +73,42 @@ export function FavoritesPage() {
   }, [favExams]);
 
   if (loading) {
-    return <div className="quiz"><h1>Loading...</h1></div>;
+    return (
+      <>
+        <SEO
+          title="Favorites"
+          description="Review your favorited DECA exam questions. Practice and master the questions you've saved across all sectors."
+          keywords="DECA favorites, saved questions, DECA practice, review questions"
+          canonical="/favorites"
+        />
+        <div className="quiz"><h1>Loading...</h1></div>
+      </>
+    );
   }
 
   if (!questions || questions.length === 0) {
-    return <div className="quiz"><h1>Favorited questions will show up here</h1></div>;
+    return (
+      <>
+        <SEO
+          title="Favorites"
+          description="Review your favorited DECA exam questions. Practice and master the questions you've saved across all sectors."
+          keywords="DECA favorites, saved questions, DECA practice, review questions"
+          canonical="/favorites"
+        />
+        <div className="quiz"><h1>Favorited questions will show up here</h1></div>
+      </>
+    );
   }
 
-  return <QuizContainer examName="FAV-EXAM" questions={questions} />;
+  return (
+    <>
+      <SEO
+        title="Favorites"
+        description="Review your favorited DECA exam questions. Practice and master the questions you've saved across all sectors."
+        keywords="DECA favorites, saved questions, DECA practice, review questions"
+        canonical="/favorites"
+      />
+      <QuizContainer examName="FAV-EXAM" questions={questions} />
+    </>
+  );
 }

@@ -2,14 +2,51 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { ExamList } from '../components/sector/ExamList';
 import { fetchSectorExams } from '../utils/fetchExams';
+import { SEO } from '../components/shared/SEO';
 
 const SECTOR_INFO = {
-  ent: { name: 'ENT', title: 'ENT Exams', file: 'ENT' },
-  fin: { name: 'FIN', title: 'FIN Exams', file: 'FIN' },
-  mkt: { name: 'MKT', title: 'MKT Exams', file: 'MKT' },
-  ht: { name: 'H&T', title: 'H&T Exams', file: 'HnT' },
-  bma: { name: 'BMA', title: 'BMA Exams', file: 'BMA' },
-  core: { name: 'CORE', title: 'CORE Exams', file: 'CORE' }
+  ent: {
+    name: 'ENT',
+    title: 'ENT Exams',
+    file: 'ENT',
+    fullName: 'Entrepreneurship',
+    description: 'Practice DECA Entrepreneurship exams including ICDC and sample exams. Master ENT concepts with our free quiz platform.'
+  },
+  fin: {
+    name: 'FIN',
+    title: 'FIN Exams',
+    file: 'FIN',
+    fullName: 'Finance',
+    description: 'Practice DECA Finance exams including ICDC and sample exams. Master FIN concepts with our free quiz platform.'
+  },
+  mkt: {
+    name: 'MKT',
+    title: 'MKT Exams',
+    file: 'MKT',
+    fullName: 'Marketing',
+    description: 'Practice DECA Marketing exams including ICDC and sample exams. Master MKT concepts with our free quiz platform.'
+  },
+  ht: {
+    name: 'H&T',
+    title: 'H&T Exams',
+    file: 'HnT',
+    fullName: 'Hospitality & Tourism',
+    description: 'Practice DECA Hospitality & Tourism exams including ICDC and sample exams. Master H&T concepts with our free quiz platform.'
+  },
+  bma: {
+    name: 'BMA',
+    title: 'BMA Exams',
+    file: 'BMA',
+    fullName: 'Business Management',
+    description: 'Practice DECA Business Management exams including ICDC and sample exams. Master BMA concepts with our free quiz platform.'
+  },
+  core: {
+    name: 'CORE',
+    title: 'CORE Exams',
+    file: 'CORE',
+    fullName: 'Principles/Core',
+    description: 'Practice DECA Principles and Core exams including ICDC and sample exams. Master CORE concepts with our free quiz platform.'
+  }
 };
 
 export function SectorPage() {
@@ -65,16 +102,24 @@ export function SectorPage() {
   }
 
   return (
-    <main>
-      <div className="page-header">
-        <h1>{sectorInfo.title}</h1>
-        <p className="header-subtext">You can find all the {sectorInfo.name} exams here</p>
-      </div>
+    <>
+      <SEO
+        title={`${sectorInfo.fullName} (${sectorInfo.name}) Exams`}
+        description={sectorInfo.description}
+        keywords={`DECA ${sectorInfo.name}, DECA ${sectorInfo.fullName}, ${sectorInfo.name} exams, ${sectorInfo.fullName} practice, ICDC ${sectorInfo.name}, DECA study`}
+        canonical={`/${sectorParam}`}
+      />
+      <main>
+        <div className="page-header">
+          <h1>{sectorInfo.title}</h1>
+          <p className="header-subtext">You can find all the {sectorInfo.name} exams here</p>
+        </div>
 
-      <ExamList exams={exams.icdc} category="icdc" title="ICDC Exams" />
-      <ExamList exams={exams.sample} category="sample" title="Sample Exams" />
-      <ExamList exams={exams.other} category="other" title="Other Exams" />
-      <ExamList exams={exams.unit} category="unit" title="Unit Exam" />
-    </main>
+        <ExamList exams={exams.icdc} category="icdc" title="ICDC Exams" />
+        <ExamList exams={exams.sample} category="sample" title="Sample Exams" />
+        <ExamList exams={exams.other} category="other" title="Other Exams" />
+        <ExamList exams={exams.unit} category="unit" title="Unit Exam" />
+      </main>
+    </>
   );
 }

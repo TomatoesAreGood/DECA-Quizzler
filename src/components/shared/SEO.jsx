@@ -11,8 +11,9 @@ export function SEO({
   const baseUrl = 'https://decaquizzer.com';
   const fullTitle = title ? `${title} | DECA Quizzer` : 'DECA Quizzer - Practice DECA Exams Online | Free Study Tool';
   const defaultDescription = 'Master your DECA exams with our free online quiz platform. Practice questions for Entrepreneurship, Finance, Marketing, Hospitality & Tourism, Business Management, and Core exams.';
+  const baseKeywords = 'DECA, DECA exams, DECA practice, ICDC, business competition, entrepreneurship, marketing, finance, hospitality, business management, DECA quizzer, DECA study, DECA test prep';
   const metaDescription = description || defaultDescription;
-  const metaKeywords = keywords || 'DECA, DECA exams, DECA practice, ICDC, business competition, entrepreneurship, marketing, finance, hospitality, business management';
+  const metaKeywords = keywords || baseKeywords;
   const canonicalUrl = canonical ? `${baseUrl}${canonical}` : baseUrl;
   const ogTitleContent = ogTitle || fullTitle;
   const ogDescriptionContent = ogDescription || metaDescription;

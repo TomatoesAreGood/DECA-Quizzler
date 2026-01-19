@@ -106,7 +106,7 @@ export function SectorPage() {
       <SEO
         title={`${sectorInfo.fullName} (${sectorInfo.name}) Exams`}
         description={sectorInfo.description}
-        keywords={`DECA ${sectorInfo.name}, DECA ${sectorInfo.fullName}, ${sectorInfo.name} exams, ${sectorInfo.fullName} practice, ICDC ${sectorInfo.name}, DECA study`}
+        keywords={`DECA, DECA exams, DECA practice, ICDC, business competition, DECA quizzer, DECA study, DECA test prep, deca ${sectorParam}, ${sectorInfo.name} exams, DECA ${sectorInfo.fullName}, ${sectorInfo.fullName} practice, ICDC ${sectorInfo.name}, ${sectorInfo.fullName.toLowerCase()}`}
         canonical={`/${sectorParam}`}
       />
       <main>

@@ -7,7 +7,7 @@ export function HomePage() {
       <SEO
         title="Home"
         description="Practice DECA exams online for free. Choose from Entrepreneurship, Finance, Marketing, Hospitality & Tourism, Business Management, and Core exams. ICDC and sample exams available."
-        keywords="DECA, DECA exams, DECA practice, ICDC, business competition, entrepreneurship, marketing, finance, hospitality, business management, DECA quizzer, DECA study"
+        keywords="DECA, DECA exams, DECA practice, ICDC, business competition, entrepreneurship, marketing, finance, hospitality, business management, DECA quizzer, DECA study, DECA test prep, deca ent, deca mkt, deca fin, deca bma, deca h&t, deca core"
         canonical="/"
       />
       <main>

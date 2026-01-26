@@ -71,7 +71,7 @@ export function SearchBar({ allExams }) {
           <ul>
             {results.length > 0 ? (
               results.map((exam) => (
-                <li key={exam} onClick={() => selectExam(exam)}>
+                <li key={exam} onMouseDown={() => selectExam(exam)}>
                   {exam.length > 18 ? `${exam.substring(0, 19)}...` : exam}
                 </li>
               ))

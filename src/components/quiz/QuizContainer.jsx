@@ -16,6 +16,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
   const [numCorrect, setNumCorrect] = useState(0);
   const [questionsAnswered, setQuestionsAnswered] = useState(0);
   const [incorrectQuestions, setIncorrectQuestions] = useState([]);
+  const [allAnsweredQuestions, setAllAnsweredQuestions] = useState([]);
   const [isSlowMode, setIsSlowMode] = useState(false);
   const [isShuffled, setIsShuffled] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -49,6 +50,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
         setNumCorrect(0);
         setQuestionsAnswered(0);
         setIncorrectQuestions([]);
+        setAllAnsweredQuestions([]);
         setSelectedAnswer(null);
         setIsRevealed(false);
         setShowModal(false);
@@ -141,6 +143,9 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
     const reasoning = currentQuestion.reasoning;
     const formattedReasoning = `The correct answer was: ${currentQuestion.answer}<br> <b>${reasoning.substring(0, reasoning.indexOf('.'))}</b>${linkify(reasoning.substring(reasoning.indexOf('.')))}`;
 
+    const userAnswer = currentQuestion.choices[index].substring(0, 1);
+    setAllAnsweredQuestions(prev => [...prev, { ...currentQuestion, userAnswer, isCorrect }]);
+
     if (isCorrect) {
       setNumCorrect(prev => prev + 1);
       if (isSlowMode) {
@@ -151,7 +156,6 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
         }, 750);
       }
     } else {
-      const userAnswer = currentQuestion.choices[index].substring(0, 1);
       setIncorrectQuestions(prev => [...prev, { ...currentQuestion, userAnswer }]);
       setModalContent({ header: 'WRONG', text: formattedReasoning, color: '#cf2656' });
       setShowModal(true);
@@ -202,6 +206,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
         numCorrect={numCorrect}
         questionsAnswered={questionsAnswered}
         incorrectQuestions={incorrectQuestions.sort((a, b) => a.number - b.number)}
+        allAnsweredQuestions={allAnsweredQuestions.sort((a, b) => a.number - b.number)}
         isUnitTest={isUnitTest}
       />
     );

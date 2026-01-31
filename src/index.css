@@ -572,16 +572,6 @@ ul h3{
 }
 
 /* SECTOR SUBPAGES */
-.page-header{
-    /* margin-bottom: var(--spacing-3xl); */
-    /* padding-bottom: var(--spacing-xl); */
-    /* border-bottom: 3px solid var(--color-border); */
-}
-
-.page-header h1{
-    /* margin-bottom: var(--spacing-md); */
-}
-
 #sectorHeading{
     color: var(--color-text-primary);
     font-size: 1.75rem;
@@ -776,17 +766,44 @@ ul h3{
     letter-spacing: 0.5px;
 }
 
-.incorrect-section{
+.questions-section{
     margin-bottom: var(--spacing-3xl);
 }
 
-.incorrect-title{
+.questions-header{
     color: var(--color-text-primary);
     font-size: 1.75rem;
     font-weight: 700;
+    margin-bottom: var(--spacing-lg);
+}
+
+.summary-tabs{
+    display: flex;
+    gap: var(--spacing-md);
     margin-bottom: var(--spacing-xl);
-    padding-bottom: var(--spacing-md);
     border-bottom: 2px solid var(--color-border);
+}
+
+.tab-button{
+    background: transparent;
+    border: none;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: var(--spacing-md) var(--spacing-lg);
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    transition: all var(--transition-base);
+    margin-bottom: -2px;
+}
+
+.tab-button:hover{
+    color: var(--color-text-primary);
+}
+
+.tab-active{
+    color: var(--color-primary);
+    border-bottom-color: var(--color-primary);
 }
 
 .incorrect-questions{
@@ -938,11 +955,11 @@ ul h3{
 .perfect-score{
     text-align: center;
     padding: var(--spacing-3xl);
-    background: linear-gradient(135deg, var(--color-success) 0%, #48E4D6 100%);
+    background: linear-gradient(135deg, var(--color-primary-dark) 0%, var(--color-primary-light) 100%);
     border-radius: var(--radius-lg);
     color: white;
     margin-bottom: var(--spacing-3xl);
-    border: 3px solid var(--color-success);
+    border: 3px solid var(--color-primary);
     box-shadow: var(--shadow-lg);
 }
 
@@ -1500,9 +1517,13 @@ ul h3{
         font-size: 2rem;
     }
 
-    .incorrect-title{
-        font-size: 1.4rem;
-        flex-wrap: wrap;
+    .questions-header{
+        font-size: 1.5rem;
+    }
+
+    .tab-button{
+        font-size: 0.85rem;
+        padding: var(--spacing-xs) var(--spacing-sm);
     }
 
     .question-text{

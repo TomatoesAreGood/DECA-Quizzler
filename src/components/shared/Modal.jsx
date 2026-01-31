@@ -119,9 +119,13 @@ export function Modal({ isOpen, onClose, children, variant = 'default' }) {
           <Dialog.Content
             className={variant === 'confirm' ? 'modal-content-confirm-exit' : 'modal-content'}
             style={{ marginTop: getMarginTop() }}
+            aria-describedby={undefined}
           >
             <VisuallyHidden.Root>
               <Dialog.Title>Quiz Modal</Dialog.Title>
+            </VisuallyHidden.Root>
+            <VisuallyHidden.Root>
+              <Dialog.Description>Modal dialog with quiz information</Dialog.Description>
             </VisuallyHidden.Root>
             <div
               className={`modal-drag-handle ${isDragging ? 'dragging' : ''}`}

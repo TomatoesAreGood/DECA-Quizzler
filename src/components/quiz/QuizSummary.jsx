@@ -30,7 +30,7 @@ export function QuizSummary({ examName, numCorrect, questionsAnswered, incorrect
     const remainingReasoning = reasoning.substring(reasoning.indexOf('.') + 1);
 
     return (
-      <div key={index} className="incorrect-question-card">
+      <div key={`${question.exam || examName}-${question.number}`} className="incorrect-question-card">
         <FavoriteButton
           examName={question.exam || examName}
           questionNumber={question.number}
@@ -48,7 +48,7 @@ export function QuizSummary({ examName, numCorrect, questionsAnswered, incorrect
             const isUserAnswer = choice.substring(0, 1) === question.userAnswer;
             return (
               <div
-                key={choiceIndex}
+                key={choice}
                 className={`choice-item ${isCorrect ? 'choice-correct' : ''} ${isUserAnswer && !isCorrect ? 'choice-incorrect' : ''}`}
               >
                 {choice}

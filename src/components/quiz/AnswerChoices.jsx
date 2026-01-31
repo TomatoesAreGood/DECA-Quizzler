@@ -13,7 +13,7 @@ export function AnswerChoices({ choices, correctAnswer, selectedAnswer, isReveal
 
         return (
           <AnswerButton
-            key={index}
+            key={choice}
             letter={letters[index]}
             text={text}
             isCorrect={isCorrect}

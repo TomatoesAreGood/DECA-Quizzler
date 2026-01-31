@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { FavoriteButton } from './FavoriteButton';
 
 export function QuizSummary({ examName, numCorrect, questionsAnswered, incorrectQuestions, isUnitTest }) {
   const [expandedQuestions, setExpandedQuestions] = useState(new Set());
@@ -69,6 +70,10 @@ export function QuizSummary({ examName, numCorrect, questionsAnswered, incorrect
 
               return (
                 <div key={index} className="incorrect-question-card">
+                  <FavoriteButton
+                    examName={question.exam || examName}
+                    questionNumber={question.number}
+                  />
                   <div className="question-header">
                     <span className="question-number">Q{question.number}</span>
                     {isUnitTest && <span className="question-exam">{question.exam}</span>}
@@ -79,10 +84,11 @@ export function QuizSummary({ examName, numCorrect, questionsAnswered, incorrect
                   <div className="choices-list">
                     {question.choices.map((choice, choiceIndex) => {
                       const isCorrect = choice.substring(0, 1) === question.answer;
+                      const isUserAnswer = choice.substring(0, 1) === question.userAnswer;
                       return (
                         <div
                           key={choiceIndex}
-                          className={`choice-item ${isCorrect ? 'choice-correct' : ''}`}
+                          className={`choice-item ${isCorrect ? 'choice-correct' : ''} ${isUserAnswer && !isCorrect ? 'choice-incorrect' : ''}`}
                         >
                           {choice}
                         </div>

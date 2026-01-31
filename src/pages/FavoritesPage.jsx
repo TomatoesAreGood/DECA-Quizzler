@@ -108,7 +108,11 @@ export function FavoritesPage() {
         keywords="DECA favorites, saved questions, DECA practice, review questions"
         canonical="/favorites"
       />
-      <QuizContainer examName="FAV-EXAM" questions={questions} />
+      <QuizContainer
+        key={JSON.stringify(favExams)}
+        examName="FAV-EXAM"
+        questions={questions}
+      />
     </>
   );
 }

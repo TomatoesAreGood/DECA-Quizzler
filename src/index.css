@@ -796,6 +796,7 @@ ul h3{
 }
 
 .incorrect-question-card{
+    position: relative;
     background: var(--color-background);
     border: 2px solid var(--color-border);
     border-radius: var(--radius-lg);
@@ -815,8 +816,14 @@ ul h3{
     margin-bottom: var(--spacing-md);
 }
 
+.question-badges{
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
 .question-number{
-    background: var(--color-error);
+    background: var(--color-primary-dark);
     color: white;
     padding: var(--spacing-xs) var(--spacing-md);
     border-radius: var(--radius-full);
@@ -862,6 +869,13 @@ ul h3{
 .choice-correct{
     background: linear-gradient(135deg, var(--color-success) 0%, #48E4D6 100%);
     border-color: var(--color-success);
+    color: white;
+    font-weight: 600;
+}
+
+.choice-incorrect{
+    background: linear-gradient(135deg, var(--color-error) 0%, #ff6b9d 100%);
+    border-color: var(--color-error);
     color: white;
     font-weight: 600;
 }

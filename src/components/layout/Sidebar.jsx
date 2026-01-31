@@ -1,7 +1,17 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { SVGIcon } from '../shared/SVGIcon';
 
 export function Sidebar({ isOpen, onClose }) {
+  const location = useLocation();
+
+  const handleFavoritesClick = (e) => {
+    if (location.pathname === '/favorites') {
+      e.preventDefault();
+      onClose();
+      window.location.href = '/favorites';
+    }
+  };
+
   if (!isOpen) return null;
 
   return (

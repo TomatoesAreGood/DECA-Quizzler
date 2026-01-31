@@ -13,9 +13,11 @@ export function useLocalStorage(key, initialValue) {
 
   const setValue = (value) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      setStoredValue((prevStoredValue) => {
+        const valueToStore = value instanceof Function ? value(prevStoredValue) : value;
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+        return valueToStore;
+      });
     } catch (error) {
       console.log(error);
     }
@@ -37,9 +39,11 @@ export function useSessionStorage(key, initialValue) {
 
   const setValue = (value) => {
     try {
-      const valueToStore = value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
+      setStoredValue((prevStoredValue) => {
+        const valueToStore = value instanceof Function ? value(prevStoredValue) : value;
+        window.sessionStorage.setItem(key, JSON.stringify(valueToStore));
+        return valueToStore;
+      });
     } catch (error) {
       console.log(error);
     }

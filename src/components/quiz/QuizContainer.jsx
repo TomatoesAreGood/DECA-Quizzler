@@ -151,7 +151,8 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
         }, 750);
       }
     } else {
-      setIncorrectQuestions(prev => [...prev, currentQuestion]);
+      const userAnswer = currentQuestion.choices[index].substring(0, 1);
+      setIncorrectQuestions(prev => [...prev, { ...currentQuestion, userAnswer }]);
       setModalContent({ header: 'WRONG', text: formattedReasoning, color: '#cf2656' });
       setShowModal(true);
     }

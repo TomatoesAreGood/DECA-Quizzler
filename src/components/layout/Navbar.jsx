@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { SearchBar } from './SearchBar';
 import { Dropdown } from './Dropdown';
@@ -11,6 +11,8 @@ export function Navbar() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [allExams, setAllExams] = useState([]);
   const [sectorExams, setSectorExams] = useState({});
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const loadExams = async () => {

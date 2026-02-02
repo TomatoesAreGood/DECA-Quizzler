@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
+import { Analytics } from '@vercel/analytics/react';
 import { Navbar } from './components/layout/Navbar';
 import { HomePage } from './pages/HomePage';
 import { QuizPage } from './pages/QuizPage';
@@ -38,6 +39,7 @@ function App() {
     <HelmetProvider>
       <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppContent />
+        <Analytics />
       </Router>
     </HelmetProvider>
   );

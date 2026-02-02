@@ -9,11 +9,19 @@ export function SEO({
   canonical
 }) {
   const baseUrl = 'https://decaquizzer.com';
-  const fullTitle = title ? `${title} | DECA Quizzer` : 'DECA Quizzer - Practice DECA Exams Online | Free Study Tool';
-  const defaultDescription = 'Master your DECA exams with our free online quiz platform. Practice questions for Entrepreneurship, Finance, Marketing, Hospitality & Tourism, Business Management, and Core exams.';
-  const baseKeywords = 'DECA, DECA exams, DECA practice, ICDC, business competition, entrepreneurship, marketing, finance, hospitality, business management, DECA quizzer, DECA study, DECA test prep';
-  const metaDescription = description || defaultDescription;
-  const metaKeywords = keywords || baseKeywords;
+
+  const fullTitle = title
+    ? `${title} | DECA Quizzer`
+    : 'Practice DECA Exams Online for Free | DECA Quizzer';
+
+  const metaDescription =
+    description ||
+    'Free online DECA practice exams for Entrepreneurship, Finance, Marketing, Hospitality & Tourism, Business Management, and Core events.';
+
+  const metaKeywords =
+    keywords ||
+    'DECA, DECA exams, DECA practice, ICDC, DECA quiz, business competition';
+
   const canonicalUrl = canonical ? `${baseUrl}${canonical}` : baseUrl;
   const ogTitleContent = ogTitle || fullTitle;
   const ogDescriptionContent = ogDescription || metaDescription;
@@ -21,8 +29,11 @@ export function SEO({
   return (
     <Helmet>
       <title>{fullTitle}</title>
+
       <meta name="description" content={metaDescription} />
       <meta name="keywords" content={metaKeywords} />
+      <meta name="robots" content="index, follow" />
+
       <link rel="canonical" href={canonicalUrl} />
 
       {/* Open Graph */}

@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { ExamList } from '../components/sector/ExamList';
 import { fetchSectorExams } from '../utils/fetchExams';
 import { SEO } from '../components/shared/SEO';
+import { NotFoundPage } from './NotFoundPage';
 
 const SECTOR_INFO = {
   ent: {
@@ -60,6 +61,11 @@ export function SectorPage() {
   const sectorInfo = SECTOR_INFO[sectorParam];
   const [exams, setExams] = useState({ icdc: [], sample: [], other: [], unit: [] });
   const [loading, setLoading] = useState(true);
+
+  // If sector is not valid, show 404 page
+  if (!sectorInfo) {
+    return <NotFoundPage />;
+  }
 
   useEffect(() => {
     const loadExams = async () => {

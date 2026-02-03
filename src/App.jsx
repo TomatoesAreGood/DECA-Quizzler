@@ -8,6 +8,7 @@ import { QuizPage } from './pages/QuizPage';
 import { SectorPage } from './pages/SectorPage';
 import { FavoritesPage } from './pages/FavoritesPage';
 import { TrafficPage } from './pages/TrafficPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { trackVisit } from './utils/analytics';
 
 function AppContent() {
@@ -29,6 +30,7 @@ function AppContent() {
         <Route path="/favorites" element={<FavoritesPage />} />
         <Route path="/traffic" element={<TrafficPage />} />
         <Route path="/:sector" element={<SectorPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );

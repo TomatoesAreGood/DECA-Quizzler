@@ -32,19 +32,19 @@ Unique Visits: counts new visitors &nbsp;|&nbsp; Visits: visitor count that rese
 
 ## Desktop
 <p align="middle">
-  <img src="https://github.com/user-attachments/assets/474563fb-571f-4ecc-b7fe-4003f0ae3529" width="45%"/>
-  <img src="https://github.com/user-attachments/assets/9cb20880-ef14-42ab-b11b-689fad931c8b" width="45%"/> 
+  <img src="https://github.com/user-attachments/assets/443a6e55-e868-4fbb-8575-af8fffbe7d9c" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/e7202d3b-1208-4bda-a2b6-813a462a5bd0" width="49%"/> 
 </p>
+
 <p align="middle">
-  <img src="https://github.com/user-attachments/assets/93144972-9781-45a6-8551-69eb44ccc5e7" width="45%"/>
-  <img src="https://github.com/user-attachments/assets/b25e71f6-5b30-4ffe-8780-907c77928cc6" width="45%"/> 
+  <img src="https://github.com/user-attachments/assets/55608eb0-efef-4ea4-9426-b861a57f98d3" width="49%"/>
+  <img src="https://github.com/user-attachments/assets/18c3178e-cda2-434d-8c7e-a64970321140" width="49%"/> 
 </p>
 
 ## Mobile
 <p align="middle">
-  <img src="https://github.com/user-attachments/assets/8ed4cc8c-ddc7-44fc-a463-8defa3344861" width="30%"/>
-  <img src="https://github.com/user-attachments/assets/3acb1181-412e-46e8-a45a-13dc02cea2cf" width="30%"/> 
-  <img src="https://github.com/user-attachments/assets/4af2d3b1-d553-4d9b-839f-5bc9bbdc8b3c" width="30%"/>
+  <img src="https://github.com/user-attachments/assets/f91b908f-70b0-4be8-9337-0416e8250eec" width="30%"/>
+  <img src="https://github.com/user-attachments/assets/eb62e72a-bdc8-4978-be2f-c3e7921a6a9b" width="30%"/> 
+  <img src="https://github.com/user-attachments/assets/c0841883-bb0c-4e57-a48d-174d0f46014b" width="30%"/>
 </p>
-
 

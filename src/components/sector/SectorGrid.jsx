@@ -1,15 +1,27 @@
 import { SectorCard } from './SectorCard';
 import { SECTOR_IMAGES } from '../../utils/constants';
 
+// Counts come from public/data at build time (see vite.config.js)
+const EXAM_STATS = __EXAM_STATS__;
+
+// color matches the background of each sector image
+const CLUSTERS = [
+  { sector: 'ENT', file: 'ENT', fullName: 'Entrepreneurship', route: '/ent', image: SECTOR_IMAGES.ENT, color: '#7c868a', topics: 'Business planning, startups, and innovation' },
+  { sector: 'FIN', file: 'FIN', fullName: 'Finance', route: '/fin', image: SECTOR_IMAGES.FIN, color: '#009b47', topics: 'Financial planning, investing, and banking' },
+  { sector: 'MKT', file: 'MKT', fullName: 'Marketing', route: '/mkt', image: SECTOR_IMAGES.MKT, color: '#cc1d36', topics: 'Branding, advertising, and consumer behavior' },
+  { sector: 'H&T', file: 'HnT', fullName: 'Hospitality & Tourism', route: '/ht', image: SECTOR_IMAGES.HT, color: '#0a75be', topics: 'Hotels, restaurants, travel, and events' },
+  { sector: 'BMA', file: 'BMA', fullName: 'Business Management', route: '/bma', image: SECTOR_IMAGES.BMA, color: '#f6bc00', topics: 'Operations, human resources, and leadership' },
+  { sector: 'CORE', file: 'CORE', fullName: 'Principles & Core', route: '/core', image: SECTOR_IMAGES.CORE, color: '#0d3b77', topics: 'Economics, communication, and business basics' }
+];
+
 export function SectorGrid() {
   return (
     <ul className="sectorList">
-      <li><SectorCard sector="ENT" image={SECTOR_IMAGES.ENT} route="/ent" fullName="Entrepreneurship" /></li>
-      <li><SectorCard sector="FIN" image={SECTOR_IMAGES.FIN} route="/fin" fullName="Finance" /></li>
-      <li><SectorCard sector="MKT" image={SECTOR_IMAGES.MKT} route="/mkt" fullName="Marketing" /></li>
-      <li><SectorCard sector="H&T" image={SECTOR_IMAGES.HT} route="/ht" fullName="Hospitality & Tourism" /></li>
-      <li><SectorCard sector="BMA" image={SECTOR_IMAGES.BMA} route="/bma" fullName="Business Management" /></li>
-      <li><SectorCard sector="CORE" image={SECTOR_IMAGES.CORE} route="/core" fullName="Core" /></li>
+      {CLUSTERS.map(({ file, ...cluster }) => (
+        <li key={cluster.sector}>
+          <SectorCard {...cluster} stats={EXAM_STATS[file]} />
+        </li>
+      ))}
     </ul>
   );
 }

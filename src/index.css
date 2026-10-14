@@ -375,6 +375,16 @@ ul h3{
     }
 }
 
+/* Zoomed-out desktop pages (see html) fit all 3 columns in narrower windows: the menu ends
+   1267px from the left, so it needs 0.9 or 0.8 of that plus slack and room for a scrollbar */
+@media (hover: hover) and (pointer: fine) and (min-width: 1165px),
+       (hover: hover) and (pointer: fine) and (max-height: 720px) and (min-width: 1037px){
+    .dropdown:hover .grid-container-core{
+        grid-template-columns: repeat(3, 175px);
+        max-width: 547px;
+    }
+}
+
 .dropdown-element{
     transition: all var(--transition-fast);
     border-radius: var(--radius-sm);
@@ -2119,6 +2129,21 @@ ul h3{
     }
     .toggle{
         display: block !important;
+    }
+}
+
+/* Zoomed-out desktop pages (see html) fit the full navbar in narrower windows: it needs
+   1196px, so 0.9 or 0.8 of that plus slack and room for a scrollbar */
+@media (hover: hover) and (pointer: fine) and (min-width: 1101px),
+       (hover: hover) and (pointer: fine) and (max-height: 720px) and (min-width: 981px){
+    .search-box{
+        margin-right: var(--spacing-lg) !important;
+    }
+    .dropdown{
+        display: block;
+    }
+    .toggle{
+        display: none !important;
     }
 }
 

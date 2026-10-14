@@ -14,72 +14,61 @@ export function Modal({ isOpen, onClose, children, variant = 'default' }) {
   const [isDragging, setIsDragging] = useState(false);
   const dragStartY = useRef(0);
   const startTopPx = useRef(0);
+  const startMarginPx = useRef(0);
+  const dragScale = useRef(1);
 
-  const handleMouseDown = (e) => {
+  const startDrag = (clientY, modalElement) => {
     setIsDragging(true);
-    dragStartY.current = e.clientY;
+    dragStartY.current = clientY;
 
     // Get current position in pixels
-    const modalElement = e.currentTarget.parentElement;
     const rect = modalElement.getBoundingClientRect();
     startTopPx.current = rect.top;
+    startMarginPx.current = parseFloat(getComputedStyle(modalElement).marginTop) || 0;
+    // Screen pixels per CSS pixel, which isn't 1 when the page is zoomed out (see html in index.css)
+    dragScale.current = rect.height / modalElement.offsetHeight || 1;
+  };
 
+  const handleMouseDown = (e) => {
+    startDrag(e.clientY, e.currentTarget.parentElement);
     e.preventDefault();
   };
 
   const handleTouchStart = (e) => {
-    setIsDragging(true);
-    dragStartY.current = e.touches[0].clientY;
-
-    // Get current position in pixels
-    const modalElement = e.currentTarget.parentElement;
-    const rect = modalElement.getBoundingClientRect();
-    startTopPx.current = rect.top;
-
+    startDrag(e.touches[0].clientY, e.currentTarget.parentElement);
     e.preventDefault();
   };
 
   useEffect(() => {
-    const handleMouseMove = (e) => {
-      if (!isDragging) return;
-
-      const deltaY = e.clientY - dragStartY.current;
-      const newTopPx = startTopPx.current + deltaY;
+    const dragTo = (clientY) => {
+      const newTopPx = startTopPx.current + clientY - dragStartY.current;
 
       // Get navbar height to prevent dragging past it
       const navbar = document.querySelector('.navbar');
       const minTop = navbar ? navbar.getBoundingClientRect().bottom : 0;
       const maxTop = window.innerHeight * 0.8;
       const constrainedTopPx = Math.max(minTop, Math.min(maxTop, newTopPx));
-      setPositionPx(constrainedTopPx);
+
+      // The modal is placed by its top margin, which is in CSS pixels
+      const marginPx = startMarginPx.current + (constrainedTopPx - startTopPx.current) / dragScale.current;
+      setPositionPx(marginPx);
 
       // Save to localStorage
       try {
-        localStorage.setItem('modalPosition', constrainedTopPx.toString());
+        localStorage.setItem('modalPosition', marginPx.toString());
       } catch {
         // Ignore localStorage errors
       }
     };
 
+    const handleMouseMove = (e) => {
+      if (!isDragging) return;
+      dragTo(e.clientY);
+    };
+
     const handleTouchMove = (e) => {
       if (!isDragging) return;
-
-      const deltaY = e.touches[0].clientY - dragStartY.current;
-      const newTopPx = startTopPx.current + deltaY;
-
-      // Get navbar height to prevent dragging past it
-      const navbar = document.querySelector('.navbar');
-      const minTop = navbar ? navbar.getBoundingClientRect().bottom : 0;
-      const maxTop = window.innerHeight * 0.8;
-      const constrainedTopPx = Math.max(minTop, Math.min(maxTop, newTopPx));
-      setPositionPx(constrainedTopPx);
-
-      // Save to localStorage
-      try {
-        localStorage.setItem('modalPosition', constrainedTopPx.toString());
-      } catch {
-        // Ignore localStorage errors
-      }
+      dragTo(e.touches[0].clientY);
     };
 
     const handleMouseUp = () => {

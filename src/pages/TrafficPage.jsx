@@ -219,8 +219,8 @@ export function TrafficPage() {
           data: data,
           fill: false,
           tension: 0,
-          backgroundColor: 'rgba(0,0,255,1.0)',
-          borderColor: 'rgba(0,0,255,0.1)',
+          backgroundColor: '#0066CC',
+          borderColor: 'rgba(0, 102, 204, 0.35)',
         },
       ],
     };

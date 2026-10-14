@@ -7,7 +7,7 @@ export function ExamList({ exams, category, title }) {
     switch (category) {
       case 'icdc': return 'var(--color-warning)';
       case 'sample': return 'var(--color-secondary)';
-      case 'unit': return 'var(--color-success)';
+      case 'unit': return '#00B894';
       default: return 'var(--color-primary)';
     }
   };

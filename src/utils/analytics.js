@@ -57,3 +57,12 @@ export function trackVisit() {
     });
   }
 }
+
+// Counts a completed quiz (reaching the summary screen) toward today's total and the all-time total
+export function trackQuizCompleted() {
+  const date = new Date();
+  const completedKey = `c${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
+
+  safeFetch(`https://abacus.jasoncameron.dev/hit/${nameSpace}/${completedKey}`);
+  safeFetch(`https://abacus.jasoncameron.dev/hit/${nameSpace}/completedTotal`);
+}

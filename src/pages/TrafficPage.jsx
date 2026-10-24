@@ -25,22 +25,40 @@ const NAMESPACE = 'decaquizzler333';
 const DAY_OF_WEEK = ['Sun', 'Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat'];
 const MAX_WEEK_CAP = 32;
 
+const getDateKey = (date) => `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
+
+// Each statistic is a daily counter written by utils/analytics.js. Only the selected one is
+// fetched (7 requests per week) so the dashboard stays under the API's rate limit.
+const METRICS = [
+  { value: 'unique', label: 'Unique Visits', description: 'People visiting for the first time', getKey: (date) => `u${getDateKey(date)}` },
+  { value: 'visits', label: 'Visits', description: 'People visiting each day, counted once per day', getKey: (date) => `v${getDateKey(date)}` },
+  { value: 'activity', label: 'Activity', description: 'Page views', getKey: (date) => getDateKey(date) },
+  { value: 'completed', label: 'Completed Quizzes', description: 'Quizzes that reached the results screen, including early exits', getKey: (date) => `c${getDateKey(date)}` },
+];
+
+// All-time counter written by trackQuizCompleted in utils/analytics.js
+const TOTAL_COMPLETED_KEY = 'completedTotal';
+
 export function TrafficPage() {
   const [weekOffset, setWeekOffset] = useState(0);
-  const [activityData, setActivityData] = useState([]);
-  const [visitsData, setVisitsData] = useState([]);
-  const [uniqueData, setUniqueData] = useState([]);
+  const [metric, setMetric] = useState(METRICS[0].value);
+  const [chartData, setChartData] = useState([]);
   const [xLabels, setXLabels] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dateRanges, setDateRanges] = useState([]);
   const [rateLimitInfo, setRateLimitInfo] = useState(null);
   const [error, setError] = useState(null);
+  const [totalCompleted, setTotalCompleted] = useState(null);
 
-  // Cache for week data to avoid refetching
-  const weekCache = useRef(new Map());
-  const lastSuccessfulWeek = useRef(0);
+  // Cache for each statistic's week data to avoid refetching, plus requests still in flight
+  const dataCache = useRef(new Map());
+  const pendingRequests = useRef(new Map());
+  const totalCompletedRequest = useRef(null);
+  const lastSuccessful = useRef({ weekOffset: 0, metric: METRICS[0].value });
   const errorTimeoutRef = useRef(null);
   const currentDate = new Date();
+
+  const selectedMetric = METRICS.find((m) => m.value === metric);
 
   const getDateOffsetWeek = (offset = 0) => {
     const msInDay = 24 * 60 * 60 * 1000;
@@ -60,18 +78,6 @@ export function TrafficPage() {
       week[index] = new Date(currentDate.getTime() - dayOffset);
     }
     return week;
-  };
-
-  const getActivityKey = (date) => {
-    return `${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
-  };
-
-  const getUniqueVisitsKey = (date) => {
-    return `u${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
-  };
-
-  const getVisitsKey = (date) => {
-    return `v${date.getFullYear()}${date.getMonth()}${date.getDate()}`;
   };
 
   const fetchVisits = async (key) => {
@@ -125,21 +131,34 @@ export function TrafficPage() {
   }, []);
 
   useEffect(() => {
+    let cancelled = false;
+
+    // One request for the all-time total, shared if this effect runs twice
+    if (!totalCompletedRequest.current) {
+      totalCompletedRequest.current = fetchVisits(TOTAL_COMPLETED_KEY);
+    }
+    totalCompletedRequest.current.then(
+      (value) => { if (!cancelled) setTotalCompleted(value); },
+      () => { if (!cancelled) setTotalCompleted(undefined); }
+    );
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const cacheKey = `${metric}:${weekOffset}`;
+
     const loadTrafficData = async () => {
       // Check cache first
-      if (weekCache.current.has(weekOffset)) {
-        const cached = weekCache.current.get(weekOffset);
+      if (dataCache.current.has(cacheKey)) {
+        const cached = dataCache.current.get(cacheKey);
         setXLabels(cached.labels);
-        setActivityData(cached.activity);
-        setVisitsData(cached.visits);
-        setUniqueData(cached.unique);
+        setChartData(cached.data);
         setLoading(false);
-
-        // Only update lastSuccessfulWeek and clear error if this is a user-initiated navigation
-        // (not a revert from an error)
-        if (!error) {
-          lastSuccessfulWeek.current = weekOffset;
-        }
+        lastSuccessful.current = { weekOffset, metric };
         return;
       }
 
@@ -148,30 +167,24 @@ export function TrafficPage() {
       try {
         const week = getWeek(weekOffset);
         const labels = week.map(d => DAY_OF_WEEK[d.getDay()]);
+        const getKey = METRICS.find((m) => m.value === metric).getKey;
 
-        const activityPromises = week.map(d => fetchVisits(getActivityKey(d)));
-        const visitsPromises = week.map(d => fetchVisits(getVisitsKey(d)));
-        const uniquePromises = week.map(d => fetchVisits(getUniqueVisitsKey(d)));
-
-        const [activity, visits, unique] = await Promise.all([
-          Promise.all(activityPromises),
-          Promise.all(visitsPromises),
-          Promise.all(uniquePromises)
-        ]);
-
-        // Store in cache
-        weekCache.current.set(weekOffset, {
-          labels,
-          activity,
-          visits,
-          unique
-        });
+        // Reuse a request that's already running for this view instead of sending it again
+        let request = pendingRequests.current.get(cacheKey);
+        if (!request) {
+          request = Promise.all(week.map(d => fetchVisits(getKey(d))));
+          pendingRequests.current.set(cacheKey, request);
+          request.then(
+            (data) => dataCache.current.set(cacheKey, { labels, data }),
+            () => {}
+          ).finally(() => pendingRequests.current.delete(cacheKey));
+        }
+        const data = await request;
+        if (cancelled) return;
 
         setXLabels(labels);
-        setActivityData(activity);
-        setVisitsData(visits);
-        setUniqueData(unique);
-        lastSuccessfulWeek.current = weekOffset;
+        setChartData(data);
+        lastSuccessful.current = { weekOffset, metric };
 
         // Clear any previous errors on successful load
         if (errorTimeoutRef.current) {
@@ -180,9 +193,11 @@ export function TrafficPage() {
         }
         setError(null);
       } catch (err) {
+        if (cancelled) return;
         setError(err.message);
-        // Revert to last successful week on error
-        setWeekOffset(lastSuccessfulWeek.current);
+        // Revert to last successful selection on error
+        setWeekOffset(lastSuccessful.current.weekOffset);
+        setMetric(lastSuccessful.current.metric);
 
         // Clear error after 5 seconds
         if (errorTimeoutRef.current) {
@@ -193,12 +208,21 @@ export function TrafficPage() {
           errorTimeoutRef.current = null;
         }, 5000);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     loadTrafficData();
-  }, [weekOffset]);
+    return () => {
+      cancelled = true;
+    };
+  }, [weekOffset, metric]);
+
+  useEffect(() => {
+    return () => {
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+    };
+  }, []);
 
   const prevWeek = () => {
     if (weekOffset >= MAX_WEEK_CAP - 1) return;
@@ -209,6 +233,8 @@ export function TrafficPage() {
     if (weekOffset <= 0) return;
     setWeekOffset(weekOffset - 1);
   };
+
+  const weekTotal = chartData.reduce((total, value) => total + value, 0);
 
   const createChartData = (data, label) => {
     return {
@@ -226,9 +252,9 @@ export function TrafficPage() {
     };
   };
 
-  const chartOptions = (data) => ({
+  const chartOptions = {
     responsive: true,
-    maintainAspectRatio: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
         display: false,
@@ -237,14 +263,13 @@ export function TrafficPage() {
     scales: {
       y: {
         beginAtZero: true,
-        min: 0,
-        max: Math.max(...data, 1) + 1,
+        grace: '10%',
         ticks: {
-          stepSize: 1,
+          precision: 0,
         },
       },
     },
-  });
+  };
 
   return (
     <main className="traffic-page">
@@ -263,11 +288,33 @@ export function TrafficPage() {
         </div>
       )}
 
+      <div className="traffic-overview">
+        <p className="traffic-overview-label">Quizzes completed, all time</p>
+        <p className="traffic-overview-value">
+          {totalCompleted === null ? '…' : totalCompleted === undefined ? 'Unavailable' : totalCompleted.toLocaleString('en-US')}
+        </p>
+      </div>
+
       <div className="traffic-controls">
         <select
+          className="date-range-select traffic-metric-select"
+          aria-label="Statistic"
+          value={metric}
+          onChange={(e) => setMetric(e.target.value)}
+          disabled={loading}
+        >
+          {METRICS.map((m) => (
+            <option key={m.value} value={m.value}>
+              {m.label}
+            </option>
+          ))}
+        </select>
+        <select
           className="date-range-select"
+          aria-label="Week"
           value={weekOffset}
           onChange={(e) => setWeekOffset(parseInt(e.target.value))}
+          disabled={loading}
         >
           {dateRanges.map((range) => (
             <option key={range.value} value={range.value}>
@@ -291,41 +338,29 @@ export function TrafficPage() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="loading-state">Loading traffic data...</div>
-      ) : (
-        <div className="traffic-charts-card">
-          <div className="traffic-chart">
-            <h2 className="traffic-chart-title">Unique Visits</h2>
-            <div className="chart-container">
-              <Line
-                data={createChartData(uniqueData, 'Unique Visits')}
-                options={chartOptions(uniqueData)}
-              />
-            </div>
+      <section className="traffic-chart-card">
+        <div className="traffic-chart-header">
+          <div>
+            <h2 className="traffic-chart-title">{selectedMetric.label}</h2>
+            <p className="traffic-chart-description">{selectedMetric.description}</p>
           </div>
-
-          <div className="traffic-chart">
-            <h2 className="traffic-chart-title">Visits</h2>
-            <div className="chart-container">
-              <Line
-                data={createChartData(visitsData, 'Visits')}
-                options={chartOptions(visitsData)}
-              />
-            </div>
-          </div>
-
-          <div className="traffic-chart">
-            <h2 className="traffic-chart-title">Activity</h2>
-            <div className="chart-container">
-              <Line
-                data={createChartData(activityData, 'Activity')}
-                options={chartOptions(activityData)}
-              />
-            </div>
-          </div>
+          {!loading && (
+            <p className="traffic-chart-total">
+              <span>{weekTotal.toLocaleString('en-US')}</span> this week
+            </p>
+          )}
         </div>
-      )}
+        {loading ? (
+          <div className="loading-state chart-container">Loading traffic data...</div>
+        ) : (
+          <div className="chart-container">
+            <Line
+              data={createChartData(chartData, selectedMetric.label)}
+              options={chartOptions}
+            />
+          </div>
+        )}
+      </section>
     </main>
   );
 }

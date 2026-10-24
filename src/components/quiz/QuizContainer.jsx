@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { QuizHeader } from './QuizHeader';
 import { QuestionBox } from './QuestionBox';
@@ -7,6 +7,7 @@ import { QuizControls } from './QuizControls';
 import { QuizSummary } from './QuizSummary';
 import { Modal } from '../shared/Modal';
 import { shuffle, sort, linkify } from '../../utils/quizHelpers';
+import { trackQuizCompleted } from '../../utils/analytics';
 
 export function QuizContainer({ examName: propExamName, questions: propQuestions }) {
   const [searchParams] = useSearchParams();
@@ -29,6 +30,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
   const [sector, setSector] = useState('');
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(!propQuestions);
+  const completionTracked = useRef(false);
 
   useEffect(() => {
     if (propQuestions) return;
@@ -56,6 +58,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
         setShowModal(false);
         setShowExitModal(false);
         setLoading(true);
+        completionTracked.current = false;
 
         let sectorName = examNameFromUrl.substring(5, 8);
         if (sectorName === 'COR') sectorName = 'CORE';
@@ -101,6 +104,14 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
 
     loadQuestions();
   }, [searchParams, propQuestions]);
+
+  // Count a completed quiz each time the summary screen is reached, including exiting early
+  useEffect(() => {
+    if (showSummary && !completionTracked.current) {
+      completionTracked.current = true;
+      trackQuizCompleted();
+    }
+  }, [showSummary]);
 
   const currentQuestion = questions[currentQuestionIndex];
 

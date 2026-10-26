@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import * as Popover from '@radix-ui/react-popover';
 import { SVGIcon } from '../shared/SVGIcon';
 
 export function SearchBar({ allExams }) {
@@ -33,41 +32,34 @@ export function SearchBar({ allExams }) {
     navigate(`/quiz?exam=${exam}`);
   };
 
+  // The results sit inside the search box and are placed by CSS (see .result-box), so they
+  // stay under it at any page zoom
   return (
-    <Popover.Root open={open && input.length > 0}>
-      <Popover.Trigger asChild>
-        <div className="search-box">
-          <div className="search-box-row" onClick={() => inputRef.current?.focus()}>
-            <input
-              ref={inputRef}
-              type="text"
-              id="input"
-              placeholder="Search"
-              autoComplete="off"
-              value={input}
-              onChange={handleSearch}
-              onFocus={() => {
-                if (input.length) {
-                  setOpen(true);
-                }
-              }}
-              onBlur={() => {
-                setTimeout(() => setOpen(false), 50);
-              }}
-            />
-            <button className="search-icon" type="button">
-              <SVGIcon type="search" />
-            </button>
-          </div>
-        </div>
-      </Popover.Trigger>
-      <Popover.Portal>
-        <Popover.Content
-          className="result-box"
-          sideOffset={5}
-          align="start"
-          onOpenAutoFocus={(e) => e.preventDefault()}
-        >
+    <div className="search-box">
+      <div className="search-box-row" onClick={() => inputRef.current?.focus()}>
+        <input
+          ref={inputRef}
+          type="text"
+          id="input"
+          placeholder="Search"
+          autoComplete="off"
+          value={input}
+          onChange={handleSearch}
+          onFocus={() => {
+            if (input.length) {
+              setOpen(true);
+            }
+          }}
+          onBlur={() => {
+            setTimeout(() => setOpen(false), 50);
+          }}
+        />
+        <button className="search-icon" type="button">
+          <SVGIcon type="search" />
+        </button>
+      </div>
+      {open && input.length > 0 && (
+        <div className="result-box">
           <ul>
             {results.length > 0 ? (
               results.map((exam) => (
@@ -79,8 +71,8 @@ export function SearchBar({ allExams }) {
               <li className="no-results">No results</li>
             )}
           </ul>
-        </Popover.Content>
-      </Popover.Portal>
-    </Popover.Root>
+        </div>
+      )}
+    </div>
   );
 }

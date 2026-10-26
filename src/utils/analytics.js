@@ -7,7 +7,7 @@ function deleteExtraLocalStorage() {
   let i = keys.length;
 
   while (i--) {
-    if (keys[i] !== "uniqueVisit" && keys[i] !== activityKey && keys[i] !== "favExams") {
+    if (keys[i] !== "uniqueVisit" && keys[i] !== activityKey && keys[i] !== "favExams" && !keys[i].startsWith("feedback-")) {
       localStorage.removeItem(keys[i]);
     }
   }
@@ -65,4 +65,17 @@ export function trackQuizCompleted() {
 
   safeFetch(`https://abacus.jasoncameron.dev/hit/${nameSpace}/${completedKey}`);
   safeFetch(`https://abacus.jasoncameron.dev/hit/${nameSpace}/completedTotal`);
+}
+
+// Adds 1 to each counter and returns the keys that failed, so a retry never counts anything twice
+export async function hitCounters(keys) {
+  const succeeded = await Promise.all(keys.map(async (key) => {
+    try {
+      const response = await fetch(`https://abacus.jasoncameron.dev/hit/${nameSpace}/${key}`);
+      return response.ok;
+    } catch {
+      return false;
+    }
+  }));
+  return keys.filter((_, i) => !succeeded[i]);
 }

@@ -10,6 +10,8 @@ import { FavoritesPage } from './pages/FavoritesPage';
 import { TrafficPage } from './pages/TrafficPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { trackVisit } from './utils/analytics';
+import { FeedbackWidget } from './components/feedback/FeedbackWidget';
+import { FEEDBACK_ENABLED } from './config/feedback';
 
 function AppContent() {
   const location = useLocation();
@@ -32,6 +34,7 @@ function AppContent() {
         <Route path="/:sector" element={<SectorPage />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      {FEEDBACK_ENABLED && <FeedbackWidget />}
     </>
   );
 }

@@ -10,6 +10,7 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
+import { FEEDBACK_SURVEY, getFeedbackOptionKey, getFeedbackResponsesKey } from '../config/feedback';
 
 ChartJS.register(
   CategoryScale,
@@ -39,11 +40,21 @@ const METRICS = [
 // All-time counter written by trackQuizCompleted in utils/analytics.js
 const TOTAL_COMPLETED_KEY = 'completedTotal';
 
+// Feedback survey results (see config/feedback.js): one request per option plus the response count
+const FEEDBACK_VIEW = { value: 'feedback', label: 'Feedback Survey', description: FEEDBACK_SURVEY.question };
+const FEEDBACK_KEYS = [
+  getFeedbackResponsesKey(FEEDBACK_SURVEY),
+  ...FEEDBACK_SURVEY.options.map((option) => getFeedbackOptionKey(FEEDBACK_SURVEY, option)),
+];
+const VIEWS = [...METRICS, FEEDBACK_VIEW];
+
 export function TrafficPage() {
   const [weekOffset, setWeekOffset] = useState(0);
   const [metric, setMetric] = useState(METRICS[0].value);
   const [chartData, setChartData] = useState([]);
   const [xLabels, setXLabels] = useState([]);
+  // Which kind of data chartData holds, so it's never drawn with the wrong view
+  const [loadedView, setLoadedView] = useState(null);
   const [loading, setLoading] = useState(true);
   const [dateRanges, setDateRanges] = useState([]);
   const [rateLimitInfo, setRateLimitInfo] = useState(null);
@@ -58,7 +69,8 @@ export function TrafficPage() {
   const errorTimeoutRef = useRef(null);
   const currentDate = new Date();
 
-  const selectedMetric = METRICS.find((m) => m.value === metric);
+  const selectedMetric = VIEWS.find((m) => m.value === metric);
+  const isFeedbackView = metric === FEEDBACK_VIEW.value;
 
   const getDateOffsetWeek = (offset = 0) => {
     const msInDay = 24 * 60 * 60 * 1000;
@@ -149,7 +161,10 @@ export function TrafficPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const cacheKey = `${metric}:${weekOffset}`;
+    const isFeedback = metric === FEEDBACK_VIEW.value;
+    // Survey results don't depend on the week
+    const cacheKey = isFeedback ? FEEDBACK_VIEW.value : `${metric}:${weekOffset}`;
+    const view = isFeedback ? 'feedback' : 'chart';
 
     const loadTrafficData = async () => {
       // Check cache first
@@ -157,6 +172,7 @@ export function TrafficPage() {
         const cached = dataCache.current.get(cacheKey);
         setXLabels(cached.labels);
         setChartData(cached.data);
+        setLoadedView(view);
         setLoading(false);
         lastSuccessful.current = { weekOffset, metric };
         return;
@@ -165,14 +181,19 @@ export function TrafficPage() {
       setLoading(true);
 
       try {
-        const week = getWeek(weekOffset);
-        const labels = week.map(d => DAY_OF_WEEK[d.getDay()]);
-        const getKey = METRICS.find((m) => m.value === metric).getKey;
+        let labels = [];
+        let keys = FEEDBACK_KEYS;
+        if (!isFeedback) {
+          const week = getWeek(weekOffset);
+          const getKey = METRICS.find((m) => m.value === metric).getKey;
+          labels = week.map(d => DAY_OF_WEEK[d.getDay()]);
+          keys = week.map(getKey);
+        }
 
         // Reuse a request that's already running for this view instead of sending it again
         let request = pendingRequests.current.get(cacheKey);
         if (!request) {
-          request = Promise.all(week.map(d => fetchVisits(getKey(d))));
+          request = Promise.all(keys.map(fetchVisits));
           pendingRequests.current.set(cacheKey, request);
           request.then(
             (data) => dataCache.current.set(cacheKey, { labels, data }),
@@ -184,6 +205,7 @@ export function TrafficPage() {
 
         setXLabels(labels);
         setChartData(data);
+        setLoadedView(view);
         lastSuccessful.current = { weekOffset, metric };
 
         // Clear any previous errors on successful load
@@ -235,6 +257,7 @@ export function TrafficPage() {
   };
 
   const weekTotal = chartData.reduce((total, value) => total + value, 0);
+  const feedbackResponses = loadedView === 'feedback' ? chartData[0] || 0 : 0;
 
   const createChartData = (data, label) => {
     return {
@@ -303,39 +326,43 @@ export function TrafficPage() {
           onChange={(e) => setMetric(e.target.value)}
           disabled={loading}
         >
-          {METRICS.map((m) => (
+          {VIEWS.map((m) => (
             <option key={m.value} value={m.value}>
               {m.label}
             </option>
           ))}
         </select>
-        <select
-          className="date-range-select"
-          aria-label="Week"
-          value={weekOffset}
-          onChange={(e) => setWeekOffset(parseInt(e.target.value))}
-          disabled={loading}
-        >
-          {dateRanges.map((range) => (
-            <option key={range.value} value={range.value}>
-              {range.label}
-            </option>
-          ))}
-        </select>
-        <button
-          className="traffic-nav-btn"
-          onClick={prevWeek}
-          disabled={weekOffset >= MAX_WEEK_CAP - 1 || loading}
-        >
-          Prev
-        </button>
-        <button
-          className="traffic-nav-btn"
-          onClick={nextWeek}
-          disabled={weekOffset <= 0 || loading}
-        >
-          Next
-        </button>
+        {!isFeedbackView && (
+          <>
+            <select
+              className="date-range-select"
+              aria-label="Week"
+              value={weekOffset}
+              onChange={(e) => setWeekOffset(parseInt(e.target.value))}
+              disabled={loading}
+            >
+              {dateRanges.map((range) => (
+                <option key={range.value} value={range.value}>
+                  {range.label}
+                </option>
+              ))}
+            </select>
+            <button
+              className="traffic-nav-btn"
+              onClick={prevWeek}
+              disabled={weekOffset >= MAX_WEEK_CAP - 1 || loading}
+            >
+              Prev
+            </button>
+            <button
+              className="traffic-nav-btn"
+              onClick={nextWeek}
+              disabled={weekOffset <= 0 || loading}
+            >
+              Next
+            </button>
+          </>
+        )}
       </div>
 
       <section className="traffic-chart-card">
@@ -344,21 +371,60 @@ export function TrafficPage() {
             <h2 className="traffic-chart-title">{selectedMetric.label}</h2>
             <p className="traffic-chart-description">{selectedMetric.description}</p>
           </div>
-          {!loading && (
+          {!loading && loadedView === 'chart' && (
             <p className="traffic-chart-total">
               <span>{weekTotal.toLocaleString('en-US')}</span> this week
             </p>
           )}
+          {!loading && loadedView === 'feedback' && (
+            <p className="traffic-chart-total">
+              <span>{feedbackResponses.toLocaleString('en-US')}</span> {feedbackResponses === 1 ? 'response' : 'responses'}
+            </p>
+          )}
         </div>
-        {loading ? (
+        {loading && (
           <div className="loading-state chart-container">Loading traffic data...</div>
-        ) : (
+        )}
+        {!loading && loadedView === null && (
+          <div className="loading-state chart-container">Couldn't load traffic data. Try again in a minute.</div>
+        )}
+        {!loading && loadedView === 'chart' && (
           <div className="chart-container">
             <Line
               data={createChartData(chartData, selectedMetric.label)}
               options={chartOptions}
             />
           </div>
+        )}
+        {!loading && loadedView === 'feedback' && (
+          <>
+            <ul className="feedback-results">
+              {FEEDBACK_SURVEY.options.map((option, i) => {
+                const count = chartData[i + 1] || 0;
+                const percent = feedbackResponses > 0 ? Math.round((count / feedbackResponses) * 100) : 0;
+                return (
+                  <li
+                    key={option.id}
+                    className="feedback-result"
+                    title={`${option.label}: ${count.toLocaleString('en-US')} of ${feedbackResponses.toLocaleString('en-US')} responses (${percent}%)`}
+                  >
+                    <div className="feedback-result-row">
+                      <span className="feedback-result-label">{option.label}</span>
+                      <span className="feedback-result-count">
+                        {count.toLocaleString('en-US')} <span>({percent}%)</span>
+                      </span>
+                    </div>
+                    <div className="feedback-result-track">
+                      <div className="feedback-result-bar" style={{ width: `${Math.min(percent, 100)}%` }} />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="feedback-results-note">
+              People can pick more than one choice, so the percentages can add up to more than 100%.
+            </p>
+          </>
         )}
       </section>
     </main>

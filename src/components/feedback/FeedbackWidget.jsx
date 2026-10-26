@@ -123,7 +123,7 @@ export function FeedbackWidget({ survey = FEEDBACK_SURVEY }) {
       {open && (
         <div className="feedback-panel" role="dialog" aria-label="Feedback" ref={panelRef} tabIndex={-1}>
           <div className="feedback-panel-header">
-            <span className="feedback-eyebrow">Quick question</span>
+            <span className="feedback-eyebrow">Help improve the website</span>
             <button type="button" className="feedback-close" aria-label="Close feedback" onClick={closeAndRefocus}>
               ×
             </button>

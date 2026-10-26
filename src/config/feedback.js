@@ -1,12 +1,12 @@
 // Feedback survey opened from the ? button in the bottom right corner.
 // Set FEEDBACK_ENABLED to false to hide the button everywhere. Results stay on the traffic page.
-export const FEEDBACK_ENABLED = false;
+export const FEEDBACK_ENABLED = true;
 
 // Changing `id` starts a new survey: answers are counted separately and everyone sees the button again.
 // Keep option ids short and stable, since they name the counters.
 export const FEEDBACK_SURVEY = {
   id: 'features1',
-  question: 'What feature or improvement would you like most on the website?',
+  question: 'What feature or improvement would you want the most?',
   options: [
     { id: 'dark-mode', label: 'Dark mode / custom themes' },
     { id: 'wordle', label: "Wordle mini game (play today's Wordle on the site)" },

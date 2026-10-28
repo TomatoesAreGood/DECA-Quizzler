@@ -29,6 +29,26 @@
     <meta property="twitter:description" content="Master your DECA exams with our free online quiz platform. Practice questions for all sectors." />
     <meta property="twitter:image" content="https://decaquizzer.com/assets/images/LOGO.png" />
 
+    <!-- Apply the saved color theme before the page draws, so it doesn't flash Light first.
+         Mirrors applyTheme() in src/utils/theme.js. -->
+    <script>
+      (function () {
+        try {
+          var saved = JSON.parse(localStorage.getItem('theme'));
+          var isColor = function (value) { return /^#[0-9a-fA-F]{6}$/.test(value); };
+          if (saved && typeof saved.id === 'string' && saved.id !== 'light'
+            && isColor(saved.background) && isColor(saved.main) && isColor(saved.sub)
+            && window.CSS && CSS.supports('color', 'color-mix(in oklab, red, blue)')) {
+            var root = document.documentElement;
+            root.style.setProperty('--theme-bg', saved.background);
+            root.style.setProperty('--theme-main', saved.main);
+            root.style.setProperty('--theme-sub', saved.sub);
+            root.setAttribute('data-theme', saved.id);
+          }
+        } catch (e) {}
+      })();
+    </script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@100;400;700&family=Poppins:wght@100;400;500;700&display=swap" rel="stylesheet">

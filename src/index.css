@@ -19,7 +19,24 @@
     --color-success-soft: #EAF6EE;
     --color-error: #DC2626;
     --color-error-soft: #FDECEC;
+    --color-primary-text: var(--color-primary);
+    --color-success-text: var(--color-success);
+    --color-error-text: var(--color-error);
     --color-warning: #F39C12;
+
+    /* Used by the dark themes (see Color themes below); Light keeps these values */
+    --color-on-primary: #FFFFFF;
+    --color-nav: var(--color-primary);
+    --color-logo-accent: #FFFFFF;
+    --color-focus-ring: rgba(74, 158, 255, 0.35);
+    --color-primary-soft-border: #D3E2F5;
+    --color-primary-soft-hover: #E2EDFB;
+    --color-primary-soft-hover-border: #BFD5F2;
+    --color-success-ink: #14532D;
+    --color-error-ink: #7F1D1D;
+    --color-toggle-off: #939ba3;
+    --color-track: #EDF1F5;
+    --question-box-bg: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
 
     /* Spacing */
     --spacing-xs: 4px;
@@ -46,6 +63,53 @@
     --transition-fast: 150ms ease;
     --transition-base: 250ms ease;
     --transition-slow: 350ms ease;
+}
+
+/* Color themes (see config/themes.js). Light is the :root colors above. Every other theme is dark
+   and sets just --theme-bg, --theme-main and --theme-sub on <html>; the rest is mixed from them. */
+:root[data-theme] {
+    color-scheme: dark;
+    --theme-text: color-mix(in oklab, #FFFFFF 88%, var(--theme-bg));
+
+    --color-surface: var(--theme-bg);
+    --color-background: color-mix(in oklab, var(--theme-text) 6%, var(--theme-bg));
+    --color-border: color-mix(in oklab, var(--theme-text) 26%, var(--theme-bg));
+    --color-border-strong: var(--theme-sub);
+    --color-text-primary: var(--theme-text);
+    --color-text-secondary: color-mix(in oklab, var(--theme-text) 76%, var(--theme-bg));
+
+    --color-primary: var(--theme-main);
+    --color-primary-hover: color-mix(in oklab, var(--theme-main) 85%, #FFFFFF);
+    /* The accent as small text: lightened a little so it reads on every theme's cards */
+    --color-primary-text: color-mix(in oklab, var(--theme-main) 72%, #FFFFFF);
+    --color-primary-light: var(--theme-main);
+    --color-primary-lighter: color-mix(in oklab, var(--theme-main) 50%, transparent);
+    --color-primary-dark: color-mix(in oklab, var(--theme-main) 75%, var(--theme-text));
+    --color-primary-soft: color-mix(in oklab, var(--theme-main) 8%, var(--color-background));
+    --color-primary-soft-border: color-mix(in oklab, var(--theme-main) 30%, var(--color-background));
+    --color-primary-soft-hover: color-mix(in oklab, var(--theme-main) 11%, var(--color-background));
+    --color-primary-soft-hover-border: color-mix(in oklab, var(--theme-main) 45%, var(--color-background));
+    --color-on-primary: var(--theme-bg);
+    --color-focus-ring: color-mix(in oklab, var(--theme-main) 40%, transparent);
+
+    --color-nav: var(--color-background);
+    --color-logo-accent: var(--color-primary-text);
+
+    --color-success-soft: color-mix(in oklab, var(--color-success) 22%, var(--color-background));
+    --color-error-soft: color-mix(in oklab, var(--color-error) 22%, var(--color-background));
+    --color-success-text: color-mix(in oklab, var(--color-success) 55%, #FFFFFF);
+    --color-error-text: color-mix(in oklab, var(--color-error) 55%, #FFFFFF);
+    --color-success-ink: var(--theme-text);
+    --color-error-ink: var(--theme-text);
+
+    --color-toggle-off: color-mix(in oklab, var(--theme-text) 40%, var(--theme-bg));
+    --color-track: color-mix(in oklab, var(--theme-text) 10%, var(--color-background));
+    --question-box-bg: linear-gradient(135deg, color-mix(in oklab, var(--theme-main) 10%, var(--color-background)) 0%, var(--color-background) 100%);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.45);
+    --shadow-hover: 0 4px 14px rgba(0, 0, 0, 0.4);
 }
 
 /* General */
@@ -91,7 +155,7 @@ h1{
     line-height: 1.2;
 }
 h1 a{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-family: 'Kanit';
 }
 h2{
@@ -162,6 +226,7 @@ ul h3{
 
 .logo-deca{
     font-weight: 800;
+    color: var(--color-logo-accent);
     font-size: 1.3rem;
     letter-spacing: 0.5px;
 }
@@ -189,7 +254,7 @@ ul h3{
 }
 .navbar ul{
     list-style-type: none;
-    background: var(--color-primary);
+    background: var(--color-nav);
     padding: 0%;
     margin: 0%;
     overflow: visible;
@@ -305,7 +370,7 @@ ul h3{
 
 .sidebar-item:hover{
     background: var(--color-primary-soft) !important;
-    color: var(--color-primary) !important;
+    color: var(--color-primary-text) !important;
 }
 
 .toggle{
@@ -406,7 +471,7 @@ ul h3{
 }
 
 .dropdown-element:hover a{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 /* The navbar's white hover tint is for links on the blue bar, not inside the white menu */
@@ -422,7 +487,7 @@ ul h3{
     width: 250px;
     background: var(--color-background);
     border-radius: var(--radius-md);
-    margin-right: var(--spacing-lg);
+    margin-right: var(--spacing-sm);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--color-border);
     transition: box-shadow var(--transition-base);
@@ -430,7 +495,7 @@ ul h3{
 
 .search-box:focus-within{
     border-color: var(--color-primary-light);
-    box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.35);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
 }
 
 .search-box-row{
@@ -526,7 +591,139 @@ ul h3{
 }
 .result-box ul li:hover{
     background: var(--color-surface);
-    color: var(--color-primary);
+    color: var(--color-primary-text);
+}
+
+/* Color theme picker (see components/layout/ThemePicker.jsx) */
+.theme-picker{
+    position: relative;
+    margin-right: var(--spacing-lg);
+}
+
+.theme-button{
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: none;
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.theme-button svg{
+    width: 1.3em;
+    height: 1.3em;
+}
+
+.theme-button:hover,
+.theme-button[aria-expanded=true]{
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+.theme-button:focus-visible{
+    outline-color: #FFFFFF;
+}
+
+.theme-panel{
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 230px;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: var(--spacing-xs);
+    background: var(--color-background);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    animation: slideDown 0.2s ease-out;
+}
+
+.theme-option{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--color-text-primary);
+    font-size: 0.95rem;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.theme-option:hover{
+    background: var(--color-surface);
+}
+
+.theme-option.is-selected{
+    background: var(--color-primary-soft);
+    font-weight: 600;
+}
+
+.theme-option-label{
+    flex: 1;
+}
+
+.theme-option-check{
+    color: var(--color-primary-text);
+}
+
+.theme-swatch{
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 22px;
+    height: 22px;
+    border: 2px solid;
+    border-radius: 50%;
+}
+
+.theme-swatch span{
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+/* Phones render at half scale (see index.html), so the picker gets bigger targets */
+@media (max-width: 900px){
+    .theme-button{
+        width: 56px;
+        height: 56px;
+        font-size: 1.7rem;
+    }
+
+    .theme-panel{
+        width: 320px;
+        padding: var(--spacing-sm);
+    }
+
+    .theme-option{
+        gap: 16px;
+        padding: 14px 14px;
+        font-size: 1.25rem;
+    }
+
+    .theme-swatch{
+        width: 30px;
+        height: 30px;
+    }
+
+    .theme-swatch span{
+        width: 14px;
+        height: 14px;
+    }
 }
 
 /* SECTOR SUBPAGES */
@@ -682,15 +879,15 @@ ul h3{
 }
 
 .stat-card-score .stat-value{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 .stat-card-correct .stat-value{
-    color: var(--color-success);
+    color: var(--color-success-text);
 }
 
 .stat-card-incorrect .stat-value{
-    color: var(--color-error);
+    color: var(--color-error-text);
 }
 
 .stat-content{
@@ -750,7 +947,7 @@ ul h3{
 }
 
 .tab-active{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     border-bottom-color: var(--color-primary);
 }
 
@@ -789,7 +986,7 @@ ul h3{
 
 .question-number{
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
     padding: var(--spacing-xs) var(--spacing-md);
     border-radius: var(--radius-full);
     font-weight: 700;
@@ -834,14 +1031,14 @@ ul h3{
 .choice-correct{
     background: var(--color-success-soft);
     border-color: var(--color-success);
-    color: #14532D;
+    color: var(--color-success-ink);
     font-weight: 600;
 }
 
 .choice-incorrect{
     background: var(--color-error-soft);
     border-color: var(--color-error);
-    color: #7F1D1D;
+    color: var(--color-error-ink);
     font-weight: 600;
 }
 
@@ -849,8 +1046,8 @@ ul h3{
     width: 100%;
     padding: var(--spacing-md);
     background: var(--color-primary-soft);
-    color: var(--color-primary);
-    border: 1px solid #D3E2F5;
+    color: var(--color-primary-text);
+    border: 1px solid var(--color-primary-soft-border);
     border-radius: var(--radius-md);
     font-weight: 600;
     font-size: 0.95rem;
@@ -863,8 +1060,8 @@ ul h3{
 }
 
 .explanation-toggle:hover{
-    background: #E2EDFB;
-    border-color: #BFD5F2;
+    background: var(--color-primary-soft-hover);
+    border-color: var(--color-primary-soft-hover-border);
 }
 
 .toggle-icon{
@@ -895,7 +1092,7 @@ ul h3{
 }
 
 .correct-answer{
-    color: var(--color-success);
+    color: var(--color-success-text);
     font-weight: 700;
 }
 
@@ -950,12 +1147,12 @@ ul h3{
 
 .action-button-home:hover{
     border-color: var(--color-primary);
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 .action-button-retry{
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
 }
 
 .action-button-retry:hover{
@@ -993,7 +1190,7 @@ ul h3{
     margin-inline: auto;
     align-items: center;
     width: 90%;
-    background: linear-gradient(135deg, #E3F2FD 0%, #FFFFFF 100%);
+    background: var(--question-box-bg);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-lg);
     display: grid;
@@ -1009,7 +1206,7 @@ ul h3{
     height: 88px;
     background: var(--color-primary);
     border-radius: 50%;
-    color: white;
+    color: var(--color-on-primary);
     font-weight: 700;
     font-size: 2.6rem;
     line-height: 1;
@@ -1026,7 +1223,7 @@ ul h3{
 }
 .btn{
     background: var(--color-primary);
-    color: #fff;
+    color: var(--color-on-primary);
     font-weight: 500;
     font-size: 1.05rem;
     height: 150px;
@@ -1055,7 +1252,7 @@ ul h3{
     height: 36px;
     border-radius: var(--radius-sm);
     background: rgba(255, 255, 255, 0.16);
-    color: #fff;
+    color: var(--color-on-primary);
     font-weight: 600;
     font-size: 1.2rem;
     line-height: 1;
@@ -1120,47 +1317,54 @@ ul h3{
 
 .quizButton:hover{
     border-color: var(--color-primary);
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 /* The one primary action while reviewing an answer in Slow Mode */
 #next-question{
     background: var(--color-primary);
     border-color: var(--color-primary);
-    color: #fff;
+    color: var(--color-on-primary);
 }
 
 #next-question:hover{
     background: var(--color-primary-hover);
     border-color: var(--color-primary-hover);
-    color: #fff;
+    color: var(--color-on-primary);
 }
 
 #fav-btn{
     position: absolute;
     background: transparent;
     border: none;
-    top: 6px;
-    right: 20px;
+    top: 8px;
+    right: 10px;
     outline: none;
     font-size: 24px;
     cursor: pointer;
-    padding: var(--spacing-sm);
+    padding: 0;
     border-radius: 50%;
-    transition: all var(--transition-base);
+    transition: background-color var(--transition-base);
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 24px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
 }
 
 #fav-btn:hover{
     background: rgba(255, 215, 0, 0.1);
+}
+
+#fav-btn:focus-visible{
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+#fav-btn:hover .icon-stack{
     transform: scale(1.1);
 }
 
-#fav-btn:active{
+#fav-btn:active .icon-stack{
     transform: scale(0.95);
 }
 
@@ -1169,6 +1373,51 @@ ul h3{
     display: inline-block;
     width: 28px;
     height: 28px;
+    transition: transform var(--transition-base);
+}
+
+/* Hover/focus label above the star, right-aligned to it so it can't run off the box */
+.fav-tooltip{
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-text-primary);
+    color: var(--color-background);
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: var(--shadow-lg);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, visibility 0.15s;
+    z-index: 100;
+}
+
+.fav-tooltip::after{
+    content: '';
+    position: absolute;
+    top: 100%;
+    right: 17px;
+    border: 5px solid transparent;
+    border-top-color: var(--color-text-primary);
+}
+
+#fav-btn:focus-visible .fav-tooltip{
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Hover only where there is a real hover; on touch it would stay open after a tap */
+@media (hover: hover){
+    #fav-btn:hover .fav-tooltip{
+        opacity: 1;
+        visibility: visible;
+        transition-delay: 0.25s;
+    }
 }
 
 .icon-stack .bottom,
@@ -1193,7 +1442,7 @@ ul h3{
     position: relative;
     width: 53px;
     height: 28px;
-    background-color: #939ba3;
+    background-color: var(--color-toggle-off);
     border-radius: var(--radius-full);
     transition: var(--transition-base);
     box-shadow: var(--shadow-sm);
@@ -1228,10 +1477,12 @@ ul h3{
 .correct{
     background: var(--color-success) !important;
     border-color: var(--color-success) !important;
+    --color-on-primary: #FFFFFF;
 }
 .incorrect{
     background: var(--color-error) !important;
     border-color: var(--color-error) !important;
+    --color-on-primary: #FFFFFF;
 }
 .underline{
     text-decoration: underline;
@@ -1327,7 +1578,7 @@ ul h3{
     text-align: left;
     margin: 0 0 var(--spacing-md) 0;
     padding: 0;
-    color: var(--color-error);
+    color: var(--color-error-text);
     font-size: 2rem;
     font-weight: 600;
 }
@@ -1355,7 +1606,7 @@ ul h3{
     border-radius: var(--radius-md);
     font-family: 'Poppins';
     font-weight: 600;
-    color: #fff;
+    color: var(--color-on-primary);
     font-size: 1rem;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
@@ -1378,7 +1629,7 @@ ul h3{
     border-radius: var(--radius-md);
     font-family: 'Poppins';
     font-weight: 600;
-    color: #fff;
+    color: var(--color-on-primary);
     font-size: 1rem;
     cursor: pointer;
     box-shadow: var(--shadow-sm);
@@ -1447,7 +1698,7 @@ ul h3{
     align-items: center;
     padding: 14px var(--spacing-xl);
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
     font-weight: 600;
     font-size: 1.05rem;
     border-radius: var(--radius-md);
@@ -1510,7 +1761,7 @@ ul h3{
 }
 
 .sample-question-label{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-size: 0.95rem;
     font-weight: 600;
     margin: 0;
@@ -1548,7 +1799,7 @@ ul h3{
     padding: 12px var(--spacing-md);
     text-align: left;
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
     font-size: 1rem;
     font-weight: 500;
     line-height: 1.4;
@@ -1574,11 +1825,13 @@ ul h3{
 .sample-choice.is-correct{
     background: var(--color-success);
     border-color: var(--color-success);
+    --color-on-primary: #FFFFFF;
 }
 
 .sample-choice.is-incorrect{
     background: var(--color-error);
     border-color: var(--color-error);
+    --color-on-primary: #FFFFFF;
 }
 
 .sample-choice-letter{
@@ -1594,11 +1847,11 @@ ul h3{
 }
 
 .sample-verdict.is-correct{
-    color: var(--color-success);
+    color: var(--color-success-text);
 }
 
 .sample-verdict.is-incorrect{
-    color: var(--color-error);
+    color: var(--color-error-text);
 }
 
 .sample-explanation{
@@ -1639,11 +1892,11 @@ ul h3{
 
 .sample-next:hover{
     border-color: var(--color-primary);
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 .sample-full-exam{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-size: 0.95rem;
     font-weight: 600;
 }
@@ -1803,7 +2056,7 @@ ul h3{
 
 .sector-card:hover .sector-card-arrow{
     transform: translateX(4px);
-    color: var(--color-primary);
+    color: var(--color-primary-text);
 }
 
 /* Home Page: features */
@@ -1828,7 +2081,7 @@ ul h3{
 }
 
 .feature-list a{
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-weight: 600;
 }
 
@@ -1976,7 +2229,7 @@ ul h3{
 /* Tooltip */
 .tooltip-content {
     background-color: var(--color-text-primary);
-    color: white;
+    color: var(--color-background);
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--radius-sm);
     font-size: 0.875rem;
@@ -2126,7 +2379,8 @@ ul h3{
         font-size: 0.85rem;
     }
 }
-@media(max-width: 1215px){
+/* Below the width the full navbar needs (1248px), it collapses into the sidebar menu */
+@media(max-width: 1267px){
     .search-box{
         width: 250px;
         background: var(--color-background);
@@ -2139,14 +2393,17 @@ ul h3{
     .toggle{
         display: block !important;
     }
+    .theme-picker{
+        margin-right: 0;
+    }
 }
 
 /* Zoomed-out desktop pages (see html) fit the full navbar in narrower windows: it needs
-   1196px, so 0.9 or 0.8 of that plus slack and room for a scrollbar */
-@media (hover: hover) and (pointer: fine) and (min-width: 1101px),
-       (hover: hover) and (pointer: fine) and (max-height: 720px) and (min-width: 981px){
-    .search-box{
-        margin-right: var(--spacing-lg) !important;
+   1248px, so 0.9 or 0.8 of that plus slack and room for a scrollbar */
+@media (hover: hover) and (pointer: fine) and (min-width: 1149px),
+       (hover: hover) and (pointer: fine) and (max-height: 720px) and (min-width: 1024px){
+    .theme-picker{
+        margin-right: var(--spacing-lg);
     }
     .dropdown{
         display: block;
@@ -2252,7 +2509,7 @@ ul h3{
 
 .traffic-nav-btn:hover:not(:disabled) {
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
     border-color: var(--color-primary);
 }
 
@@ -2392,7 +2649,7 @@ ul h3{
     border: none;
     border-radius: 50%;
     background: var(--color-primary);
-    color: #fff;
+    color: var(--color-on-primary);
     font-family: 'Kanit', sans-serif;
     font-size: 1.6rem;
     font-weight: 700;
@@ -2433,7 +2690,7 @@ ul h3{
 }
 
 .feedback-eyebrow {
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     font-size: 0.8rem;
     font-weight: 600;
     letter-spacing: 0.5px;
@@ -2513,7 +2770,7 @@ ul h3{
 }
 
 .feedback-error {
-    color: var(--color-error);
+    color: var(--color-error-text);
     font-size: 0.85rem;
     margin-top: var(--spacing-md);
 }
@@ -2525,7 +2782,7 @@ ul h3{
     border: none;
     border-radius: var(--radius-md);
     background: var(--color-primary);
-    color: #fff;
+    color: var(--color-on-primary);
     font-size: 0.95rem;
     font-weight: 600;
     cursor: pointer;
@@ -2568,6 +2825,12 @@ ul h3{
     font-weight: 500;
 }
 
+.theme-result-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
 .feedback-result-count {
     color: var(--color-text-primary);
     font-weight: 600;
@@ -2581,7 +2844,7 @@ ul h3{
 
 .feedback-result-track {
     height: 10px;
-    background: #EDF1F5;
+    background: var(--color-track);
     border-radius: 4px;
     overflow: hidden;
 }
@@ -2674,7 +2937,7 @@ ul h3{
 .not-found-title {
     font-size: 8rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: var(--color-primary-text);
     line-height: 1;
     margin-bottom: var(--spacing-md);
     padding-top: 0;
@@ -2733,7 +2996,7 @@ ul h3{
 .action-button-home-primary {
     padding: var(--spacing-md) var(--spacing-2xl);
     background: var(--color-primary);
-    color: white;
+    color: var(--color-on-primary);
     border: 2px solid transparent;
     border-radius: var(--radius-md);
     font-weight: 600;
@@ -2772,4 +3035,45 @@ ul h3{
     .not-found-help {
         font-size: 1rem;
     }
+}
+
+/* Color themes: dark-theme details that the tokens above don't cover */
+:root[data-theme] .navbar ul {
+    box-shadow: inset 0 -1px 0 var(--color-border), var(--shadow-md);
+}
+
+:root[data-theme] .search-box {
+    background: var(--color-surface);
+}
+
+:root[data-theme] .search-icon svg {
+    fill: var(--color-text-secondary);
+}
+
+/* Tints of the button text color, so they follow it onto green/red answers too */
+:root[data-theme] .btn #letter {
+    background: color-mix(in srgb, var(--color-on-primary) 16%, transparent);
+}
+
+:root[data-theme] .sample-choice-letter {
+    color: color-mix(in srgb, var(--color-on-primary) 60%, transparent);
+}
+
+/* Source links in the explanation pop-up use the browser's blue in Light, which is too dark here */
+:root[data-theme] #modalText a {
+    color: var(--color-primary-text);
+}
+
+:root[data-theme] .date-range-select:focus {
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+}
+
+:root[data-theme] .rate-limit-warning {
+    background: color-mix(in oklab, #F59E0B 18%, var(--color-background));
+    color: var(--color-text-primary);
+}
+
+:root[data-theme] .rate-limit-error {
+    background: color-mix(in oklab, #EF4444 18%, var(--color-background));
+    color: var(--color-text-primary);
 }

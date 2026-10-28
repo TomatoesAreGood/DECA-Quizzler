@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { SearchBar } from './SearchBar';
+import { ThemePicker } from './ThemePicker';
 import { Dropdown } from './Dropdown';
 import { SVGIcon } from '../shared/SVGIcon';
 import { fetchAllSectors } from '../../utils/fetchExams';
@@ -74,6 +75,7 @@ export function Navbar() {
         </div>
         <div className="navbar-div">
           <SearchBar allExams={allExams} />
+          <ThemePicker />
           <li className="toggle" onClick={() => setSidebarOpen(true)}>
             <SVGIcon type="menu" />
           </li>

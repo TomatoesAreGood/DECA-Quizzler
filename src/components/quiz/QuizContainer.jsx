@@ -23,7 +23,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
   const [selectedAnswer, setSelectedAnswer] = useState(null);
   const [isRevealed, setIsRevealed] = useState(false);
   const [showSummary, setShowSummary] = useState(false);
-  const [modalContent, setModalContent] = useState({ header: 'WRONG', text: '', color: 'var(--color-error)' });
+  const [modalContent, setModalContent] = useState({ header: 'WRONG', text: '', color: 'var(--color-error-text)' });
   const [showModal, setShowModal] = useState(false);
   const [showExitModal, setShowExitModal] = useState(false);
   const [isUnitTest, setIsUnitTest] = useState(propExamName === 'FAV-EXAM');
@@ -160,7 +160,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
     if (isCorrect) {
       setNumCorrect(prev => prev + 1);
       if (isSlowMode) {
-        setModalContent({ header: 'CORRECT', text: formattedReasoning, color: 'var(--color-success)' });
+        setModalContent({ header: 'CORRECT', text: formattedReasoning, color: 'var(--color-success-text)' });
       } else {
         setTimeout(() => {
           nextQuestion();
@@ -168,7 +168,7 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
       }
     } else {
       setIncorrectQuestions(prev => [...prev, { ...currentQuestion, userAnswer }]);
-      setModalContent({ header: 'WRONG', text: formattedReasoning, color: 'var(--color-error)' });
+      setModalContent({ header: 'WRONG', text: formattedReasoning, color: 'var(--color-error-text)' });
       setShowModal(true);
     }
   };

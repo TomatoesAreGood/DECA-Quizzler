@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -11,6 +11,8 @@ import {
   Legend,
 } from 'chart.js';
 import { FEEDBACK_SURVEY, getFeedbackOptionKey, getFeedbackResponsesKey } from '../config/feedback';
+import { THEMES, DEFAULT_THEME_ID, THEME_USERS_KEY, getThemeUsageKey } from '../config/themes';
+import { useTheme, resolveCssColor } from '../utils/theme';
 
 ChartJS.register(
   CategoryScale,
@@ -46,7 +48,19 @@ const FEEDBACK_KEYS = [
   getFeedbackResponsesKey(FEEDBACK_SURVEY),
   ...FEEDBACK_SURVEY.options.map((option) => getFeedbackOptionKey(FEEDBACK_SURVEY, option)),
 ];
-const VIEWS = [...METRICS, FEEDBACK_VIEW];
+
+// Theme usage (see trackThemeUsed and trackThemeUsage in utils/analytics.js): one request for
+// the number of people who picked a theme, plus one per theme
+const THEME_VIEW = {
+  value: 'themes',
+  label: 'Themes',
+  description: 'Which theme people are on, counted once a day for each person who has picked a theme',
+};
+const THEME_KEYS = [THEME_USERS_KEY, ...THEMES.map((theme) => getThemeUsageKey(theme.id))];
+
+// Views drawn as bars from all-time counters instead of a weekly line chart
+const BAR_VIEW_KEYS = { [FEEDBACK_VIEW.value]: FEEDBACK_KEYS, [THEME_VIEW.value]: THEME_KEYS };
+const VIEWS = [...METRICS, FEEDBACK_VIEW, THEME_VIEW];
 
 export function TrafficPage() {
   const [weekOffset, setWeekOffset] = useState(0);
@@ -70,7 +84,7 @@ export function TrafficPage() {
   const currentDate = new Date();
 
   const selectedMetric = VIEWS.find((m) => m.value === metric);
-  const isFeedbackView = metric === FEEDBACK_VIEW.value;
+  const isWeeklyView = !BAR_VIEW_KEYS[metric];
 
   const getDateOffsetWeek = (offset = 0) => {
     const msInDay = 24 * 60 * 60 * 1000;
@@ -161,10 +175,10 @@ export function TrafficPage() {
 
   useEffect(() => {
     let cancelled = false;
-    const isFeedback = metric === FEEDBACK_VIEW.value;
-    // Survey results don't depend on the week
-    const cacheKey = isFeedback ? FEEDBACK_VIEW.value : `${metric}:${weekOffset}`;
-    const view = isFeedback ? 'feedback' : 'chart';
+    const barKeys = BAR_VIEW_KEYS[metric];
+    // Survey and theme results don't depend on the week
+    const cacheKey = barKeys ? metric : `${metric}:${weekOffset}`;
+    const view = barKeys ? metric : 'chart';
 
     const loadTrafficData = async () => {
       // Check cache first
@@ -182,8 +196,8 @@ export function TrafficPage() {
 
       try {
         let labels = [];
-        let keys = FEEDBACK_KEYS;
-        if (!isFeedback) {
+        let keys = barKeys;
+        if (!barKeys) {
           const week = getWeek(weekOffset);
           const getKey = METRICS.find((m) => m.value === metric).getKey;
           labels = week.map(d => DAY_OF_WEEK[d.getDay()]);
@@ -258,6 +272,24 @@ export function TrafficPage() {
 
   const weekTotal = chartData.reduce((total, value) => total + value, 0);
   const feedbackResponses = loadedView === 'feedback' ? chartData[0] || 0 : 0;
+  const themeUsers = loadedView === 'themes' ? chartData[0] || 0 : 0;
+  // Most used first; ties keep the picker's order
+  const themeUsage = loadedView === 'themes'
+    ? THEMES.map((theme, i) => ({ theme, days: chartData[i + 1] || 0 })).sort((a, b) => b.days - a.days)
+    : [];
+  const themeDays = themeUsage.reduce((total, { days }) => total + days, 0);
+
+  // Chart.js can't read CSS variables, so the theme's colors are resolved here. Light keeps
+  // Chart.js's own grid and label colors.
+  const theme = useTheme();
+  const chartColors = useMemo(() => ({
+    point: resolveCssColor('--color-primary'),
+    line: resolveCssColor('--color-primary', 0.35),
+    axes: theme === DEFAULT_THEME_ID ? null : {
+      grid: resolveCssColor('--color-border'),
+      text: resolveCssColor('--color-text-secondary'),
+    },
+  }), [theme]);
 
   const createChartData = (data, label) => {
     return {
@@ -268,8 +300,8 @@ export function TrafficPage() {
           data: data,
           fill: false,
           tension: 0,
-          backgroundColor: '#0066CC',
-          borderColor: 'rgba(0, 102, 204, 0.35)',
+          backgroundColor: chartColors.point,
+          borderColor: chartColors.line,
         },
       ],
     };
@@ -284,12 +316,22 @@ export function TrafficPage() {
       },
     },
     scales: {
+      x: chartColors.axes ? {
+        grid: { color: chartColors.axes.grid },
+        border: { color: chartColors.axes.grid },
+        ticks: { color: chartColors.axes.text },
+      } : {},
       y: {
         beginAtZero: true,
         grace: '10%',
         ticks: {
           precision: 0,
+          ...(chartColors.axes && { color: chartColors.axes.text }),
         },
+        ...(chartColors.axes && {
+          grid: { color: chartColors.axes.grid },
+          border: { color: chartColors.axes.grid },
+        }),
       },
     },
   };
@@ -332,7 +374,7 @@ export function TrafficPage() {
             </option>
           ))}
         </select>
-        {!isFeedbackView && (
+        {isWeeklyView && (
           <>
             <select
               className="date-range-select"
@@ -381,6 +423,11 @@ export function TrafficPage() {
               <span>{feedbackResponses.toLocaleString('en-US')}</span> {feedbackResponses === 1 ? 'response' : 'responses'}
             </p>
           )}
+          {!loading && loadedView === 'themes' && (
+            <p className="traffic-chart-total">
+              <span>{themeUsers.toLocaleString('en-US')}</span> {themeUsers === 1 ? 'person has' : 'people have'} picked a theme
+            </p>
+          )}
         </div>
         {loading && (
           <div className="loading-state chart-container">Loading traffic data...</div>
@@ -423,6 +470,41 @@ export function TrafficPage() {
             </ul>
             <p className="feedback-results-note">
               People can pick more than one choice, so the percentages can add up to more than 100%.
+            </p>
+          </>
+        )}
+        {!loading && loadedView === 'themes' && (
+          <>
+            <ul className="feedback-results">
+              {themeUsage.map(({ theme, days }) => {
+                const percent = themeDays > 0 ? Math.round((days / themeDays) * 100) : 0;
+                return (
+                  <li
+                    key={theme.id}
+                    className="feedback-result"
+                    title={`${theme.label}: ${days.toLocaleString('en-US')} ${days === 1 ? 'day' : 'days'} in use (${percent}%)`}
+                  >
+                    <div className="feedback-result-row">
+                      <span className="feedback-result-label theme-result-label">
+                        <span className="theme-swatch" style={{ background: theme.background, borderColor: theme.sub }} aria-hidden="true">
+                          <span style={{ background: theme.main }}></span>
+                        </span>
+                        {theme.label}
+                      </span>
+                      <span className="feedback-result-count">
+                        {days.toLocaleString('en-US')} <span>({percent}%)</span>
+                      </span>
+                    </div>
+                    <div className="feedback-result-track">
+                      <div className="feedback-result-bar" style={{ width: `${percent}%` }} />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+            <p className="feedback-results-note">
+              Each person adds 1 to the theme they're on for every day they visit, so this shows which themes
+              people stick with. People who have never picked a theme aren't counted under Light.
             </p>
           </>
         )}

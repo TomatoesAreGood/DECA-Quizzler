@@ -21,10 +21,14 @@ function applyTheme(theme) {
     root.style.removeProperty('--theme-bg');
     root.style.removeProperty('--theme-main');
     root.style.removeProperty('--theme-sub');
+    root.style.removeProperty('--theme-success');
+    root.style.removeProperty('--theme-error');
   } else {
     root.style.setProperty('--theme-bg', theme.background);
     root.style.setProperty('--theme-main', theme.main);
     root.style.setProperty('--theme-sub', theme.sub);
+    root.style.setProperty('--theme-success', theme.success);
+    root.style.setProperty('--theme-error', theme.error);
     root.setAttribute('data-theme', theme.id);
   }
 }
@@ -34,8 +38,8 @@ function saveTheme(theme) {
     if (theme.id === DEFAULT_THEME_ID) {
       localStorage.removeItem(THEME_STORAGE_KEY);
     } else {
-      const { id, background, main, sub } = theme;
-      localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify({ id, background, main, sub }));
+      const { id, background, main, sub, success, error } = theme;
+      localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify({ id, background, main, sub, success, error }));
     }
   } catch {
     // Without storage the theme just lasts until the page is closed

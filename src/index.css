@@ -32,6 +32,7 @@
     --color-primary-soft-border: #D3E2F5;
     --color-primary-soft-hover: #E2EDFB;
     --color-primary-soft-hover-border: #BFD5F2;
+    --color-on-status: #FFFFFF;
     --color-success-ink: #14532D;
     --color-error-ink: #7F1D1D;
     --color-toggle-off: #939ba3;
@@ -95,10 +96,14 @@
     --color-nav: var(--color-background);
     --color-logo-accent: var(--color-primary-text);
 
+    --color-success: var(--theme-success);
+    --color-error: var(--theme-error);
+    /* Dark text on right/wrong answers, a step darker than the page so it reads on the deeper reds */
+    --color-on-status: color-mix(in oklab, var(--theme-bg) 50%, #000000);
     --color-success-soft: color-mix(in oklab, var(--color-success) 22%, var(--color-background));
     --color-error-soft: color-mix(in oklab, var(--color-error) 22%, var(--color-background));
-    --color-success-text: color-mix(in oklab, var(--color-success) 55%, #FFFFFF);
-    --color-error-text: color-mix(in oklab, var(--color-error) 55%, #FFFFFF);
+    --color-success-text: color-mix(in oklab, var(--color-success) 80%, #FFFFFF);
+    --color-error-text: color-mix(in oklab, var(--color-error) 70%, #FFFFFF);
     --color-success-ink: var(--theme-text);
     --color-error-ink: var(--theme-text);
 
@@ -1477,12 +1482,12 @@ ul h3{
 .correct{
     background: var(--color-success) !important;
     border-color: var(--color-success) !important;
-    --color-on-primary: #FFFFFF;
+    --color-on-primary: var(--color-on-status);
 }
 .incorrect{
     background: var(--color-error) !important;
     border-color: var(--color-error) !important;
-    --color-on-primary: #FFFFFF;
+    --color-on-primary: var(--color-on-status);
 }
 .underline{
     text-decoration: underline;
@@ -1825,13 +1830,13 @@ ul h3{
 .sample-choice.is-correct{
     background: var(--color-success);
     border-color: var(--color-success);
-    --color-on-primary: #FFFFFF;
+    --color-on-primary: var(--color-on-status);
 }
 
 .sample-choice.is-incorrect{
     background: var(--color-error);
     border-color: var(--color-error);
-    --color-on-primary: #FFFFFF;
+    --color-on-primary: var(--color-on-status);
 }
 
 .sample-choice-letter{

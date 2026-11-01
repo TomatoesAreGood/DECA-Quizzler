@@ -43,6 +43,9 @@
             root.style.setProperty('--theme-bg', saved.background);
             root.style.setProperty('--theme-main', saved.main);
             root.style.setProperty('--theme-sub', saved.sub);
+            // Themes saved before these colors existed get them from initTheme()
+            if (isColor(saved.success)) root.style.setProperty('--theme-success', saved.success);
+            if (isColor(saved.error)) root.style.setProperty('--theme-error', saved.error);
             root.setAttribute('data-theme', saved.id);
           }
         } catch (e) {}

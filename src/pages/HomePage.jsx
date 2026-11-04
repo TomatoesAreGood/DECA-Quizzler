@@ -106,7 +106,7 @@ export function HomePage() {
               </p>
             </li>
             <li>
-              <h3>Search by exam number.</h3>
+              <h3>Search by exam number</h3>
               <p>
                 Know which exam you want? Type its number, like 1167, into the
                 search bar to jump straight to it.

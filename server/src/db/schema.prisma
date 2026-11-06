@@ -1,0 +1,126 @@
+// Questions aren't stored here: they stay in client/public/data as static JSON. A question is
+// referenced by its exam code (for example "1027-CORE") and its number within that exam.
+//
+// The first migration also turns on Row Level Security for every table, with no policies, so
+// Supabase's public API key can't read or write them. Prisma connects as postgres, which
+// bypasses RLS. Any table added later needs the same ALTER TABLE ... ENABLE ROW LEVEL SECURITY
+// added to its migration by hand.
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["partialIndexes"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum AttemptState {
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum ReportType {
+  WRONG_ANSWER
+  TYPO
+  BAD_EXPLANATION
+  BROKEN_PAGE
+  OTHER
+}
+
+enum ReportStatus {
+  OPEN
+  RESOLVED
+}
+
+model User {
+  id        String   @id @db.Uuid // The Supabase auth user id (the token's `sub`), not generated here
+  email     String   @unique
+  userName  String?
+  imageUrl  String?
+  createdAt DateTime @default(now())
+
+  favorites    FavoriteQuestion[]
+  examAttempts ExamAttempt[]
+  reports      Report[]
+  feedback     Feedback[]
+}
+
+// Only in-progress and completed exams are stored. An exam with no attempt hasn't been started.
+// Resuming takes the answered questions out of the exam's pool (from startQuestion onward) and
+// continues in order, or in random order when isShuffled is on.
+model ExamAttempt {
+  id                 String       @id @default(uuid()) @db.Uuid
+  userId             String       @db.Uuid
+  examCode           String       @db.VarChar(32) // "1027-CORE", "9999-CORE-UNIT", "FAV-EXAM"
+  state              AttemptState @default(IN_PROGRESS)
+  startQuestion      Int          @default(1) @db.SmallInt // Set when a quiz is opened at a specific question
+  // The question on screen when the user was last here, so resuming shows that exact question.
+  // Exam code and number together, since unit and favorites quizzes mix exams. Null until the
+  // user moves past the first question they answer.
+  currentExamCode    String?      @db.VarChar(32)
+  currentQuestionNum Int?         @db.SmallInt
+  isShuffled         Boolean      @default(false)
+  slowMode           Boolean      @default(false)
+  startedAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+  completedAt        DateTime?
+
+  user               User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  completedQuestions QuestionAttempt[]
+
+  // At most one in-progress attempt per user and exam. It only covers IN_PROGRESS rows, so don't
+  // look attempts up with the generated `userId_examCode` unique input: it ignores the state.
+  @@unique([userId, examCode], where: { state: "IN_PROGRESS" }, map: "ExamAttempt_one_in_progress_key")
+  @@index([userId, startedAt])
+}
+
+model QuestionAttempt {
+  examAttemptId  String  @db.Uuid
+  examCode       String  @db.VarChar(32) // The question's own exam, which differs from the attempt's for unit and favorites quizzes
+  questionNum    Int     @db.SmallInt
+  selectedAnswer String  @db.Char(1) // "A" to "D"
+  isCorrect      Boolean // Kept so history stays accurate if an answer key is corrected later
+
+  examAttempt ExamAttempt @relation(fields: [examAttemptId], references: [id], onDelete: Cascade)
+
+  @@id([examAttemptId, examCode, questionNum])
+}
+
+model FavoriteQuestion {
+  userId      String   @db.Uuid
+  examCode    String   @db.VarChar(32)
+  questionNum Int      @db.SmallInt
+  createdAt   DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, examCode, questionNum])
+}
+
+// Reports and feedback can be sent without an account, so userId is optional
+model Report {
+  id          String       @id @default(uuid()) @db.Uuid
+  userId      String?      @db.Uuid
+  type        ReportType
+  content     String
+  examCode    String?      @db.VarChar(32) // Set for reports about a specific question
+  questionNum Int?         @db.SmallInt
+  status      ReportStatus @default(OPEN)
+  createdAt   DateTime     @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+}
+
+model Feedback {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String?  @db.Uuid
+  content   String
+  rating    Int?     @db.SmallInt
+  createdAt DateTime @default(now())
+
+  user User? @relation(fields: [userId], references: [id], onDelete: SetNull)
+}

@@ -66,7 +66,8 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
   const [isSaving, setIsSaving] = useState(false);
   // How many answers were picked up from saved progress (shows the "Start over" note)
   const [resumedCount, setResumedCount] = useState(0);
-  // The quiz in its original order and the index it was opened at, for resuming and starting over
+  // The quiz in its original order (for resuming and starting over), and the index it was opened at
+  // (?number=, a debugging aid that isn't saved; starting over goes back to it)
   const baseRef = useRef({ questions: propQuestions ? [...propQuestions] : [], startIndex: 0 });
   // Read when a new attempt is created, which can happen a moment after the answer that triggers it
   const settingsRef = useRef({ isShuffled, isSlowMode });
@@ -174,17 +175,17 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
       if (question) answered.push({ ...question, userAnswer: answer.selectedAnswer, isCorrect: answer.isCorrect });
     }
 
-    const remaining = baseRef.current.questions
-      .slice(Math.max(0, attempt.startQuestion - 1))
-      .filter((question) => !answeredKeys.has(keyOf(question)));
+    let remaining = baseRef.current.questions.filter((question) => !answeredKeys.has(keyOf(question)));
     if (attempt.isShuffled) shuffle(remaining);
 
     // In Slow Mode, the user may have left on a question they'd answered without pressing Next yet:
-    // show it again answered, with Next. Otherwise the saved question goes first among the rest.
+    // show it again answered, with Next. Otherwise the quiz picks up at the saved question and goes on
+    // from there, wrapping around to any earlier unanswered ones (only possible after opening the quiz
+    // at a ?number=). With Shuffle on, the rest are in random order anyway.
     const answeredCurrent = attempt.slowMode && currentKey ? answered.find((question) => keyOf(question) === currentKey) : undefined;
     if (!answeredCurrent && currentKey) {
       const index = remaining.findIndex((question) => keyOf(question) === currentKey);
-      if (index > 0) remaining.unshift(...remaining.splice(index, 1));
+      if (index > 0) remaining = [...remaining.slice(index), ...remaining.slice(0, index)];
     }
 
     const before = answeredCurrent ? answered.filter((question) => question !== answeredCurrent) : answered;
@@ -246,7 +247,6 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
   // answer, so it reads the latest settings and position from refs.
   const getStartBody = () => ({
     examCode: examName,
-    startQuestion: baseRef.current.startIndex + 1,
     isShuffled: settingsRef.current.isShuffled,
     slowMode: settingsRef.current.isSlowMode,
     ...(resumePointRef.current && {
@@ -271,7 +271,6 @@ export function QuizContainer({ examName: propExamName, questions: propQuestions
     const first = base[startIndex];
     sync.startNow({
       examCode: examName,
-      startQuestion: startIndex + 1,
       isShuffled: false,
       slowMode: isSlowMode,
       ...(first && { currentExamCode: first.exam ?? examName, currentQuestionNum: first.number }),

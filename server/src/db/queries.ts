@@ -135,7 +135,6 @@ async function getExamAttemptWithCounts(userId: string, id: string) {
 
 export interface NewAttemptOptions {
   examCode: string;
-  startQuestion: number;
   isShuffled: boolean;
   slowMode: boolean;
   // The question on screen, if known (see ExamAttempt.currentExamCode)

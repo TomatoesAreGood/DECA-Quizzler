@@ -46,7 +46,6 @@ function checkCurrentQuestionPair(body: { currentExamCode?: string; currentQuest
 const startBody = z
   .strictObject({
     examCode,
-    startQuestion: questionNum.default(1),
     isShuffled: z.boolean().default(false),
     slowMode: z.boolean().default(false),
     ...currentQuestionFields,
@@ -93,7 +92,7 @@ router.get('/', async (req, res) => {
 });
 
 // POST api/exam-attempts
-// Starts an exam. Body: { examCode, startQuestion?, isShuffled?, slowMode?, currentExamCode?, currentQuestionNum? }
+// Starts an exam. Body: { examCode, isShuffled?, slowMode?, currentExamCode?, currentQuestionNum? }
 // If the exam is already in progress, that attempt is completed first (starting over).
 router.post('/', async (req, res) => {
   const body = validate(startBody, req.body ?? {});

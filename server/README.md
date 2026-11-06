@@ -48,7 +48,7 @@ Signed-in requests send `Authorization: Bearer <Supabase access token>`. Errors 
 | DELETE | `/api/favorites/:examCode/:questionNum` | required | 204 |
 | POST | `/api/favorites/import` | required | Body: `{ favorites: { [examCode]: number[] } }` (the localStorage `favExams` shape). Returns `{ imported, favorites }` |
 | GET | `/api/exam-attempts` | required | `?state=IN_PROGRESS\|COMPLETED&examCode=&limit=&offset=`. Returns `{ attempts, hasMore }`, each with `answeredCount` and `correctCount` |
-| POST | `/api/exam-attempts` | required | Body: `{ examCode, startQuestion?, isShuffled?, slowMode? }`. Completes any in-progress attempt at that exam first |
+| POST | `/api/exam-attempts` | required | Body: `{ examCode, isShuffled?, slowMode?, currentExamCode?, currentQuestionNum? }`. Completes any in-progress attempt at that exam first |
 | GET | `/api/exam-attempts/:id` | required | Includes `completedQuestions` |
 | PATCH | `/api/exam-attempts/:id` | required | Body: `{ isShuffled?, slowMode?, currentExamCode?, currentQuestionNum? }`. The current question (sent as a pair) is where resuming picks up. 409 once completed |
 | POST | `/api/exam-attempts/:id/answers` | required | Body: `{ examCode, questionNum, selectedAnswer: "A"-"D", isCorrect }`. `examCode` is the question's own exam. An identical retry returns 200 |

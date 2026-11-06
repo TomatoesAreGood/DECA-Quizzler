@@ -78,7 +78,7 @@ export async function findInProgressAttempt(examCode) {
 }
 
 export const getAttempt = (id) => request('GET', `/api/exam-attempts/${encodeURIComponent(id)}`);
-// body: { examCode, startQuestion, isShuffled, slowMode }
+// body: { examCode, isShuffled, slowMode, currentExamCode?, currentQuestionNum? }
 export const startAttempt = (body) => request('POST', '/api/exam-attempts', { body, keepalive: true });
 // body: { isShuffled?, slowMode? }
 export const updateAttempt = (id, body) => request('PATCH', `/api/exam-attempts/${encodeURIComponent(id)}`, { body, keepalive: true });

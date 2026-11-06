@@ -48,14 +48,13 @@ model User {
 }
 
 // Only in-progress and completed exams are stored. An exam with no attempt hasn't been started.
-// Resuming takes the answered questions out of the exam's pool (from startQuestion onward) and
-// continues in order, or in random order when isShuffled is on.
+// Resuming takes the answered questions out of the exam's pool and picks up at the current question,
+// continuing in order, or in random order when isShuffled is on.
 model ExamAttempt {
   id                 String       @id @default(uuid()) @db.Uuid
   userId             String       @db.Uuid
   examCode           String       @db.VarChar(32) // "1027-CORE", "9999-CORE-UNIT", "FAV-EXAM"
   state              AttemptState @default(IN_PROGRESS)
-  startQuestion      Int          @default(1) @db.SmallInt // Set when a quiz is opened at a specific question
   // The question on screen when the user was last here, so resuming shows that exact question.
   // Exam code and number together, since unit and favorites quizzes mix exams. Null until the
   // user moves past the first question they answer.

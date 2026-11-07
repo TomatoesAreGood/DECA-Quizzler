@@ -52,7 +52,12 @@ export function AuthProvider({ children }) {
   const userId = session?.user?.id ?? null;
 
   useEffect(() => {
-    if (!userId) return;
+    // Forget the profile on sign-out. Otherwise signing back in as the same user would count the old
+    // copy as loaded, and anything set since (e.g. the theme) would be out of date until it reloads.
+    if (!userId) {
+      setProfileState((state) => (state.userId === null ? state : { userId: null, profile: null, error: null, usernameTaken: false }));
+      return;
+    }
     let cancelled = false;
     // On a retry, show loading again instead of the old error
     setProfileState((state) => (state.userId === userId && state.error ? { userId, profile: null, error: null, usernameTaken: false } : state));

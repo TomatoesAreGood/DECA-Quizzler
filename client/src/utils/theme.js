@@ -11,6 +11,9 @@ export const themesSupported =
 
 const findTheme = (id) => THEMES.find((theme) => theme.id === id);
 
+// Whether setTheme(id) would apply this theme here
+export const canUseTheme = (id) => Boolean(findTheme(id)) && (themesSupported || id === DEFAULT_THEME_ID);
+
 let currentId = DEFAULT_THEME_ID;
 const listeners = new Set();
 
@@ -77,7 +80,7 @@ export function setTheme(id) {
   listeners.forEach((listener) => listener());
 }
 
-const subscribe = (listener) => {
+export const subscribeToTheme = (listener) => {
   listeners.add(listener);
   return () => listeners.delete(listener);
 };
@@ -86,7 +89,7 @@ export const getCurrentThemeId = () => currentId;
 
 // The current theme id, re-rendering the component whenever it changes
 export function useTheme() {
-  return useSyncExternalStore(subscribe, () => currentId);
+  return useSyncExternalStore(subscribeToTheme, () => currentId);
 }
 
 // Turns a CSS color variable into rgb() for libraries like Chart.js that can't read color-mix()

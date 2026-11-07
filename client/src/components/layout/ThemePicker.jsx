@@ -1,22 +1,24 @@
 import { useState, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { THEMES, DEFAULT_THEME_ID } from '../../config/themes';
-import { setTheme, useTheme, themesSupported } from '../../utils/theme';
+import { themesSupported } from '../../utils/theme';
+import { useAuth } from '../../context/AuthContext';
 import { SVGIcon } from '../shared/SVGIcon';
-import { trackThemeUsed } from '../../utils/analytics';
+import { ThemeList } from './ThemeList';
 
-// Palette button in the navbar. Picking a theme applies it right away and keeps the list open,
-// so themes can be compared; Escape, a click outside, or changing page closes it.
+// Palette button in the navbar, for visitors who aren't signed in; signed in, themes are in the account
+// menu (AccountMenu.jsx). The list stays open while picking, so themes can be compared; Escape, a click
+// outside, or changing page closes it.
 export function ThemePicker() {
-  const currentTheme = useTheme();
+  const { status } = useAuth();
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const wrapperRef = useRef(null);
   const buttonRef = useRef(null);
 
+  // Also closes on signing in or out, so it isn't left open while hidden
   useEffect(() => {
     setOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, status]);
 
   useEffect(() => {
     if (!open) return;
@@ -43,7 +45,8 @@ export function ThemePicker() {
     };
   }, [open]);
 
-  if (!themesSupported) return null;
+  // Hidden while finding out whether someone is signed in, so it doesn't flash for signed-in users
+  if (!themesSupported || status !== 'signedOut') return null;
 
   return (
     <div className="theme-picker" ref={wrapperRef}>
@@ -59,31 +62,7 @@ export function ThemePicker() {
         <SVGIcon type="palette" aria-hidden="true" />
       </button>
 
-      {open && (
-        <div className="theme-panel" role="group" aria-label="Color theme">
-          {THEMES.map((theme) => {
-            const selected = theme.id === currentTheme;
-            return (
-              <button
-                key={theme.id}
-                type="button"
-                className={`theme-option${selected ? ' is-selected' : ''}`}
-                aria-pressed={selected}
-                onClick={() => {
-                  setTheme(theme.id);
-                  if (theme.id !== DEFAULT_THEME_ID) trackThemeUsed();
-                }}
-              >
-                <span className="theme-swatch" style={{ background: theme.background, borderColor: theme.sub }} aria-hidden="true">
-                  <span style={{ background: theme.main }}></span>
-                </span>
-                <span className="theme-option-label">{theme.label}</span>
-                {selected && <i className="fa-solid fa-check theme-option-check" aria-hidden="true"></i>}
-              </button>
-            );
-          })}
-        </div>
-      )}
+      {open && <ThemeList className="theme-panel" />}
     </div>
   );
 }

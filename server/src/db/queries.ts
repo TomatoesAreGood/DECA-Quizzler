@@ -15,7 +15,7 @@ export function createUser(data: NewUser) {
 }
 
 // The updated user, or null if they don't have a row yet. Throws P2002 if the username is taken.
-export async function updateUser(id: string, data: { username?: string; imageUrl?: string | null }) {
+export async function updateUser(id: string, data: { username?: string; imageUrl?: string | null; theme?: string }) {
   const { count } = await prisma.user.updateMany({ where: { id }, data });
   return count === 0 ? null : getUserById(id);
 }

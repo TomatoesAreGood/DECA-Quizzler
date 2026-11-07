@@ -100,9 +100,19 @@ export function AuthProvider({ children }) {
   else if (status === 'needsUsername') modalView = 'username';
   else if (status === 'error' && requestedView) modalView = 'accountError';
 
+  // Redirect sign-in, used when Google's popup isn't available (see lib/googleSignIn.js): leaves the
+  // site for Google, then comes back to this page signed in
   const signInWithGoogle = useCallback(async () => {
-    // Leaves the site for Google, then comes back to this page signed in
     const { error } = await supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: returnUrl() } });
+    if (error) throw error;
+  }, []);
+
+  // Sign-in with the one-time code from Google's popup, without leaving the page: the server swaps it
+  // for Google's ID token and access token, and Supabase turns them into a session. Supabase checks
+  // that the two were issued together (the ID token's at_hash claim).
+  const signInWithGoogleCode = useCallback(async (code) => {
+    const { idToken, accessToken } = await api.exchangeGoogleCode(code);
+    const { error } = await supabase.auth.signInWithIdToken({ provider: 'google', token: idToken, access_token: accessToken });
     if (error) throw error;
   }, []);
 
@@ -170,6 +180,7 @@ export function AuthProvider({ children }) {
     openAuthModal,
     closeAuthModal,
     signInWithGoogle,
+    signInWithGoogleCode,
     signInWithPassword,
     signUp,
     resendConfirmation,
@@ -179,7 +190,7 @@ export function AuthProvider({ children }) {
     signOut,
     retryProfile,
   }), [session, status, current.profile, current.error, current.usernameTaken, modalView, openAuthModal, closeAuthModal,
-    signInWithGoogle, signInWithPassword, signUp, resendConfirmation, sendPasswordReset, updatePassword, chooseUsername,
+    signInWithGoogle, signInWithGoogleCode, signInWithPassword, signUp, resendConfirmation, sendPasswordReset, updatePassword, chooseUsername,
     signOut, retryProfile]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

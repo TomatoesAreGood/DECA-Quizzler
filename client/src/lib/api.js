@@ -59,12 +59,20 @@ async function request(method, path, { body, auth = 'required', keepalive = fals
 const questionPath = (examCode, questionNum) =>
   `${encodeURIComponent(examCode)}/${encodeURIComponent(String(questionNum))}`;
 
+// ---- Sign-in ----
+
+// Swaps the one-time code from Google's popup for the user's Google tokens: { idToken, accessToken }. Throws
+// ApiError with code 'GOOGLE_NOT_CONFIGURED' when the server has no Google client secret.
+export const exchangeGoogleCode = (code) => request('POST', '/api/auth/google', { body: { code }, auth: 'none' });
+
 // ---- Users ----
 
 // Creates the signed-in user's row, or returns it if it already exists
 export const ensureUser = () => request('POST', '/api/users');
 // Throws ApiError with code 'USERNAME_TAKEN' if someone else has it
 export const setUsername = (username) => request('PATCH', '/api/users/me', { body: { username } });
+// themeId: an id from config/themes.js. Returns the updated profile.
+export const setAccountTheme = (theme) => request('PATCH', '/api/users/me', { body: { theme }, keepalive: true });
 // For the sign-up form: { username, available }, with the username as it would be saved
 export const checkUsername = (username) =>
   request('GET', `/api/users/username-available?${new URLSearchParams({ username })}`, { auth: 'none' });

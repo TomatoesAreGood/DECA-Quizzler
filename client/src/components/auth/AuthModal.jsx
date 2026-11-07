@@ -1,8 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useAuth } from '../../context/AuthContext';
 import { getEnabledProviders } from '../../lib/supabase';
-import { checkUsername, USERNAME_PATTERN, USERNAME_RULE } from '../../lib/api';
+import { googleClientId, googlePopupReady, loadGooglePopup, requestGoogleCode } from '../../lib/googleSignIn';
+import { apiEnabled, checkUsername, USERNAME_PATTERN, USERNAME_RULE } from '../../lib/api';
 
 const MIN_PASSWORD_LENGTH = 8;
 
@@ -99,38 +100,101 @@ export function AuthModal() {
 
 // ---- pieces shared by the screens ----
 
+// Continue with Google. Opens Google's popup when it's ready (the user stays on the page, and Google's
+// window names this site); otherwise goes to Google and back (the redirect sign-in).
 function GoogleButton({ label }) {
-  const { signInWithGoogle } = useAuth();
-  const [busy, setBusy] = useState(false);
+  const { signInWithGoogle, signInWithGoogleCode } = useAuth();
+  // idle | popup (Google's popup is open) | signingIn | redirecting
+  const [status, setStatus] = useState('idle');
   const [error, setError] = useState('');
+  const [googleOff, setGoogleOff] = useState(false);
+  const [popupReady, setPopupReady] = useState(googlePopupReady);
+  // Only the latest click's popup counts: clicking again (e.g. after losing the popup behind the
+  // window) opens a new one, and anything the old one sends back later is ignored
+  const attemptRef = useRef(0);
+  const mountedRef = useRef(true);
 
-  const handleClick = async () => {
-    setError('');
-    const providers = await getEnabledProviders();
-    if (providers && !providers.google) {
-      setError("Google sign-in isn't turned on yet. Use your email instead.");
-      return;
+  useEffect(() => {
+    mountedRef.current = true;
+    // Both are needed before the click: the popup has to open right inside it, or the browser blocks it
+    getEnabledProviders().then((providers) => {
+      if (mountedRef.current && providers && !providers.google) setGoogleOff(true);
+    });
+    if (googleClientId && apiEnabled) {
+      loadGooglePopup()
+        .then(() => mountedRef.current && setPopupReady(true))
+        .catch((err) => console.warn('Using the redirect Google sign-in:', err));
     }
-    setBusy(true);
+    return () => {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  const redirect = async () => {
+    setStatus('redirecting');
     try {
       await signInWithGoogle(); // the page goes to Google from here
     } catch (err) {
       console.error('Google sign-in failed:', err);
+      if (!mountedRef.current) return;
       setError(authErrorMessage(err));
-      setBusy(false);
+      setStatus('idle');
     }
   };
 
+  const handleClick = () => {
+    setError('');
+    if (googleOff) {
+      setError("Google sign-in isn't turned on yet. Use your email instead.");
+      return;
+    }
+    if (!popupReady || !googleClientId || !apiEnabled) {
+      redirect();
+      return;
+    }
+    const attempt = ++attemptRef.current;
+    const current = () => mountedRef.current && attempt === attemptRef.current;
+    setStatus('popup');
+    // No await before this: it opens the popup
+    requestGoogleCode()
+      .then(async (code) => {
+        if (!current()) return;
+        setStatus('signingIn');
+        await signInWithGoogleCode(code); // signed in: the window moves on by itself
+        if (current()) setStatus('idle');
+      })
+      .catch((err) => {
+        if (!current()) return;
+        if (err.code === 'popup_closed') {
+          setStatus('idle');
+        } else if (err.code === 'popup_failed_to_open' || err.code === 'GOOGLE_NOT_CONFIGURED') {
+          // A blocked popup, or a server without the Google client secret: go to Google instead
+          console.warn('Using the redirect Google sign-in:', err);
+          redirect();
+        } else {
+          console.error('Google sign-in failed:', err);
+          setError(authErrorMessage(err));
+          setStatus('idle');
+        }
+      });
+  };
+
+  const busy = status === 'signingIn' || status === 'redirecting';
+  let text = label;
+  if (status === 'popup') text = 'Continue in the Google window…';
+  else if (status === 'signingIn') text = 'Signing in…';
+  else if (status === 'redirecting') text = 'Opening Google…';
+
   return (
     <>
-      <button type="button" className="auth-google" onClick={handleClick} disabled={busy}>
+      <button type="button" className="auth-google" onClick={handleClick} disabled={busy} aria-busy={status !== 'idle'}>
         <svg aria-hidden="true" width="18" height="18" viewBox="0 0 48 48">
           <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
           <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
           <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
           <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
         </svg>
-        <span>{busy ? 'Opening Google…' : label}</span>
+        <span>{text}</span>
       </button>
       {error && <p className="feedback-error" role="alert">{error}</p>}
       <div className="auth-divider"><span>or</span></div>

@@ -3127,7 +3127,7 @@ ul h3{
     right: 0;
     z-index: 10;
     width: 300px;
-    padding: var(--spacing-lg);
+    padding: var(--spacing-xs);
     background: var(--color-background);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
@@ -3149,6 +3149,119 @@ ul h3{
     line-height: 1.4;
     margin-bottom: var(--spacing-sm);
     overflow-wrap: anywhere;
+}
+
+/* Name and email at the top of the menu */
+.account-header{
+    padding: var(--spacing-sm) 10px var(--spacing-xs);
+}
+
+.account-header .account-text{
+    margin-bottom: 0;
+}
+
+.account-error{
+    padding: 0 10px var(--spacing-sm);
+}
+
+.account-items{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-top: var(--spacing-xs);
+    border-top: 1px solid var(--color-border);
+}
+
+.account-items-divider{
+    height: 1px;
+    margin: var(--spacing-xs) 0;
+    background: var(--color-border);
+}
+
+/* Menu rows, styled like the theme options. Scoped to the panel to win over the .navbar a rules. */
+.account-panel .account-item,
+.account-panel .account-back{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 8px 10px;
+    border: none;
+    border-radius: var(--radius-sm);
+    background: none;
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 0.95rem;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.account-panel .account-item:hover:not(:disabled),
+.account-panel .account-back:hover{
+    background: var(--color-surface);
+}
+
+.account-panel .account-item:disabled{
+    opacity: 0.6;
+    cursor: default;
+}
+
+.account-item-icon{
+    width: 1.2em;
+    color: var(--color-text-secondary);
+    text-align: center;
+}
+
+.account-item-label{
+    flex: 1;
+}
+
+.account-item-arrow{
+    color: var(--color-text-secondary);
+    font-size: 0.8em;
+}
+
+/* Back to the menu from the theme list */
+.account-back{
+    margin-bottom: var(--spacing-xs);
+    font-weight: 600;
+}
+
+.account-back i{
+    color: var(--color-text-secondary);
+    font-size: 0.8em;
+}
+
+.account-theme-list{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding-top: var(--spacing-xs);
+    border-top: 1px solid var(--color-border);
+}
+
+/* Pages in the account menu that aren't built yet (components/shared/PlaceholderPage.jsx) */
+.placeholder-page{
+    min-height: 60vh;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: var(--spacing-2xl) var(--spacing-lg);
+    color: var(--color-text-primary);
+}
+
+.placeholder-title{
+    margin-bottom: var(--spacing-sm);
+    font-size: 2rem;
+}
+
+.placeholder-text{
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
 }
 
 @media (max-width: 1267px){
@@ -3261,7 +3374,30 @@ ul h3{
 
     .account-panel{
         width: 440px;
-        padding: var(--spacing-xl);
+        padding: var(--spacing-sm);
+    }
+
+    .account-header{
+        padding: var(--spacing-sm) 14px;
+    }
+
+    .account-error{
+        padding: 0 14px var(--spacing-sm);
+    }
+
+    .account-panel .account-item,
+    .account-panel .account-back{
+        gap: 16px;
+        padding: 14px;
+        font-size: 1.25rem;
+    }
+
+    .placeholder-title{
+        font-size: 2.6rem;
+    }
+
+    .placeholder-text{
+        font-size: 1.4rem;
     }
 
     .account-title{

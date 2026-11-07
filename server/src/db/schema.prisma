@@ -41,6 +41,9 @@ model User {
   // asks for it before the account can be used.
   username  String?  @unique @db.VarChar(20)
   imageUrl  String? // Profile picture from Google sign-in
+  // Color theme id from client/src/config/themes.js (e.g. "dracula"). Null until the account has one;
+  // the site then saves the theme the user already had in that browser.
+  theme     String?  @db.VarChar(32)
   createdAt DateTime @default(now())
 
   favorites    FavoriteQuestion[]

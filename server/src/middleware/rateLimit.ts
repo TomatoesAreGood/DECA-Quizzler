@@ -13,6 +13,19 @@ export function lookupLimiter() {
   });
 }
 
+// Limits sign-in requests (the Google code exchange) per IP: plenty for real sign-ins, including a few
+// retries
+export function signInLimiter() {
+  return rateLimit({
+    windowMs: 60 * 1000,
+    limit: 20,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false,
+    keyGenerator: (req) => `ip:${ipKeyGenerator(req.ip ?? 'unknown')}`,
+    message: { error: 'Too many sign-in attempts. Try again in a minute.' },
+  });
+}
+
 // Limits endpoints anyone can post to (reports, feedback). Signed-in users are counted by account,
 // everyone else by IP address. Counts are kept in memory, so they reset when the server restarts and
 // aren't shared between server instances.

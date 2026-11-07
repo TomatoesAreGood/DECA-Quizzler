@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import authRoutes from './routes/authRoutes.ts';
 import userRoutes from './routes/userRoutes.ts';
 import favoriteRoutes from './routes/favoriteRoutes.ts';
 import examAttemptRoutes from './routes/examAttemptRoutes.ts';
@@ -28,6 +29,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok' });
 });
 
+app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/favorites', favoriteRoutes);
 app.use('/api/exam-attempts', examAttemptRoutes);

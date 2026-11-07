@@ -24,6 +24,10 @@ export const answerLetter = z.enum(['A', 'B', 'C', 'D']);
 export const USERNAME_RULE = 'Usernames are 3 to 20 letters, numbers or underscores';
 export const username = z.string().trim().toLowerCase().regex(/^[a-z0-9_]{3,20}$/, USERNAME_RULE);
 
+// Color theme ids (client/src/config/themes.js). The server doesn't keep the list of themes, so any id
+// of this shape is stored; the site falls back to its saved theme if it doesn't know the one stored.
+export const themeId = z.string().regex(/^[a-z0-9-]{1,32}$/, 'Invalid theme');
+
 // Free text from reports and feedback
 export const messageContent = z.string().trim().min(1, 'content is empty').max(2000, 'content is longer than 2000 characters');
 

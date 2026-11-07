@@ -5,7 +5,7 @@ import { requireAuth } from '../middleware/auth.ts';
 import { lookupLimiter } from '../middleware/rateLimit.ts';
 import { currentUserId, HttpError, validate } from '../lib/http.ts';
 import { isPrismaError } from '../lib/prisma.ts';
-import { username } from '../lib/schemas.ts';
+import { themeId, username } from '../lib/schemas.ts';
 
 const router = Router();
 
@@ -22,7 +22,9 @@ function providerImageUrl(metadata: Record<string, unknown> | undefined) {
 }
 
 const usernameQuery = z.object({ username });
-const updateUserBody = z.strictObject({ username });
+const updateUserBody = z
+  .strictObject({ username: username.optional(), theme: themeId.optional() })
+  .refine((body) => body.username !== undefined || body.theme !== undefined, 'Send username or theme');
 
 // GET api/users/username-available?username=
 // For the sign-up form, before there's an account, so no sign-in needed. Returns
@@ -73,7 +75,8 @@ router.get('/me', requireAuth, async (req, res) => {
 });
 
 // PATCH api/users/me
-// Body: { username }. Saved lowercased. 409 with code USERNAME_TAKEN if someone else has it.
+// Body: { username?, theme? }, at least one. The username is saved lowercased; 409 with code
+// USERNAME_TAKEN if someone else has it. theme is a color theme id, e.g. "dracula".
 router.patch('/me', requireAuth, async (req, res) => {
   const body = validate(updateUserBody, req.body ?? {});
   let user;

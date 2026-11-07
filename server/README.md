@@ -19,6 +19,8 @@ npm run dev -w server  # http://localhost:3000
 | `DIRECT_URL` | Supabase **session pooler**, port 5432 (same host and user as `DATABASE_URL`). Used by migrations. The direct `db.<ref>.supabase.co` host only works over IPv6. |
 | `SUPABASE_URL` | `https://<ref>.supabase.co` |
 | `SUPABASE_JWKS_URL` | `https://<ref>.supabase.co/auth/v1/.well-known/jwks.json` |
+| `GOOGLE_CLIENT_ID` | The Google OAuth client entered in Supabase's Google provider (same as the client's `VITE_GOOGLE_CLIENT_ID`) |
+| `GOOGLE_CLIENT_SECRET` | That client's secret. Without these two, Google sign-in uses the redirect flow instead of the popup |
 | `PORT` | Optional, default 3000 |
 | `TRUST_PROXY` | Number of proxies in front of the server (1 on Vercel or Render). Leave unset locally. |
 
@@ -40,9 +42,10 @@ Signed-in requests send `Authorization: Bearer <Supabase access token>`. Errors 
 | Method | Path | Auth | Notes |
 |---|---|---|---|
 | GET | `/api/health` | none | |
+| POST | `/api/auth/google` | none | Body: `{ code }`, the one-time code from Google's sign-in popup. Returns `{ idToken, accessToken }` for `supabase.auth.signInWithIdToken` (Supabase checks the ID token's `at_hash` against the access token). 400 `GOOGLE_CODE_INVALID`, 503 `GOOGLE_NOT_CONFIGURED`, 502 when Google fails. 20 a minute per IP |
 | POST | `/api/users` | required | Creates the user's row from the token (no body). Call after every sign-in: 201 new, 200 existing. Saves the Google profile picture. A new row has no username yet |
 | GET | `/api/users/me` | required | 404 until `POST /api/users` has run |
-| PATCH | `/api/users/me` | required | Body: `{ username }`: 3 to 20 letters, numbers or underscores, saved lowercase. 409 with `code: "USERNAME_TAKEN"` if someone else has it |
+| PATCH | `/api/users/me` | required | Body: `{ username?, theme? }`, at least one. `username`: 3 to 20 letters, numbers or underscores, saved lowercase; 409 with `code: "USERNAME_TAKEN"` if someone else has it. `theme`: a color theme id like `"dracula"` (null on the user until set) |
 | GET | `/api/users/username-available?username=` | none | For the sign-up form: `{ username, available }`. 60 checks a minute per IP |
 | GET | `/api/favorites` | required | `[{ examCode, questionNum, createdAt }]` |
 | PUT | `/api/favorites/:examCode/:questionNum` | required | 201 added, 200 already a favorite |

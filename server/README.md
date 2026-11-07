@@ -40,9 +40,10 @@ Signed-in requests send `Authorization: Bearer <Supabase access token>`. Errors 
 | Method | Path | Auth | Notes |
 |---|---|---|---|
 | GET | `/api/health` | none | |
-| POST | `/api/users` | required | Creates the user's row from the token. Call after every sign-in: 201 new, 200 existing. Body: `{ userName? }` |
+| POST | `/api/users` | required | Creates the user's row from the token (no body). Call after every sign-in: 201 new, 200 existing. Saves the Google profile picture. A new row has no username yet |
 | GET | `/api/users/me` | required | 404 until `POST /api/users` has run |
-| PATCH | `/api/users/me` | required | Body: `{ userName }` |
+| PATCH | `/api/users/me` | required | Body: `{ username }`: 3 to 20 letters, numbers or underscores, saved lowercase. 409 with `code: "USERNAME_TAKEN"` if someone else has it |
+| GET | `/api/users/username-available?username=` | none | For the sign-up form: `{ username, available }`. 60 checks a minute per IP |
 | GET | `/api/favorites` | required | `[{ examCode, questionNum, createdAt }]` |
 | PUT | `/api/favorites/:examCode/:questionNum` | required | 201 added, 200 already a favorite |
 | DELETE | `/api/favorites/:examCode/:questionNum` | required | 204 |

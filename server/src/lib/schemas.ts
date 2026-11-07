@@ -19,7 +19,10 @@ export const questionNumParam = z
 
 export const answerLetter = z.enum(['A', 'B', 'C', 'D']);
 
-export const userName = z.string().trim().min(1, 'userName is empty').max(50, 'userName is longer than 50 characters');
+// Usernames: 3 to 20 letters, numbers or underscores. Input is lowercased first, so "Bob" is saved as
+// "bob" and can't exist alongside it. No "@", so a username can never look like an email address.
+export const USERNAME_RULE = 'Usernames are 3 to 20 letters, numbers or underscores';
+export const username = z.string().trim().toLowerCase().regex(/^[a-z0-9_]{3,20}$/, USERNAME_RULE);
 
 // Free text from reports and feedback
 export const messageContent = z.string().trim().min(1, 'content is empty').max(2000, 'content is longer than 2000 characters');

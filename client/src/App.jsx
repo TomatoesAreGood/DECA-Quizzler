@@ -11,6 +11,7 @@ import { TrafficPage } from './pages/TrafficPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { trackVisit } from './utils/analytics';
 import { FeedbackWidget } from './components/feedback/FeedbackWidget';
+import { AuthModal } from './components/auth/AuthModal';
 import { FEEDBACK_ENABLED } from './config/feedback';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritesProvider } from './context/FavoritesContext';
@@ -37,6 +38,7 @@ function AppContent() {
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
       {FEEDBACK_ENABLED && <FeedbackWidget />}
+      <AuthModal />
     </>
   );
 }

@@ -37,8 +37,10 @@ enum ReportStatus {
 model User {
   id        String   @id @db.Uuid // The Supabase auth user id (the token's `sub`), not generated here
   email     String   @unique
-  userName  String?
-  imageUrl  String?
+  // Unique, lowercase (see username in src/lib/schemas.ts). Null until the user picks one; the site
+  // asks for it before the account can be used.
+  username  String?  @unique @db.VarChar(20)
+  imageUrl  String? // Profile picture from Google sign-in
   createdAt DateTime @default(now())
 
   favorites    FavoriteQuestion[]

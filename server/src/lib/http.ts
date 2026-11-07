@@ -6,15 +6,18 @@ export interface ErrorDetail {
   message: string;
 }
 
-// Thrown from route handlers to send an error response; middleware/errorHandler.ts turns it into JSON
+// Thrown from route handlers to send an error response; middleware/errorHandler.ts turns it into JSON:
+// { error, code?, details? }. code is a stable name the client can check (e.g. "USERNAME_TAKEN").
 export class HttpError extends Error {
   readonly status: number;
+  readonly code: string | undefined;
   readonly details: ErrorDetail[] | undefined;
 
-  constructor(status: number, message: string, details?: ErrorDetail[]) {
+  constructor(status: number, message: string, extra: { code?: string; details?: ErrorDetail[] } = {}) {
     super(message);
     this.status = status;
-    this.details = details;
+    this.code = extra.code;
+    this.details = extra.details;
   }
 }
 
@@ -22,11 +25,9 @@ export class HttpError extends Error {
 export function validate<T extends z.ZodType>(schema: T, data: unknown): z.output<T> {
   const result = schema.safeParse(data);
   if (!result.success) {
-    throw new HttpError(
-      400,
-      'Invalid request',
-      result.error.issues.map((issue) => ({ path: issue.path.join('.'), message: issue.message })),
-    );
+    throw new HttpError(400, 'Invalid request', {
+      details: result.error.issues.map((issue) => ({ path: issue.path.join('.'), message: issue.message })),
+    });
   }
   return result.data;
 }

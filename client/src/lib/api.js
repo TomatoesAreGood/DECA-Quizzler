@@ -10,22 +10,25 @@ export const apiEnabled = authEnabled;
 const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/+$/, '');
 
 export class ApiError extends Error {
-  constructor(status, message, details) {
+  constructor(status, message, { code, details } = {}) {
     super(message);
     this.status = status; // 0 when the server couldn't be reached
+    this.code = code; // e.g. 'USERNAME_TAKEN'
     this.details = details;
   }
 }
 
-// auth: 'required' sends the user's token and fails without one; 'optional' sends it when signed in.
-// keepalive lets a save finish even if the page is closed right after.
+// auth: 'required' sends the user's token and fails without one; 'optional' sends it when signed in;
+// 'none' never sends it. keepalive lets a save finish even if the page is closed right after.
 async function request(method, path, { body, auth = 'required', keepalive = false } = {}) {
   const headers = {};
   if (body !== undefined) headers['Content-Type'] = 'application/json';
 
-  const token = await getAccessToken();
-  if (token) headers.Authorization = `Bearer ${token}`;
-  else if (auth === 'required') throw new ApiError(401, 'Not signed in');
+  if (auth !== 'none') {
+    const token = await getAccessToken();
+    if (token) headers.Authorization = `Bearer ${token}`;
+    else if (auth === 'required') throw new ApiError(401, 'Not signed in');
+  }
 
   let response;
   try {
@@ -48,7 +51,7 @@ async function request(method, path, { body, auth = 'required', keepalive = fals
     // Not JSON, e.g. an HTML error page from a proxy
   }
   if (!response.ok) {
-    throw new ApiError(response.status, data?.error ?? `Request failed (${response.status})`, data?.details);
+    throw new ApiError(response.status, data?.error ?? `Request failed (${response.status})`, { code: data?.code, details: data?.details });
   }
   return data;
 }
@@ -60,6 +63,15 @@ const questionPath = (examCode, questionNum) =>
 
 // Creates the signed-in user's row, or returns it if it already exists
 export const ensureUser = () => request('POST', '/api/users');
+// Throws ApiError with code 'USERNAME_TAKEN' if someone else has it
+export const setUsername = (username) => request('PATCH', '/api/users/me', { body: { username } });
+// For the sign-up form: { username, available }, with the username as it would be saved
+export const checkUsername = (username) =>
+  request('GET', `/api/users/username-available?${new URLSearchParams({ username })}`, { auth: 'none' });
+
+// Same rule as the server (server/src/lib/schemas.ts)
+export const USERNAME_PATTERN = /^[a-z0-9_]{3,20}$/;
+export const USERNAME_RULE = 'Usernames are 3 to 20 letters, numbers or underscores';
 
 // ---- Favorites ----
 

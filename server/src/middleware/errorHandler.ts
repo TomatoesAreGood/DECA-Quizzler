@@ -13,7 +13,11 @@ export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   }
 
   if (err instanceof HttpError) {
-    res.status(err.status).json(err.details ? { error: err.message, details: err.details } : { error: err.message });
+    res.status(err.status).json({
+      error: err.message,
+      ...(err.code && { code: err.code }),
+      ...(err.details && { details: err.details }),
+    });
     return;
   }
 

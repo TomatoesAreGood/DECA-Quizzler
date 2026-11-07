@@ -1,5 +1,18 @@
 import { ipKeyGenerator, rateLimit } from 'express-rate-limit';
 
+// Limits the public username check on the sign-up form: generous for typing, but stops anyone listing
+// every username
+export function lookupLimiter() {
+  return rateLimit({
+    windowMs: 60 * 1000,
+    limit: 60,
+    standardHeaders: 'draft-8',
+    legacyHeaders: false,
+    keyGenerator: (req) => `ip:${ipKeyGenerator(req.ip ?? 'unknown')}`,
+    message: { error: 'Too many requests. Try again in a minute.' },
+  });
+}
+
 // Limits endpoints anyone can post to (reports, feedback). Signed-in users are counted by account,
 // everyone else by IP address. Counts are kept in memory, so they reset when the server restarts and
 // aren't shared between server instances.

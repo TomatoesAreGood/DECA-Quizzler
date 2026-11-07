@@ -14,10 +14,14 @@ export function createUser(data: NewUser) {
   return prisma.user.create({ data });
 }
 
-// The updated user, or null if they don't have a row yet
-export async function updateUser(id: string, data: { userName?: string }) {
+// The updated user, or null if they don't have a row yet. Throws P2002 if the username is taken.
+export async function updateUser(id: string, data: { username?: string; imageUrl?: string | null }) {
   const { count } = await prisma.user.updateMany({ where: { id }, data });
   return count === 0 ? null : getUserById(id);
+}
+
+export async function isUsernameTaken(username: string) {
+  return (await prisma.user.count({ where: { username } })) > 0;
 }
 
 export async function userExists(id: string) {
